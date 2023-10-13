@@ -7,7 +7,7 @@ using System;
 
 public class JsonHelper
 {
-    const string PROJECTFOLDER = "OwnEngine"; //TODO: Remove this if want this script to another project or edit project folder name //TODO: Fix it later to not use this variable
+    const string PROJECTFOLDER = "HorrorGameJam"; //TODO: Remove this if want this script to another project or edit project folder name //TODO: Fix it later to not use this variable
 
 #region SaveJSON
     /// <summary>
