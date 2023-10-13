@@ -30,7 +30,12 @@ public class DoorSystem : MonoBehaviour
         transform.DOMoveY(originPos.y,duration).SetEase(ease);;
     }
 
-    void OnTriggerStay(Collider other) 
+    void OnTriggerEnter(Collider other) 
+    {
+        
+    }
+
+    void OnTriggerExit(Collider other) 
     {
         
     }
