@@ -19,6 +19,8 @@ public class InputSystemManager : Singleton<InputSystemManager>
     // public UnityAction onNextDialogue;
     // public UnityAction onSkipDialogue;
 
+    public UnityAction<Vector2> onMouseLook;
+
 #endregion
 
     InputActionMap playerControlMap;
@@ -102,5 +104,11 @@ public class InputSystemManager : Singleton<InputSystemManager>
     // {
     //     onSkipDialogue?.Invoke();
     // }
+
+    void OnMouseLook(InputValue value)
+    {
+        onMouseLook?.Invoke(value.Get<Vector2>());
+    }
+
 #endregion
 }
