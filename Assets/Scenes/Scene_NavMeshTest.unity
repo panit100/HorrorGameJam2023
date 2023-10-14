@@ -366,6 +366,7 @@ GameObject:
   - component: {fileID: 445053640}
   - component: {fileID: 445053639}
   - component: {fileID: 445053638}
+  - component: {fileID: 445053641}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -459,6 +460,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 445053636}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &445053641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445053636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6980f173d44063ab295fdc72bcd52e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &624074057
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,7 +871,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: eyeDetectionRange
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: loseDetectionRange
@@ -866,7 +879,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: closeDetectionRange
-      value: 1
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
+      propertyPath: raycastLayerMask.m_Bits
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: currentWaypointContainer

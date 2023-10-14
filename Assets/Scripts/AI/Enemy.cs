@@ -8,6 +8,7 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace HorrorJam.AI
 {
@@ -23,6 +24,11 @@ namespace HorrorJam.AI
         [SerializeField] float eyeDetectionRange = 5f;
         [SerializeField] float loseDetectionRange = 8f;
         [SerializeField] float delayDurationAfterPursue = 1f;
+        
+        [Header("Sight")]
+        [SerializeField] float raycastOriginHeightOffset = 0.5f;
+        [SerializeField] LayerMask raycastLayerMask;
+        [SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
         
         [Header("Destination")]
         [SerializeField] WaypointContainer currentWaypointContainer;
@@ -66,7 +72,7 @@ namespace HorrorJam.AI
 
         void Update()
         {
-            Debug.DrawLine(transform.position, agent.destination, Color.red);
+            Debug.DrawLine(transform.position, agent.destination, Color.white);
             if (isPaused)
                 return;
 
@@ -182,12 +188,33 @@ namespace HorrorJam.AI
         {
             if (distanceToPlayer <= closeDetectionRange)
             {
-                NotifyDetection();
+                Vector3 origin = transform.position;
+                origin.y += raycastOriginHeightOffset;
+                
+                if (IsSeeSomethingInDirectionOfPlayer(origin, out var hit))
+                {
+                    var isPlayer = hit.collider.GetComponent<PlayerPresence>();
+                    var hitPosition = hit.collider.transform.position;
+                    hitPosition.y = origin.y;
+                    Debug.DrawLine(origin, hitPosition, isPlayer ? Color.red: Color.blue);
+                    if (isPlayer)
+                        NotifyDetection();
+                }
             }
             else if (distanceToPlayer <= eyeDetectionRange && seenByCameraNotifier.IsSeenByCamera)
             {
                 NotifyDetection();
             }
+        }
+
+        bool IsSeeSomethingInDirectionOfPlayer(Vector3 origin, out RaycastHit hit)
+        {
+            Quaternion rotation = Quaternion.identity;
+
+            var playerPos = AIManager.Instance.PlayerPosition;
+            playerPos.y = origin.y;
+            var direction = (playerPos - origin).normalized;
+            return Physics.BoxCast(origin, raycastSize * 0.5f, direction, out hit, rotation, closeDetectionRange, raycastLayerMask);
         }
 
         void NotifyDetection()
