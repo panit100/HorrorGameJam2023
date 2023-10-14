@@ -8,35 +8,26 @@ public class InputSystemManager : Singleton<InputSystemManager>
 {
     const string PLAYER_ACTIONMAP = "Player";
     const string UI_ACTIONMAP = "UI";
-    // const string DIALOGUE_ACTIONMAP = "Dialogue";
 
     [SerializeField] InputActionAsset playerInputAction;
 
 #region UnityAction
-
-    // public UnityAction<Vector2> onMove;
-    // public UnityAction onJump;
-    // public UnityAction onNextDialogue;
-    // public UnityAction onSkipDialogue;
-
+    public UnityAction<Vector2> onMove;
     public UnityAction<Vector2> onMouseLook;
 
 #endregion
 
     InputActionMap playerControlMap;
     InputActionMap uiControlMap;
-    // InputActionMap dialogueControlMap;
 
     bool globalInputEnable = false;
     bool playerControlEnable = true;   
     bool uiControlMapEnable = false;
-    // bool dialogueControlMapEnable = false;
 
     protected override void InitAfterAwake()
     {
         playerControlMap = playerInputAction.FindActionMap(PLAYER_ACTIONMAP);
         uiControlMap = playerInputAction.FindActionMap(UI_ACTIONMAP);
-        // dialogueControlMap = playerInputAction.FindActionMap(DIALOGUE_ACTIONMAP);
     }
 
     void Start() 
@@ -64,12 +55,6 @@ public class InputSystemManager : Singleton<InputSystemManager>
         UpdateInputState();
     }
 
-    // public void ToggleDialogueControl(bool toggle)
-    // {
-    //     dialogueControlMapEnable = toggle;
-    //     UpdateInputState();
-    // }
-
     void UpdateInputState()
     {
         if(globalInputEnable && playerControlEnable) playerControlMap.Enable();
@@ -77,38 +62,20 @@ public class InputSystemManager : Singleton<InputSystemManager>
 
         if(globalInputEnable && uiControlMapEnable) uiControlMap.Enable();
         else uiControlMap.Disable();
-
-        // if(globalInputEnable && dialogueControlMapEnable) dialogueControlMap.Enable();
-        // else dialogueControlMap.Disable();
     }
 
 #endregion
 
 #region ControlFunction
-    // void OnMove(InputValue value)
-    // {
-    //     onMove?.Invoke(value.Get<Vector2>());
-    // }
-
-    // void OnJump(InputValue value)
-    // {
-    //     onJump?.Invoke();
-    // }
-
-    // void OnNextDialogue(InputValue value)
-    // {
-    //     onNextDialogue?.Invoke();
-    // }
-
-    // void OnSkipDialogue(InputValue value)
-    // {
-    //     onSkipDialogue?.Invoke();
-    // }
-
+    
     void OnMouseLook(InputValue value)
     {
         onMouseLook?.Invoke(value.Get<Vector2>());
     }
+    private void OnMove(InputValue value)
+    {
+        onMove?.Invoke(value.Get<Vector2>());
+    }
 
-#endregion
+    #endregion
 }
