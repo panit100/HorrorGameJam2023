@@ -20,8 +20,10 @@ public class InputSystemManager : Singleton<InputSystemManager>
     // public UnityAction onSkipDialogue;
 
     public UnityAction<Vector2> onMouseLook;
+    public UnityAction<Vector2> onMove;
+    public UnityAction<bool> onPressMove;
 
-#endregion
+    #endregion
 
     InputActionMap playerControlMap;
     InputActionMap uiControlMap;
@@ -109,6 +111,20 @@ public class InputSystemManager : Singleton<InputSystemManager>
     {
         onMouseLook?.Invoke(value.Get<Vector2>());
     }
+    private void OnMove(InputValue value)
+    {
+        if (value.Get<Vector2>() != Vector2.zero)
+        {
+            onMove?.Invoke(value.Get<Vector2>());
+        }
+    }
+    void OnPressMove(InputValue value)
+    {
+        if (value.isPressed)
+            onPressMove?.Invoke(true);
+        else
+            onPressMove?.Invoke(false);
+    }
 
-#endregion
+    #endregion
 }
