@@ -186,8 +186,15 @@ namespace HorrorJam.AI
 
         void TryDetectPlayer()
         {
+            var isSeenByCamera = seenByCameraNotifier.IsSeenByCamera;
             if (distanceToPlayer <= closeDetectionRange)
             {
+                if (isSeenByCamera)
+                {
+                    NotifyDetection();
+                    return;
+                }
+                
                 Vector3 origin = transform.position;
                 origin.y += raycastOriginHeightOffset;
                 
@@ -201,7 +208,7 @@ namespace HorrorJam.AI
                         NotifyDetection();
                 }
             }
-            else if (distanceToPlayer <= eyeDetectionRange && seenByCameraNotifier.IsSeenByCamera)
+            else if (distanceToPlayer <= eyeDetectionRange && isSeenByCamera)
             {
                 NotifyDetection();
             }
