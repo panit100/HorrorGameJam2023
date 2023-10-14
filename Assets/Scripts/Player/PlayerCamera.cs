@@ -1,45 +1,76 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
-    public Vector2 deltaMouse;
+    [SerializeField] float mouseSensitivity = 100f;
+    [SerializeField] private Transform playerBody;
+
+    Vector2 deltaMouse;
     float xRotation;
     float yRotation;
-    [SerializeField] float sensitivity = 100;
-    [SerializeField] Transform orientation;
-    [SerializeField] Transform cameraPosition;
 
     void Start()
     {
+        AddInputListener();
+
+        LockCursor(true);
+    }
+
+    void LockCursor(bool toggle)
+    {
+        if(toggle)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+    void AddInputListener()
+    {
         InputSystemManager.Instance.onMouseLook += OnMouseLook;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+    }
+
+    void RemoveInputListener()
+    {
+        InputSystemManager.Instance.onMouseLook -= OnMouseLook;
+    }
+
+    void FixedUpdate()
+    {
+        CameraRotate();
+    }
+
+    void CameraRotate()
+    {
+        float mouseX = deltaMouse.x * Time.deltaTime * mouseSensitivity;
+        float mouseY = deltaMouse.y * Time.deltaTime * mouseSensitivity;
+
+        xRotation -= mouseY;
+        yRotation += mouseX;
+
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        yRotation = Mathf.Clamp(yRotation, 0f, 360f);
+
+        transform.localRotation = Quaternion.Euler(xRotation, 0, 0f);
+        playerBody.Rotate(Vector3.up * mouseX);
     }
 
     void OnMouseLook(Vector2 value)
     {
         deltaMouse = value;
     }
-    void CameraRotate()
-    {
-        yRotation += deltaMouse.x * sensitivity * Time.deltaTime;
-        xRotation -= deltaMouse.y * sensitivity * Time.deltaTime;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.rotation = Quaternion.Euler(xRotation,yRotation,0);
-        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-    }
-    private void Update()
-    {
-        transform.position = cameraPosition.transform.position;
-        CameraRotate();
-    }
     void OnDestroy()
     {
-        InputSystemManager.Instance.onMouseLook -= OnMouseLook;
+        RemoveInputListener();
     }
 }
