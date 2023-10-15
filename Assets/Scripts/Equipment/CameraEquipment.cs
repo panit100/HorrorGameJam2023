@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class CameraEquipment : Equipment
 {
-    
+    public override void OnUse()
+    {
+        base.OnUse();
+    }
 }
