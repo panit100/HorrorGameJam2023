@@ -14,6 +14,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
 #region UnityAction
     public UnityAction<Vector2> onMove;
     public UnityAction<Vector2> onMouseLook;
+    public UnityAction onInteract;
 
 #endregion
 
@@ -76,6 +77,12 @@ public class InputSystemManager : Singleton<InputSystemManager>
     {
         onMove?.Invoke(value.Get<Vector2>());
     }
+
+    private void OnInteract(InputValue value)
+    {
+        onInteract?.Invoke();
+    }
+    
 
     #endregion
 }

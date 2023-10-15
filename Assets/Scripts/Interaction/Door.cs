@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 
-public class DoorSystem : MonoBehaviour
+public class Door : InteractObject
 {
     [SerializeField] float moveValue = 5f;
     [SerializeField] float duration = 1f;
@@ -21,7 +21,6 @@ public class DoorSystem : MonoBehaviour
     void OpenDoor()
     {
         transform.DOMoveY(transform.position.y+moveValue,duration).SetEase(ease);
-        
     }
 
     [Button]
@@ -30,13 +29,8 @@ public class DoorSystem : MonoBehaviour
         transform.DOMoveY(originPos.y,duration).SetEase(ease);;
     }
 
-    void OnTriggerEnter(Collider other) 
+    public override void OnInteract()
     {
-        
-    }
-
-    void OnTriggerExit(Collider other) 
-    {
-        
+        OpenDoor();
     }
 }
