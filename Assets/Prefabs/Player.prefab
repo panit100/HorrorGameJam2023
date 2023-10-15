@@ -45,9 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentType: 0
-  scanPrograss: 0
-  scanDuration: 5
-  scanEase: 1
+  scanRange: 10
+  fovDeg: 45
 --- !u!1 &3698188140309934681
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,3 +710,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipmentType: 1
+  imageDisplay: {fileID: 0}
+  renderTexture: {fileID: 8400000, guid: 4907f85c02ba6314a9629a00d005917c, type: 2}
+  screenshotCamera: {fileID: 0}
