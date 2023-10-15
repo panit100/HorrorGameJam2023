@@ -28,7 +28,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
         if(instance == null)
         {
-            throw new System.Exception($"There are no Singleton in Scene.");
+            throw new System.Exception($"There are no Singleton {GetType().Name} in Scene.");
         }
     }
 
