@@ -14,9 +14,14 @@ public class ScannerEquipment : Equipment
     
     bool isScan = false;
 
-    void FixedUpdate() 
+    public override void OnUse()
     {
+        base.OnUse();
 
+        if(isPress && !isScan)
+            OnActiveScan();
+        else
+            OnDeactiveScan();
     }
 
     void OnActiveScan()
@@ -35,17 +40,6 @@ public class ScannerEquipment : Equipment
 
     void OnScanComplete()
     {
-
-    }
-
-    public override void OnUse()
-    {
-        base.OnUse();
-
-        if(isPress && !isScan)
-            OnActiveScan();
-        else
-            OnDeactiveScan();
 
     }
 }
