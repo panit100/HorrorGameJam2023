@@ -44,15 +44,15 @@ public class PlayerCamera : MonoBehaviour
         InputSystemManager.Instance.onMouseLook -= OnMouseLook;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         CameraRotate();
     }
 
     void CameraRotate()
     {
-        float mouseX = deltaMouse.x * Time.deltaTime * mouseSensitivity;
-        float mouseY = deltaMouse.y * Time.deltaTime * mouseSensitivity;
+        float mouseX = deltaMouse.x * mouseSensitivity * Time.deltaTime;
+        float mouseY = deltaMouse.y * mouseSensitivity  * Time.deltaTime;
 
         xRotation -= mouseY;
         yRotation += mouseX;
