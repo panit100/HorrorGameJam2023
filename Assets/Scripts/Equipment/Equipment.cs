@@ -5,7 +5,7 @@ using UnityEngine;
 public class Equipment : MonoBehaviour
 {
     protected bool isPress = false;
-    public EquipmentType equipmentType;
+    public EquipmentType equipmentType {get; protected set;}
     public virtual void OnUse()
     {
         isPress = !isPress;

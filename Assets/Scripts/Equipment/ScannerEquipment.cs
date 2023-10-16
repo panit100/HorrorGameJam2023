@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,6 +28,11 @@ public class ScannerEquipment : Equipment
 
     List<Scanable> scanningObject = new List<Scanable>();
 
+    void Start()
+    {
+        equipmentType = EquipmentType.Scanner;
+    }
+
     public override void OnUse()
     {
         base.OnUse();
@@ -44,7 +50,7 @@ public class ScannerEquipment : Equipment
         // scanTween.Kill();
         // scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,100f,scanDuration).SetEase(scanEase).OnComplete(OnScanComplete);
 
-        Collider[] scanObject = Physics.OverlapSphere(transform.position,scanRange,LayerMask.GetMask("InteractObject"));
+        Collider[] scanObject = Physics.OverlapSphere(transform.position,scanRange);
 
         foreach(var n in scanObject)
         {
