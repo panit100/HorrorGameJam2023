@@ -7,20 +7,31 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New Material
-  m_Shader: {fileID: -6465566751694194690, guid: 8d7180d86aab44f15bb161c4ab3113a9, type: 3}
+  m_Name: normal
+  m_Shader: {fileID: 4800000, guid: 94cb0d6305cd4a743b1d2ec684e277de, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - DIFF_VERTEX
+  - OPAQUE
+  - SPEC_PHONG
+  - _EMISSION
+  m_InvalidKeywords:
+  - _DIFFMODEL_VERTEX
+  - _DRAWDIST_ON
+  - _EFFECTORENABLED
   - _SIMPLELIT
+  - _SPECMODEL_PHONG
   - _WIREALBEDO_BLEND
+  - _WIREALPHA_ALPHA
   - _WIREFRAME
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  - _WIREUSEEFFECTOR
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
@@ -63,6 +74,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ClearCoatMap_P2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cube:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -131,6 +146,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GradientZ:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LODTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -542,6 +561,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -648,6 +671,7 @@ Material:
     - _AlbedoSaturation: 1
     - _AlphaThreshold: 0
     - _AutoNormalStrength: 0.5
+    - _BlendOp: 0
     - _BumpScale: 1
     - _CheapSSSDistortion: 1
     - _CheapSSSPower: 2
@@ -655,8 +679,10 @@ Material:
     - _CheapSSSThickness: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 1
+    - _Cul: 0
     - _CullMode: 2
     - _Cutoff: 0.5
+    - _CutoutThreshold: 0.5
     - _DebugSampleCountThreshold: 12
     - _DetailAlbedoStrength: 1
     - _DetailNormalMapScale: 1
@@ -668,8 +694,10 @@ Material:
     - _DetailTriplanarContrast: 4
     - _DetailTriplanarSpace: 0
     - _DetailUVSource: 0
+    - _DiffModel: 0
     - _DisableDecals: 0
     - _DisableSSR: 0
+    - _DisplacementStrength: 1
     - _DissolveAmount: 0
     - _DissolveColoration: 1
     - _DissolveEdgeContrast: 10
@@ -682,9 +710,10 @@ Material:
     - _DissolveNoiseOffset: 0
     - _DitherAlpha: 1
     - _DoubleSidedNormalMode: 1
+    - _DrawDist: 1
     - _DstBlend: 0
     - _EmissionMultiplier: 1
-    - _EnableEffectorSystem: 0
+    - _EnableEffectorSystem: 1
     - _EnableGeometrySpecAA: 0
     - _FlatShadingBlend: 1
     - _GlossMapScale: 1
@@ -692,6 +721,7 @@ Material:
     - _GlossyReflections: 1
     - _HideUnused: 0
     - _IsConverted: 1
+    - _LODAmt: 0
     - _LayerAlbedoBrightness: 0
     - _LayerAlbedoBrightness_Ext_1: 0
     - _LayerAlbedoBrightness_Ext_2: 0
@@ -844,6 +874,7 @@ Material:
     - _Metallic: 0
     - _MicroShadowStrength: 0
     - _Mode: 0
+    - _NormalMapDepth: 1
     - _NormalStrength: 1
     - _OcclusionStrength: 1
     - _POMFade: 25
@@ -865,6 +896,7 @@ Material:
     - _PuddleUseEffector: 0
     - _RainMode: 0
     - _RainUV: 0
+    - _RenderMode: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SnowAmount: 1
@@ -879,12 +911,19 @@ Material:
     - _SnowStochasticScale: 1
     - _SnowUseEffector: 0
     - _SnowVertexHeight: 0
+    - _SpecModel: 1
+    - _Specular: 0
     - _SpecularAAScreenSpaceVariance: 0.2
     - _SpecularAAThreshold: 0.1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _StochasticContrast: 0.7
     - _StochasticScale: 0.5
+    - _TessellationDisplacement: 0
+    - _TessellationMaxSubdiv: 10.2
+    - _TessellationMinEdgeLength: 12
+    - _TessellationMipBias: 0
+    - _TessellationOffset: 0
     - _TraxDisplacementDepth: 0.1
     - _TraxDisplacementStrength: 0.2
     - _TraxHeightContrast: 0.5
@@ -896,7 +935,9 @@ Material:
     - _TriplanarSpace: 0
     - _UVSec: 0
     - _UVSource: 0
+    - _Unlit: 0
     - _Version: 0
+    - _VertexInaccuracy: -1
     - _WetnessAmount: 0
     - _WetnessAngleMin: -1
     - _WetnessEffectorInvert: 0
@@ -914,9 +955,9 @@ Material:
     - _WindParticulateStrength: 2
     - _WindParticulateTextureHeight: 1
     - _WireEffectorInvert: 0
-    - _WireSmoothing: 2.23
-    - _WireThickness: 3.55
-    - _WireUseEffector: 0
+    - _WireSmoothing: 10
+    - _WireThickness: 0.01
+    - _WireUseEffector: 1
     - _WriteTransparentMotionVector: 0
     - _ZWrite: 1
     m_Colors:
@@ -925,7 +966,7 @@ Material:
     - _BColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CheapSSSTint: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0, g: 0, b: 0, a: 1}
     - _ColorNX: {r: 1, g: 1, b: 1, a: 1}
     - _ColorNX2: {r: 1, g: 1, b: 1, a: 1}
     - _ColorNXRange: {r: 0, g: 1, b: 0, a: 0}
@@ -946,6 +987,7 @@ Material:
     - _ColorZRange: {r: 0, g: 1, b: 0, a: 0}
     - _DetailTextureRotation: {r: 0, g: 0, b: 0, a: 0}
     - _DitherAlphaDistance: {r: 1, g: 50, b: 0, a: 50}
+    - _Emission: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FresnelBSP: {r: 0, g: 9, b: 3, a: 0}
     - _FresnelColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1035,6 +1077,7 @@ Material:
     - _SnowWorldFade: {r: 100, g: 50, b: 0, a: 0}
     - _SparkleTCI: {r: 1, g: 0.7, b: 1, a: 0}
     - _SpecularTint: {r: 1, g: 1, b: 1, a: 1}
+    - _TessellationDistanceRange: {r: 30, g: 20, b: 0, a: 0}
     - _TextureClampNX: {r: 0.001, g: 0.999, b: 0.001, a: 0.999}
     - _TextureClampNY: {r: 0.001, g: 0.999, b: 0.001, a: 0.999}
     - _TextureClampNZ: {r: 0.001, g: 0.999, b: 0.001, a: 0.999}
