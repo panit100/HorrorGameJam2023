@@ -13,39 +13,44 @@ namespace HorrorJam.AI
 {
     public class Enemy : MonoBehaviour
     {
-        [Header("Movement")] 
-        [SerializeField] float reachSqrThreshold = 0.04f;
-        [SerializeField] SpeedSetting exploreSpeed;
-        [SerializeField] SpeedSetting chaseSpeed;
-        [SerializeField] SpeedSetting slowedDownSpeed;
+        [TitleGroup("Movement")]
+        [Header("Speed")]
+        [Indent,SerializeField] float reachSqrThreshold = 0.04f;
+        [Indent,SerializeField] SpeedSetting exploreSpeed;
+        [Indent,SerializeField] SpeedSetting chaseSpeed;
+        [Indent,SerializeField] SpeedSetting slowedDownSpeed;
         
         [Header("Destination")]
-        [SerializeField] WaypointContainer currentWaypointContainer;
-        [SerializeField] Waypoint currentWaypoint;
-        [SerializeField] NavMeshAgent agent;
+        [Indent,SerializeField] WaypointContainer currentWaypointContainer;
+        [Indent,SerializeField] Waypoint currentWaypoint;
+        [Indent,SerializeField] NavMeshAgent agent;
         
-        [Header("Detection")] 
-        [SerializeField] SeenByCameraNotifier seenByCameraNotifier;
-        [SerializeField] float closeDetectionRange = 2f;
-        [SerializeField] float eyeDetectionRange = 5f;
-        [SerializeField] float loseDetectionRange = 8f;
-        [SerializeField] float delayDurationAfterPursue = 1f;
+        [TitleGroup("Detection")]
+        [Header("Range")] 
+        [Indent,SerializeField] SeenByCameraNotifier seenByCameraNotifier;
+        [Indent,SerializeField] float closeDetectionRange = 2f;
+        [Indent,SerializeField] float eyeDetectionRange = 5f;
+        [Indent,SerializeField] float loseDetectionRange = 8f;
         
         [Header("Sight")]
-        [SerializeField] float raycastOriginHeightOffset = 0.5f;
-        [SerializeField] LayerMask raycastLayerMask;
-        [SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
+        [Indent,SerializeField] float raycastOriginHeightOffset = 0.5f;
+        [Indent,SerializeField] LayerMask raycastLayerMask;
+        [Indent,SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
         
-        [Header("Info - Movement")]
-        [ReadOnly][SerializeField] float currentMoveSpeed = 1f;
-        [ReadOnly][SerializeField] float distanceToPlayer;
+        [Header("After Pursue")]
+        [Indent,SerializeField] float delayDurationAfterPursue = 1f;
         
-        [Header("Info - Status")]
-        [ReadOnly][SerializeField] bool isDetectedPlayer;
-        [ReadOnly][SerializeField] bool isPursuingLostPlayer;
-        [ReadOnly][SerializeField] bool isDelayed;
-        [ReadOnly][SerializeField] float currentDelayPassed;
-        [ReadOnly][SerializeField] bool isSlowedDown;
+        [TitleGroup("Info")]
+        [Header("Movement")]
+        [Indent,SerializeField,ReadOnly] float currentMoveSpeed = 1f;
+        [Indent,SerializeField,ReadOnly] float distanceToPlayer;
+        
+        [Header("Status")]
+        [Indent,SerializeField,ReadOnly] bool isDetectedPlayer;
+        [Indent,SerializeField,ReadOnly] bool isPursuingLostPlayer;
+        [Indent,SerializeField,ReadOnly] bool isDelayed;
+        [Indent,SerializeField,ReadOnly] float currentDelayPassed;
+        [Indent,SerializeField,ReadOnly] bool isSlowedDown;
         
         Vector3 lastKnownPlayerPosition;
         SpeedSetting currentSpeedSetting;
