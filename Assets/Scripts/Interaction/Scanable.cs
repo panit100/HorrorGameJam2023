@@ -14,8 +14,10 @@ public class Scanable : MonoBehaviour
 
     public void OnActiveScan()
     {
-        if(alreadyScan)
+        if(alreadyScan || MainObjectiveManager.Instance.currentObjective != gameObject)
+        {
             return;
+        }
 
         scanTween.Kill();
         scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,100f,scanDuration).SetEase(scanEase).OnComplete(OnScanComplete);
@@ -33,5 +35,10 @@ public class Scanable : MonoBehaviour
     void OnScanComplete()
     {
         alreadyScan = true;
+        CheckObjective();
+    }
+    void CheckObjective()
+    {
+        MainObjectiveManager.Instance.GetCheckObjective(gameObject);
     }
 }
