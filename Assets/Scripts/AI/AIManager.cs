@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace HorrorJam.AI
@@ -5,10 +6,15 @@ namespace HorrorJam.AI
     public class AIManager : Singleton<AIManager>
     {
         public Vector3 PlayerPosition { get; private set; }
-        [SerializeField] Transform playerTransform;
+        Transform playerTransform;
         protected override void InitAfterAwake()
         {
             
+        }
+
+        void Start()
+        {
+            playerTransform = PlayerManager.Instance.transform;
         }
 
         void Update()

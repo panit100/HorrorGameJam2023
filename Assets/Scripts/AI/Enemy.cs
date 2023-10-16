@@ -200,7 +200,7 @@ namespace HorrorJam.AI
                 
                 if (IsSeeSomethingInDirectionOfPlayer(origin, out var hit))
                 {
-                    var isPlayer = hit.collider.GetComponent<PlayerPresence>();
+                    var isPlayer = hit.collider.GetComponent<PlayerManager>();
                     var hitPosition = hit.collider.transform.position;
                     hitPosition.y = origin.y;
                     Debug.DrawLine(origin, hitPosition, isPlayer ? Color.red: Color.blue);
