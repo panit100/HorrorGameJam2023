@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,6 +27,11 @@ public class ScannerEquipment : Equipment
     float angThresh => Mathf.Cos(fovRad / 2);
 
     List<Scanable> scanningObject = new List<Scanable>();
+
+    void Start()
+    {
+        equipmentType = EquipmentType.Scanner;
+    }
 
     public override void OnUse()
     {
