@@ -159,7 +159,11 @@ namespace HorrorJam.AI
 
         bool IsReached(Vector3 targetPos)
         {
-            return (transform.position - targetPos).sqrMagnitude <= reachSqrThreshold;
+            Vector3 enemyPos = transform.position;
+            enemyPos.y = 0;
+            Vector3 _targetpos = targetPos;
+            _targetpos.y = 0;
+            return (enemyPos - _targetpos).sqrMagnitude <= reachSqrThreshold;
         }
 
         public void SetWaypoint(Waypoint waypoint)

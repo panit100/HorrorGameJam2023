@@ -50,7 +50,7 @@ public class ScannerEquipment : Equipment
         // scanTween.Kill();
         // scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,100f,scanDuration).SetEase(scanEase).OnComplete(OnScanComplete);
 
-        Collider[] scanObject = Physics.OverlapSphere(transform.position,scanRange,LayerMask.GetMask("InteractObject"));
+        Collider[] scanObject = Physics.OverlapSphere(transform.position,scanRange);
 
         foreach(var n in scanObject)
         {
