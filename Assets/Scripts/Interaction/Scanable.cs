@@ -16,7 +16,6 @@ public class Scanable : MonoBehaviour
     {
         if(alreadyScan || MainObjectiveManager.Instance.currentObjective != gameObject)
         {
-            print("OK");
             return;
         }
 
