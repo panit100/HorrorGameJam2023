@@ -15,16 +15,13 @@ public class MainObjectiveItem : InteractObject
 
     public override void OnInteract()
     {
-        print("1");
-
         if(scanable != null)
             if(!scanable.AlreadyScan)
                 return;
 
-        print("2");
-        
         CheckObjective();
     }
+    
     void CheckObjective()
     {
         MainObjectiveManager.Instance.GetCheckObjective(this);

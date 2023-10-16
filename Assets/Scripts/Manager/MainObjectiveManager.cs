@@ -15,6 +15,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
     {
         SetupObjective();
     }
+
     void SetupObjective()
     {
         if (objectiveItems.Count == 0)
@@ -33,6 +34,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
             UpdateProgress();
         }
     }
+
     void UpdateProgress()
     {
         objectiveIndex += 1;
@@ -47,6 +49,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         }
         UpdateObjectiveText();
     }
+    
     void UpdateObjectiveText()
     {
         if (currentObjective == null)
