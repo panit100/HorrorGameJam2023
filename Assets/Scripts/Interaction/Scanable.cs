@@ -12,9 +12,11 @@ public class Scanable : MonoBehaviour
     
     bool alreadyScan = false;
 
+    public bool AlreadyScan => alreadyScan;
+
     public void OnActiveScan()
     {
-        if(alreadyScan || MainObjectiveManager.Instance.currentObjective != gameObject)
+        if(alreadyScan || MainObjectiveManager.Instance.currentObjective != this.GetComponent<MainObjectiveItem>())
         {
             return;
         }
@@ -35,10 +37,5 @@ public class Scanable : MonoBehaviour
     void OnScanComplete()
     {
         alreadyScan = true;
-        CheckObjective();
-    }
-    void CheckObjective()
-    {
-        MainObjectiveManager.Instance.GetCheckObjective(gameObject);
     }
 }
