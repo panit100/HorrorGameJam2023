@@ -8,15 +8,21 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 
 namespace HorrorJam.AI
 {
     public class Enemy : MonoBehaviour
     {
-        [ReadOnly][ShowInInspector] float distanceToPlayer;
-        [ReadOnly][ShowInInspector] public bool IsDetectedPlayer { get; private set; }
-        [ReadOnly][ShowInInspector] public bool IsStunned { get; private set; }
+        [Header("Movement")] 
+        [SerializeField] float reachSqrThreshold = 0.04f;
+        [SerializeField] SpeedSetting exploreSpeed;
+        [SerializeField] SpeedSetting chaseSpeed;
+        [SerializeField] SpeedSetting slowedDownSpeed;
+        
+        [Header("Destination")]
+        [SerializeField] WaypointContainer currentWaypointContainer;
+        [SerializeField] Waypoint currentWaypoint;
+        [SerializeField] NavMeshAgent agent;
         
         [Header("Detection")] 
         [SerializeField] SeenByCameraNotifier seenByCameraNotifier;
@@ -30,18 +36,20 @@ namespace HorrorJam.AI
         [SerializeField] LayerMask raycastLayerMask;
         [SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
         
-        [Header("Destination")]
-        [SerializeField] WaypointContainer currentWaypointContainer;
-        [SerializeField] Waypoint currentWaypoint;
-        [SerializeField] NavMeshAgent agent;
-
-        [Header("Movement")]
-        [SerializeField] float reachSqrThreshold = 0.04f;
-        [ReadOnly][ShowInInspector] float currentDelayPassed;
-
+        [Header("Info - Movement")]
+        [ReadOnly][SerializeField] float currentMoveSpeed = 1f;
+        [ReadOnly][SerializeField] float distanceToPlayer;
+        
+        [Header("Info - Status")]
+        [ReadOnly][SerializeField] bool isDetectedPlayer;
+        [ReadOnly][SerializeField] bool isPursuingLostPlayer;
+        [ReadOnly][SerializeField] bool isDelayed;
+        [ReadOnly][SerializeField] float currentDelayPassed;
+        [ReadOnly][SerializeField] bool isSlowedDown;
+        
         Vector3 lastKnownPlayerPosition;
-        [ReadOnly][ShowInInspector] bool isPursuingLostPlayer;
-
+        SpeedSetting currentSpeedSetting;
+        
         public event Action OnDetectPlayer;
         public event Action OnLosePlayer;
         public event Action<Waypoint> OnFinishWaypoint;
@@ -50,11 +58,13 @@ namespace HorrorJam.AI
         bool isPaused;
 
         string stunId => gameObject.name + "_stun";
+        string changeSpeedId => gameObject.name + "_changeSpeed";
 
         void Start()
         {
             lastKnownPlayerPosition = transform.position;
             OnFinishWaypoint += NotifyOnFinishWaypoint;
+            ChangeSpeedSetting(exploreSpeed);
         }
 
         void NotifyOnFinishWaypoint(Waypoint obj)
@@ -76,7 +86,7 @@ namespace HorrorJam.AI
             if (isPaused)
                 return;
 
-            if (IsStunned)
+            if (isDelayed)
                 return;
             
             ProcessDetection();
@@ -86,6 +96,25 @@ namespace HorrorJam.AI
         void SetDestination(Vector3 pos)
         {
             agent.destination = pos;
+        }
+
+        [Button]
+        void ChangeSpeedSetting(SpeedSetting setting)
+        {
+            if (currentSpeedSetting == setting)
+                return;
+
+            currentSpeedSetting = setting;
+            DOTween.Kill(changeSpeedId);
+            DOTween.To(() => currentMoveSpeed, SetSpeed, currentSpeedSetting.speed, currentSpeedSetting.transitionDuration)
+                .SetEase(currentSpeedSetting.transitionEase)
+                .SetId(changeSpeedId);
+        }
+
+        void SetSpeed(float val)
+        {
+            currentMoveSpeed = val;
+            agent.speed = currentMoveSpeed;
         }
 
         void ProcessMovement()
@@ -98,7 +127,7 @@ namespace HorrorJam.AI
 
         bool TryMoveToPlayer()
         {
-            if (IsDetectedPlayer)
+            if (isDetectedPlayer)
             {
                 SetDestination(lastKnownPlayerPosition);
                 return true;
@@ -112,8 +141,7 @@ namespace HorrorJam.AI
                 }
                 else
                 {
-                    isPursuingLostPlayer = false;
-                    SetStun(delayDurationAfterPursue);
+                    EndPursue();
                 }
 
                 return true;
@@ -122,13 +150,22 @@ namespace HorrorJam.AI
             return false;
         }
 
+        [Button]
+        void EndPursue()
+        {
+            isPursuingLostPlayer = false;
+            SetStun(delayDurationAfterPursue);
+            ChangeSpeedSetting(exploreSpeed);
+        }
+
+        [Button]
         void SetStun(float duration)
         {
             DOTween.Kill(stunId);
-            IsStunned = true;
+            isDelayed = true;
             DOTween.Sequence()
                 .AppendInterval(duration)
-                .AppendCallback(() => IsStunned = false)
+                .AppendCallback(() => isDelayed = false)
                 .SetId(stunId);
         }
 
@@ -178,16 +215,16 @@ namespace HorrorJam.AI
             var myPos = transform.position;
             distanceToPlayer = Vector3.Distance(playerPos, myPos);
             
-            if (IsDetectedPlayer)
+            if (isDetectedPlayer)
             {
                 lastKnownPlayerPosition = AIManager.Instance.PlayerPosition;
                 if (distanceToPlayer >= loseDetectionRange)
-                    NotifyLoseDetection();
+                    LosePlayer();
             }
             else
                 TryDetectPlayer();
         }
-
+        
         void TryDetectPlayer()
         {
             var isSeenByCamera = seenByCameraNotifier.IsSeenByCamera;
@@ -195,7 +232,7 @@ namespace HorrorJam.AI
             {
                 if (isSeenByCamera)
                 {
-                    NotifyDetection();
+                    DetectPlayer();
                     return;
                 }
                 
@@ -209,12 +246,12 @@ namespace HorrorJam.AI
                     hitPosition.y = origin.y;
                     Debug.DrawLine(origin, hitPosition, isPlayer ? Color.red: Color.blue);
                     if (isPlayer)
-                        NotifyDetection();
+                        DetectPlayer();
                 }
             }
             else if (distanceToPlayer <= eyeDetectionRange && isSeenByCamera)
             {
-                NotifyDetection();
+                DetectPlayer();
             }
         }
 
@@ -228,17 +265,44 @@ namespace HorrorJam.AI
             return Physics.BoxCast(origin, raycastSize * 0.5f, direction, out hit, rotation, closeDetectionRange, raycastLayerMask);
         }
 
-        void NotifyDetection()
+        [Button]
+        void DetectPlayer()
         {
             OnDetectPlayer?.Invoke();
-            IsDetectedPlayer = true;
+            ChangeSpeedSetting(chaseSpeed);
+            isDetectedPlayer = true;
         }
 
-        void NotifyLoseDetection()
+        [Button]
+        void LosePlayer()
         {
             OnLosePlayer?.Invoke();
-            IsDetectedPlayer = false;
+            ExitSlowDown();
+            isDetectedPlayer = false;
             isPursuingLostPlayer = true;
+        }
+
+        [Button]
+        public void EnterSlowDown()
+        {
+            if (!isDetectedPlayer)
+                return;
+            
+            if (isSlowedDown)
+                return;
+
+            ChangeSpeedSetting(slowedDownSpeed);
+            isSlowedDown = true;
+        }
+
+        [Button]
+        public void ExitSlowDown()
+        {
+            if (!isSlowedDown)
+                return;
+
+            ChangeSpeedSetting(isDetectedPlayer? chaseSpeed : exploreSpeed);
+            isSlowedDown = false;
         }
 
 #if UNITY_EDITOR
@@ -257,5 +321,13 @@ namespace HorrorJam.AI
             Handles.color = color;
         }
 #endif
+    }
+
+    [Serializable]
+    public class SpeedSetting
+    {
+        public float speed = 1f;
+        public Ease transitionEase;
+        public float transitionDuration = 1f;
     }
 }
