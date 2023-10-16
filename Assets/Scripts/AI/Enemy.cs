@@ -8,6 +8,7 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace HorrorJam.AI
 {
@@ -38,7 +39,10 @@ namespace HorrorJam.AI
         [Indent,SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
         
         [Header("After Pursue")]
-        [Indent,SerializeField] float delayDurationAfterPursue = 1f;
+        [Indent,SerializeField] float standStillDurationAfterPursue = 1f;
+        [Indent, SerializeField] bool isRespawnAfterPursue;
+        [Indent,Indent,SerializeField] float respawnDelayAfterPursue = 1f;
+        [Indent,Indent,SerializeField] float minRespawnDistance = 5f;
         
         [TitleGroup("Info")]
         [Header("Movement")]
@@ -48,7 +52,7 @@ namespace HorrorJam.AI
         [Header("Status")]
         [Indent,SerializeField,ReadOnly] bool isDetectedPlayer;
         [Indent,SerializeField,ReadOnly] bool isPursuingLostPlayer;
-        [Indent,SerializeField,ReadOnly] bool isDelayed;
+        [Indent,SerializeField,ReadOnly] bool isShouldStandStill;
         [Indent,SerializeField,ReadOnly] float currentDelayPassed;
         [Indent,SerializeField,ReadOnly] bool isSlowedDown;
         
@@ -62,8 +66,9 @@ namespace HorrorJam.AI
         //TODO: Link with GameManager or something
         bool isPaused;
 
-        string stunId => gameObject.name + "_stun";
-        string changeSpeedId => gameObject.name + "_changeSpeed";
+        string StunId => gameObject.name + "_stun";
+        string ChangeSpeedId => gameObject.name + "_changeSpeed";
+        string RespawnId => gameObject.name + "_respawn";
 
         void Start()
         {
@@ -90,9 +95,6 @@ namespace HorrorJam.AI
             Debug.DrawLine(transform.position, agent.destination, Color.white);
             if (isPaused)
                 return;
-
-            if (isDelayed)
-                return;
             
             ProcessDetection();
             ProcessMovement();
@@ -110,10 +112,10 @@ namespace HorrorJam.AI
                 return;
 
             currentSpeedSetting = setting;
-            DOTween.Kill(changeSpeedId);
+            DOTween.Kill(ChangeSpeedId);
             DOTween.To(() => currentMoveSpeed, SetSpeed, currentSpeedSetting.speed, currentSpeedSetting.transitionDuration)
                 .SetEase(currentSpeedSetting.transitionEase)
-                .SetId(changeSpeedId);
+                .SetId(ChangeSpeedId);
         }
 
         void SetSpeed(float val)
@@ -126,7 +128,10 @@ namespace HorrorJam.AI
         {
             if (TryMoveToPlayer()) 
                 return;
-
+            
+            if (isShouldStandStill)
+                return;
+            
             MoveToCurrentWaypoint();
         }
 
@@ -159,19 +164,43 @@ namespace HorrorJam.AI
         void EndPursue()
         {
             isPursuingLostPlayer = false;
-            SetStun(delayDurationAfterPursue);
+            SetStun(standStillDurationAfterPursue);
             ChangeSpeedSetting(exploreSpeed);
+
+            if (isRespawnAfterPursue)
+                Schedule(respawnDelayAfterPursue, RespawnFarFromPlayer, RespawnId);
+        }
+
+        [Button]
+        void RespawnFarFromPlayer()
+        {
+            var playerPlanePos = AIManager.Instance.PlayerPlanePosition;
+            var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance);
+            if (targetWaypoint)
+                ReplaceTo(targetWaypoint);
+        }
+
+        void ReplaceTo(Waypoint targetWaypoint)
+        {
+            agent.enabled = false;
+            transform.position = targetWaypoint.transform.position;
+            agent.enabled = true;
         }
 
         [Button]
         void SetStun(float duration)
         {
-            DOTween.Kill(stunId);
-            isDelayed = true;
-            DOTween.Sequence()
-                .AppendInterval(duration)
-                .AppendCallback(() => isDelayed = false)
-                .SetId(stunId);
+            isShouldStandStill = true;
+            Schedule(standStillDurationAfterPursue, () => isShouldStandStill = false, StunId);
+        }
+
+        Sequence Schedule(float delay, TweenCallback callback, string id)
+        {
+            DOTween.Kill(id);
+            return DOTween.Sequence()
+                .AppendInterval(delay)
+                .AppendCallback(callback)
+                .SetId(id);
         }
 
         void MoveToCurrentWaypoint()
@@ -273,9 +302,16 @@ namespace HorrorJam.AI
         [Button]
         void DetectPlayer()
         {
+            CancelRespawning();
             OnDetectPlayer?.Invoke();
             ChangeSpeedSetting(chaseSpeed);
             isDetectedPlayer = true;
+        }
+        
+        [Button]
+        void CancelRespawning()
+        {
+            DOTween.Kill(RespawnId);
         }
 
         [Button]

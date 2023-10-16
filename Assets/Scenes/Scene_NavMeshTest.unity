@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1159,36 +1159,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
-      propertyPath: eyeDetectionRange
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
-      propertyPath: reachSqrThreshold
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
-      propertyPath: loseDetectionRange
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
-      propertyPath: closeDetectionRange
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
-      propertyPath: raycastLayerMask.m_Bits
-      value: 55
-      objectReference: {fileID: 0}
-    - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: currentWaypointContainer
       value: 
       objectReference: {fileID: 1310573967}
     - target: {fileID: 5328402455725273465, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: m_Name
       value: AI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6024372373233799253, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7980828506591354744, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: m_LocalPosition.x
