@@ -3,18 +3,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+public enum ObjectiveType
+{
+    TakePhoto,
+    ReachPosition,
+    ScanObject
+}
+
+public class MainObjectiveData{
+    public string ObjectiveName;
+    public string ObjectiveCode;
+    public string ObjectiveType;
+    public string NextObjectiveCode;
+    public string LogMessage;
+    
+    public ObjectiveType GetObjectiveType()
+    {
+        switch (this.ObjectiveType)
+        {
+            case "ObjectiveType.TakePhoto":
+                return global::ObjectiveType.TakePhoto;
+            case "ObjectiveType.ReachPosition":
+                return global::ObjectiveType.ReachPosition;
+            case "ObjectiveType.ScanObject":
+                return global::ObjectiveType.ScanObject;
+            default:
+                return global::ObjectiveType.TakePhoto;
+        }
+    }
+}
+
 public class MainObjectiveManager : Singleton<MainObjectiveManager>
 {
-    protected override void InitAfterAwake(){}
     public Objective currentObjective;
     [SerializeField] int objectiveIndex = 0;
     public List<Objective> objectiveItems;
+
+    Dictionary<string, MainObjectiveData> mainObjectiveDataDictionary = new Dictionary<string, MainObjectiveData>();
+    MainObjectiveData currentMainObjectiveData;
+    [SerializeField] string mainObjectiveFile;
     [Header("UI")]
     [SerializeField] TextMeshProUGUI objectiveText;
+    protected override void InitAfterAwake()
+    {
+
+    }
+
     private void Start()
     {
-        SetupObjective();
+        LoadDialogueFromCSV(mainObjectiveFile);
+        //SetupObjective();
     }
+    void LoadDialogueFromCSV(string csvFile)
+    {
+        MainObjectiveData[] mainObjectiveDatas = CSVHelper.LoadCSVAsObject<MainObjectiveData>(csvFile);
+
+        foreach (var data in mainObjectiveDatas)
+        {
+            mainObjectiveDataDictionary.Add(data.ObjectiveCode, data);
+            print(mainObjectiveDataDictionary[data.ObjectiveCode].ObjectiveName);
+        }
+    }
+
     void SetupObjective()
     {
         if (objectiveItems.Count == 0)
