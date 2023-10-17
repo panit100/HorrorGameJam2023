@@ -8,11 +8,10 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: wireframe
-  m_Shader: {fileID: -6465566751694194690, guid: 8d7180d86aab44f15bb161c4ab3113a9, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 4292200f39e7d4452a34cfeb8fde5cf3, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _SIMPLELIT
   - _WIREALBEDO_BLEND
   - _WIREEMIS_BLEND
   - _WIREFRAME
@@ -1050,7 +1049,7 @@ Material:
     - _TextureClampY: {r: 0.001, g: 0.999, b: 0.001, a: 0.999}
     - _TextureClampZ: {r: 0.001, g: 0.999, b: 0.001, a: 0.999}
     - _TextureRotation: {r: 0, g: 0, b: 0, a: 0}
-    - _Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _Tint: {r: 0, g: 0, b: 0, a: 1}
     - _TraxTint: {r: 1, g: 1, b: 1, a: 1}
     - _WindParticulateAngleMask: {r: -1, g: -1, b: 1, a: 1}
     - _WindParticulateColor: {r: 1, g: 1, b: 1, a: 1}
