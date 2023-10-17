@@ -35,7 +35,7 @@ public class MainObjectiveData{
 
 public class MainObjectiveManager : Singleton<MainObjectiveManager>
 {
-    public Objective currentObjective;
+    public Objective currentObjective; //TODO: Change to string or MainObjectiveData
     [SerializeField] int objectiveIndex = 0;
     public List<Objective> objectiveItems;
 
@@ -75,13 +75,14 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         UpdateObjectiveText();
     }
 
-    public bool GetCheckObjective(Objective checkObjective)
+    public bool GetCheckObjective(string objectiveCode)
     {
-        if (checkObjective == currentObjective)
-        {
-            UpdateProgress();
-            return true;
-        }
+        //TODO: Use objective code to check current objective
+        // if (checkObjective == currentObjective)
+        // {
+        //     UpdateProgress();
+        //     return true;
+        // }
 
         return false;
     }
@@ -115,4 +116,8 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
             objectiveText.text = "Find and Scan " + currentObjective.name;
         }
     }
+
+    //TODO: Create function to Get log massage
+
+    //TODO: Craete function to Set Next Objective
 }
