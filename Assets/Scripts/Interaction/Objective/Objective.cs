@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Objective : MonoBehaviour
 {
-    protected void CheckObjective()
+    protected bool CheckObjective()
     {
-        MainObjectiveManager.Instance.GetCheckObjective(this);
+        return MainObjectiveManager.Instance.GetCheckObjective(this);
     }
 
 }

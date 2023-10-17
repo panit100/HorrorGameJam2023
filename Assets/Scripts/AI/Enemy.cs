@@ -192,7 +192,8 @@ namespace HorrorJam.AI
             SetStun(standStillDurationAfterPursue);
             ChangeSpeedSetting(exploreSpeed);
 
-            if (isRespawnAfterPursue)
+            // if (isRespawnAfterPursue)
+            if(!seenByCameraNotifier.IsSeenByPlayer)
             {
                 scanable.OnDeactiveScanWithDuration(respawnDelayAfterPursue);
                 Schedule(respawnDelayAfterPursue, RespawnFarFromPlayer, RespawnId);
@@ -291,10 +292,10 @@ namespace HorrorJam.AI
         
         void TryDetectPlayer()
         {
-            var isSeenByCamera = seenByCameraNotifier.IsSeenByCamera;
+            var isSeenByPlayer = seenByCameraNotifier.IsSeenByPlayer;
             if (distanceToPlayer <= closeDetectionRange)
             {
-                if (isSeenByCamera)
+                if (isSeenByPlayer)
                 {
                     DetectPlayer();
                     return;
@@ -313,7 +314,7 @@ namespace HorrorJam.AI
                         DetectPlayer();
                 }
             }
-            else if (distanceToPlayer <= eyeDetectionRange && isSeenByCamera)
+            else if (distanceToPlayer <= eyeDetectionRange && isSeenByPlayer)
             {
                 DetectPlayer();
             }
@@ -417,13 +418,6 @@ namespace HorrorJam.AI
             Handles.color = Color.green;
             Handles.DrawWireDisc(myPosition,Vector3.up,  loseDetectionRange);
             
-            float scanProgress = 0;
-            if(scanable != null)
-                scanProgress = scanable.scanProgress;
-                
-            GUI.color = scanProgress != 0 ? Color.red : Color.green;
-            Handles.Label(transform.position + new Vector3(0,2.15f,0), $"Scan Progress : {scanProgress}");
-
             Handles.color = color;
         }
 #endif

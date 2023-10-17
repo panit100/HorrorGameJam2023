@@ -20,6 +20,9 @@ public class ScanObjective : Objective, InteractObject
             if(!scanable.AlreadyScan)
                 return;
 
-        CheckObjective();
+        if(CheckObjective())
+            this.gameObject.SetActive(false);
+
+        
     }
 }

@@ -25,13 +25,15 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         UpdateObjectiveText();
     }
 
-    public void GetCheckObjective(Objective checkObjective)
+    public bool GetCheckObjective(Objective checkObjective)
     {
         if (checkObjective == currentObjective)
         {
-            checkObjective.gameObject.SetActive(false);
             UpdateProgress();
+            return true;
         }
+
+        return false;
     }
     void UpdateProgress()
     {
