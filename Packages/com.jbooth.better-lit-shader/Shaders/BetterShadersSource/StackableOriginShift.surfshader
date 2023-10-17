@@ -1,0 +1,24 @@
+
+BEGIN_OPTIONS
+
+END_OPTIONS
+
+BEGIN_DEFINES
+	#pragma shader_feature_local_fragment _ _ORIGINSHIFT
+END_DEFINES
+
+BEGIN_CODE
+
+	#if _ORIGINSHIFT
+		float4x4 _GlobalOriginMTX;
+	#endif
+
+	void SurfaceFunction(inout Surface o, ShaderData d)
+	{
+		#if _ORIGINSHIFT
+           d.worldSpacePosition = d.worldSpacePosition + mul(_GlobalOriginMTX, float4(0,0,0,1)).xyz;
+        #endif
+	}
+
+END_CODE
+
