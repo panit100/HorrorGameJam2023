@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6702063984364970663}
   - component: {fileID: 1657977668828736849}
-  - component: {fileID: 416530770211937474}
   m_Layer: 0
   m_Name: Sprite (1)
   m_TagString: Untagged
@@ -85,29 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!136 &416530770211937474
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246526890208896624}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 3.7420356
-  m_Height: 15.88798
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &628853295769602947
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,6 +234,7 @@ GameObject:
   - component: {fileID: 7980828506591354744}
   - component: {fileID: 5753278164641036728}
   - component: {fileID: -5674676057466913536}
+  - component: {fileID: 5704400745092485852}
   m_Layer: 0
   m_Name: AI
   m_TagString: Untagged
@@ -358,6 +335,29 @@ MonoBehaviour:
   currentDelayPassed: 0
   isSlowedDown: 0
   sprite: {fileID: 9137832650303485035}
+--- !u!136 &5704400745092485852
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5328402455725273465}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6525819859162897195
 GameObject:
   m_ObjectHideFlags: 0
