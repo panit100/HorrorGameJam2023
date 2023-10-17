@@ -73,9 +73,6 @@ namespace HorrorJam.AI
         public event Action OnLosePlayer;
         public event Action<Waypoint> OnFinishWaypoint;
 
-        //TODO: Link with GameManager or something
-        bool isPaused;
-
         string StunId => gameObject.name + "_stun";
         string ChangeSpeedId => gameObject.name + "_changeSpeed";
         string RespawnId => gameObject.name + "_respawn";
@@ -118,11 +115,11 @@ namespace HorrorJam.AI
 
         void Update()
         {
-            OnBeingScanned();
-
             Debug.DrawLine(transform.position, agent.destination, Color.white);
-            if (isPaused)
+            if (GameManager.Instance.IsPause)
                 return;
+
+            OnBeingScanned();
             
             ProcessDetection();
             ProcessMovement();
