@@ -23,11 +23,16 @@ public class PlayerEquipment : MonoBehaviour
     void AddInputListener()
     {
         InputSystemManager.Instance.onUseEquipment += OnUseEquipment;
+        InputSystemManager.Instance.onUseScanner += SwitchEquipment;
+        InputSystemManager.Instance.onUseCamera += SwitchEquipment;
     }
 
     void RemoveInputListener()
     {
         InputSystemManager.Instance.onUseEquipment -= OnUseEquipment;
+        InputSystemManager.Instance.onUseScanner -= SwitchEquipment;
+        InputSystemManager.Instance.onUseCamera -= SwitchEquipment;
+        
     }
 
     void OnUseEquipment()
@@ -44,5 +49,10 @@ public class PlayerEquipment : MonoBehaviour
     {
         CameraEquipment cameraEquipment = equipment.Find(n => n.GetComponent<CameraEquipment>() != null).GetComponent<CameraEquipment>();
         cameraEquipment.onUse.AddListener(action);
+    }
+
+    void SwitchEquipment(int index)
+    {
+        currentEquipment = equipment[index].equipmentType;
     }
 }

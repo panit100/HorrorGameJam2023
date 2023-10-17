@@ -192,8 +192,7 @@ namespace HorrorJam.AI
             SetStun(standStillDurationAfterPursue);
             ChangeSpeedSetting(exploreSpeed);
 
-            // if (isRespawnAfterPursue)
-            if(!seenByCameraNotifier.IsSeenByPlayer)
+            if (isRespawnAfterPursue)
             {
                 scanable.OnDeactiveScanWithDuration(respawnDelayAfterPursue);
                 Schedule(respawnDelayAfterPursue, RespawnFarFromPlayer, RespawnId);
@@ -402,6 +401,14 @@ namespace HorrorJam.AI
             scanable.onScanComplete -= EnterSuperSlowDown;
 
             scanable.onDeactiveScan -= ExitSlowDown;
+        }
+
+        void OnCollisionEnter(Collision other) 
+        {
+            if(other.gameObject.CompareTag("Player"))
+            {
+                GameManager.Instance.OnDie();
+            }    
         }
 
 #if UNITY_EDITOR
