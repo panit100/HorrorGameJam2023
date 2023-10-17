@@ -11,6 +11,9 @@ namespace HorrorJam.AI
         public float DelayDuration => delayDuration;
         [SerializeField] float delayDuration;
 
+        public Vector3 Position => transform.position;
+        public Vector2 PlanePosition => new Vector2(Position.x, Position.z);
+
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {

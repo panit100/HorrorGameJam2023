@@ -26,13 +26,20 @@ public class PlayerInteract : MonoBehaviour
     void OnInteract()
     {
         if(IsInteractObjectInRange())
-            hit.transform.GetComponent<InteractObject>().OnInteract();
+        {
+            InteractObject interactObject = hit.transform.GetComponent<InteractObject>();
+            interactObject.OnInteract();
+        }
     }
     
     bool IsInteractObjectInRange()
     {
-        Vector3 camPos = Camera.main.transform.position;
-        Vector3 camForward = Camera.main.transform.TransformDirection(Vector3.forward);
+        var cameraMain = Camera.main;
+        if (cameraMain == null)
+            return false;
+        
+        Vector3 camPos = cameraMain.transform.position;
+        Vector3 camForward = cameraMain.transform.TransformDirection(Vector3.forward);
         Ray ray = new Ray(camPos,camForward);
 
         if(Physics.Raycast(ray,out hit,InteractRange,LayerMask.GetMask("InteractObject")))
