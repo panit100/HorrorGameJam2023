@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum EquipmentType
 {
@@ -37,5 +38,11 @@ public class PlayerEquipment : MonoBehaviour
     void OnDestroy() 
     {
         RemoveInputListener();
+    }
+
+    public void AddOnUseCameraAction(UnityAction action)
+    {
+        CameraEquipment cameraEquipment = equipment.Find(n => n.GetComponent<CameraEquipment>() != null).GetComponent<CameraEquipment>();
+        cameraEquipment.onUse.AddListener(action);
     }
 }

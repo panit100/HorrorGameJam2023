@@ -6,9 +6,9 @@ using TMPro;
 public class MainObjectiveManager : Singleton<MainObjectiveManager>
 {
     protected override void InitAfterAwake(){}
-    public MainObjectiveItem currentObjective;
+    public Objective currentObjective;
     [SerializeField] int objectiveIndex = 0;
-    public List<MainObjectiveItem> objectiveItems;
+    public List<Objective> objectiveItems;
     [Header("UI")]
     [SerializeField] TextMeshProUGUI objectiveText;
     private void Start()
@@ -25,13 +25,15 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         UpdateObjectiveText();
     }
 
-    public void GetCheckObjective(MainObjectiveItem checkObjective)
+    public bool GetCheckObjective(Objective checkObjective)
     {
         if (checkObjective == currentObjective)
         {
-            checkObjective.gameObject.SetActive(false);
             UpdateProgress();
+            return true;
         }
+
+        return false;
     }
     void UpdateProgress()
     {
