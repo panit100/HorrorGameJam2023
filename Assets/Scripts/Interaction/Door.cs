@@ -5,7 +5,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
 
-public class Door : InteractObject
+public class Door : MonoBehaviour, InteractObject
 {
     [SerializeField] Transform doorTransform;
     [SerializeField] float moveValue = 5f;
@@ -49,7 +49,7 @@ public class Door : InteractObject
         doorTransform.DOMoveY(originPos.y,duration).SetEase(ease);;
     }
 
-    public override void OnInteract()
+    public void OnInteract()
     {
         OpenDoor();
     }

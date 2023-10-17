@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainObjectiveItem : InteractObject
+[RequireComponent(typeof(Scanable))]
+public class ScanObjective : Objective, InteractObject
 {
     Scanable scanable;
 
@@ -13,21 +14,12 @@ public class MainObjectiveItem : InteractObject
             scanable = null;
     }   
 
-    public override void OnInteract()
+    public void OnInteract()
     {
-        print("1");
-
         if(scanable != null)
             if(!scanable.AlreadyScan)
                 return;
 
-        print("2");
-        
         CheckObjective();
     }
-    void CheckObjective()
-    {
-        MainObjectiveManager.Instance.GetCheckObjective(this);
-    }
-
 }

@@ -25,7 +25,7 @@ public class Scanable : MonoBehaviour
         if(alreadyScan)
             return;
 
-        if(this.GetComponent<MainObjectiveItem>() != null && MainObjectiveManager.Instance.currentObjective != this.GetComponent<MainObjectiveItem>())
+        if(this.GetComponent<Objective>() != null && MainObjectiveManager.Instance.currentObjective != this.GetComponent<Objective>())
             return;
         
         scanTween.Kill();
