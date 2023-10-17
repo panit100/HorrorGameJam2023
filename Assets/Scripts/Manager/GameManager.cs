@@ -53,6 +53,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 break;
             case GameStage.Playing:
+                //TODO: Run Cutscene
                 TimeManager.Instance.SetCurrentTime();
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
@@ -87,10 +88,13 @@ public class GameManager : Singleton<GameManager>
 
     public void OnDie()
     {
+        //TODO: Run Cutscene
         Debug.LogWarning("Game Over!!! Noob!");
         isPause = true;
         OnChangeGameStage(GameStage.GameOver);
     }
+
+    //TODO: End Game Cutscene
 
     void OnDestroy() 
     {
