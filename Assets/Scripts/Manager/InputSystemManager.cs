@@ -8,6 +8,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
 {
     const string PLAYER_ACTIONMAP = "Player";
     const string UI_ACTIONMAP = "UI";
+    const string INGAME_ACTIONMAP = "InGame";
 
     [SerializeField] InputActionAsset playerInputAction;
 
@@ -16,20 +17,28 @@ public class InputSystemManager : Singleton<InputSystemManager>
     public UnityAction<Vector2> onMouseLook;
     public UnityAction onInteract;
     public UnityAction onUseEquipment;
+    public UnityAction onPause;
+    public UnityAction onUsePipBoy;
+    public UnityAction onUseArmConsole;
+    public UnityAction<int> onUseScanner;
+    public UnityAction<int> onUseCamera;
 
 #endregion
 
     InputActionMap playerControlMap;
     InputActionMap uiControlMap;
+    InputActionMap inGameControlMap;
 
     bool globalInputEnable = false;
     bool playerControlEnable = true;   
     bool uiControlMapEnable = false;
+    bool inGameMapEnable = false;
 
     protected override void InitAfterAwake()
     {
         playerControlMap = playerInputAction.FindActionMap(PLAYER_ACTIONMAP);
         uiControlMap = playerInputAction.FindActionMap(UI_ACTIONMAP);
+        inGameControlMap = playerInputAction.FindActionMap(INGAME_ACTIONMAP);
     }
 
     void Start() 
@@ -57,6 +66,12 @@ public class InputSystemManager : Singleton<InputSystemManager>
         UpdateInputState();
     }
 
+    public void ToggleInGameControl(bool toggle)
+    {
+        inGameMapEnable = toggle;
+        UpdateInputState();
+    }
+
     void UpdateInputState()
     {
         if(globalInputEnable && playerControlEnable) playerControlMap.Enable();
@@ -64,6 +79,9 @@ public class InputSystemManager : Singleton<InputSystemManager>
 
         if(globalInputEnable && uiControlMapEnable) uiControlMap.Enable();
         else uiControlMap.Disable();
+
+        if(globalInputEnable && inGameMapEnable) inGameControlMap.Enable();
+        else inGameControlMap.Disable();
     }
 
 #endregion
@@ -88,8 +106,31 @@ public class InputSystemManager : Singleton<InputSystemManager>
     {
         onUseEquipment?.Invoke();
     }
-    
-    
+
+    private void OnPause(InputValue value)
+    {
+        onPause?.Invoke();
+    }
+
+    private void OnUsePipBoy(InputValue value)
+    {
+        onUsePipBoy?.Invoke();
+    }
+
+    private void OnUseArmConsole(InputValue value)
+    {
+        onUseArmConsole?.Invoke();
+    }
+
+    private void OnUseScanner(InputValue value)
+    {
+        onUseScanner?.Invoke(0);
+    }
+
+    private void OnUseCamera(InputValue value)
+    {
+        onUseCamera?.Invoke(1);
+    }
 
     #endregion
 }

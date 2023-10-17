@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -25,7 +26,7 @@ public class Scanable : MonoBehaviour
         if(alreadyScan)
             return;
 
-        if(this.GetComponent<MainObjectiveItem>() != null && MainObjectiveManager.Instance.currentObjective != this.GetComponent<MainObjectiveItem>())
+        if(this.GetComponent<Objective>() != null && MainObjectiveManager.Instance.currentObjective != this.GetComponent<Objective>())
             return;
         
         scanTween.Kill();
@@ -63,4 +64,12 @@ public class Scanable : MonoBehaviour
         alreadyScan = false;
         scanProgress = 0;
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmos()
+    {
+        GUI.color = scanProgress != 0 ? Color.red : Color.green;
+        Handles.Label(transform.position + new Vector3(0,2.15f,0), $"Scan Progress : {scanProgress}");
+    }
+#endif
 }
