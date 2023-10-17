@@ -9811,6 +9811,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5331518341570259307, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      propertyPath: batteryRefillAmount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5331518341570259307, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      propertyPath: batteryConsumeAmount
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9988,7 +9996,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 247
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -11231,10 +11239,6 @@ PrefabInstance:
     - target: {fileID: 5328402455725273465, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: m_Name
       value: AI
-      objectReference: {fileID: 0}
-    - target: {fileID: 5328402455725273465, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7980828506591354744, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12970,7 +12974,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 87
+    m_Bits: 471
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 4907f85c02ba6314a9629a00d005917c, type: 2}
   m_TargetDisplay: 1

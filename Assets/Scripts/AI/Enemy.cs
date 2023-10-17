@@ -9,9 +9,18 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
+using UnityEngine.XR;
 
 namespace HorrorJam.AI
 {
+    public enum EnemyStage
+    {
+        Explore,
+        Chase,
+        Slowed,
+    }
+
     public class Enemy : MonoBehaviour
     {
         [TitleGroup("Movement")]
@@ -20,6 +29,7 @@ namespace HorrorJam.AI
         [Indent,SerializeField] SpeedSetting exploreSpeed;
         [Indent,SerializeField] SpeedSetting chaseSpeed;
         [Indent,SerializeField] SpeedSetting slowedDownSpeed;
+        [Indent,SerializeField] SpeedSetting superSlowedDownSpeed;
         
         [Header("Destination")]
         [Indent,SerializeField] WaypointContainer currentWaypointContainer;
@@ -70,11 +80,27 @@ namespace HorrorJam.AI
         string ChangeSpeedId => gameObject.name + "_changeSpeed";
         string RespawnId => gameObject.name + "_respawn";
 
+        [Header("Scan Info")]
+        [SerializeField] SpriteRenderer sprite;
+        Scanable scanable;
+        EnemyStage enemyStage = EnemyStage.Explore;
+
+        void Awake() 
+        {
+            scanable = GetComponentInChildren<Scanable>();
+        }
+
         void Start()
         {
+            scanable.onActiveScan += EnterSlowDown;
+            scanable.onScanComplete += EnterSuperSlowDown;
+
+            scanable.onDeactiveScan += ExitSlowDown;
+
             lastKnownPlayerPosition = transform.position;
             OnFinishWaypoint += NotifyOnFinishWaypoint;
             ChangeSpeedSetting(exploreSpeed);
+            MakeVisibleEnemy(scanable.scanProgress);
         }
 
         void NotifyOnFinishWaypoint(Waypoint obj)
@@ -92,6 +118,8 @@ namespace HorrorJam.AI
 
         void Update()
         {
+            OnBeingScanned();
+
             Debug.DrawLine(transform.position, agent.destination, Color.white);
             if (isPaused)
                 return;
@@ -168,7 +196,10 @@ namespace HorrorJam.AI
             ChangeSpeedSetting(exploreSpeed);
 
             if (isRespawnAfterPursue)
+            {
+                scanable.OnDeactiveScanWithDuration(respawnDelayAfterPursue);
                 Schedule(respawnDelayAfterPursue, RespawnFarFromPlayer, RespawnId);
+            }
         }
 
         [Button]
@@ -178,6 +209,8 @@ namespace HorrorJam.AI
             var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance);
             if (targetWaypoint)
                 ReplaceTo(targetWaypoint);
+
+            scanable.ResetProgress();
         }
 
         void ReplaceTo(Waypoint targetWaypoint)
@@ -346,6 +379,33 @@ namespace HorrorJam.AI
             isSlowedDown = false;
         }
 
+        [Button]
+        public void EnterSuperSlowDown()
+        {
+            if (isSlowedDown)
+                ChangeSpeedSetting(superSlowedDownSpeed);
+        }
+
+        public void OnBeingScanned()
+        {
+            MakeVisibleEnemy(scanable.scanProgress);
+        }
+
+        void MakeVisibleEnemy(float visibleValue)
+        {
+            float alpha = Mathf.Clamp(visibleValue / 100f,0f,1f); 
+
+            sprite.color = new Color(sprite.color.r,sprite.color.g,sprite.color.b,alpha);
+        }
+
+        void OnDestroy() 
+        {
+            scanable.onActiveScan -= EnterSlowDown;
+            scanable.onScanComplete -= EnterSuperSlowDown;
+
+            scanable.onDeactiveScan -= ExitSlowDown;
+        }
+
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {
@@ -359,6 +419,14 @@ namespace HorrorJam.AI
             
             Handles.color = Color.green;
             Handles.DrawWireDisc(myPosition,Vector3.up,  loseDetectionRange);
+            
+            float scanProgress = 0;
+            if(scanable != null)
+                scanProgress = scanable.scanProgress;
+                
+            GUI.color = scanProgress != 0 ? Color.red : Color.green;
+            Handles.Label(transform.position + new Vector3(0,2.15f,0), $"Scan Progress : {scanProgress}");
+
             Handles.color = color;
         }
 #endif
