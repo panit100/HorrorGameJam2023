@@ -18,15 +18,20 @@ public class ScannerEquipment : Equipment
     // Tween scanTween;
     
     // bool isScan = false;
+    [Range(0f, 100f)]
+    [SerializeField] float batteryAmout = 100f;
+    [SerializeField] float batteryConsumeAmount = 1.5f;
+    [SerializeField] float batteryRefillAmount = 3.5f;
 
     [SerializeField] float scanRange = 10f;
-
     [Range(0, 180)]
     [SerializeField] float fovDeg = 45;
     float fovRad => fovDeg * Mathf.Deg2Rad;
     float angThresh => Mathf.Cos(fovRad / 2);
 
     List<Scanable> scanningObject = new List<Scanable>();
+
+    bool isScanning = false;
 
     void Start()
     {
@@ -37,19 +42,27 @@ public class ScannerEquipment : Equipment
     {
         base.OnUse();
 
-        if(isPress)
+        if(isPress && batteryAmout > 0)
             OnScan();
         else
             OnUnscan();
     }
 
+    void Update()
+    {
+        if(isScanning && batteryAmout <= 0)
+            OnUnscan();
+
+        if(isScanning)
+            ConsumeBattery();
+        else
+            RefillBattery();
+    }
+
     void OnScan()
     {
-        // isScan = true;
-
-        // scanTween.Kill();
-        // scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,100f,scanDuration).SetEase(scanEase).OnComplete(OnScanComplete);
-
+        isScanning = true;
+        
         Collider[] scanObject = Physics.OverlapSphere(transform.position,scanRange);
 
         foreach(var n in scanObject)
@@ -67,8 +80,8 @@ public class ScannerEquipment : Equipment
 
     void OnUnscan()
     {
-        // scanTween.Kill();
-        // scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,0f,.5f).SetEase(scanEase).OnComplete(() => {isScan = false;});
+        if(!isScanning)
+            return;
 
         foreach(var n in scanningObject)
         {
@@ -76,6 +89,8 @@ public class ScannerEquipment : Equipment
         }
 
         scanningObject.Clear();
+
+        isScanning = false;
     }
 
     public bool CylindricalSectorContains(Vector3 position)
@@ -102,6 +117,28 @@ public class ScannerEquipment : Equipment
             return false; // outside the cylinder
 
         return true;    
+    }
+
+    void ConsumeBattery()
+    {
+        if(batteryAmout <= 0)
+        {
+            batteryAmout = 0;
+            return;
+        }
+
+        batteryAmout -= batteryConsumeAmount * Time.deltaTime;
+    }
+
+    void RefillBattery()
+    {
+        if(batteryAmout >= 100)
+        {
+            batteryAmout = 100;
+            return;
+        }
+
+        batteryAmout += batteryRefillAmount * Time.deltaTime;
     }
 
 #if UNITY_EDITOR

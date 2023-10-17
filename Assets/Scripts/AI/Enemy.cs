@@ -9,52 +9,95 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
+using UnityEngine.XR;
 
 namespace HorrorJam.AI
 {
+    public enum EnemyStage
+    {
+        Explore,
+        Chase,
+        Slowed,
+    }
+
     public class Enemy : MonoBehaviour
     {
-        [ReadOnly][ShowInInspector] float distanceToPlayer;
-        [ReadOnly][ShowInInspector] public bool IsDetectedPlayer { get; private set; }
-        [ReadOnly][ShowInInspector] public bool IsStunned { get; private set; }
-        
-        [Header("Detection")] 
-        [SerializeField] SeenByCameraNotifier seenByCameraNotifier;
-        [SerializeField] float closeDetectionRange = 2f;
-        [SerializeField] float eyeDetectionRange = 5f;
-        [SerializeField] float loseDetectionRange = 8f;
-        [SerializeField] float delayDurationAfterPursue = 1f;
-        
-        [Header("Sight")]
-        [SerializeField] float raycastOriginHeightOffset = 0.5f;
-        [SerializeField] LayerMask raycastLayerMask;
-        [SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
+        [TitleGroup("Movement")]
+        [Header("Speed")]
+        [Indent,SerializeField] float reachSqrThreshold = 0.04f;
+        [Indent,SerializeField] SpeedSetting exploreSpeed;
+        [Indent,SerializeField] SpeedSetting chaseSpeed;
+        [Indent,SerializeField] SpeedSetting slowedDownSpeed;
+        [Indent,SerializeField] SpeedSetting superSlowedDownSpeed;
         
         [Header("Destination")]
-        [SerializeField] WaypointContainer currentWaypointContainer;
-        [SerializeField] Waypoint currentWaypoint;
-        [SerializeField] NavMeshAgent agent;
-
+        [Indent,SerializeField] WaypointContainer currentWaypointContainer;
+        [Indent,SerializeField] Waypoint currentWaypoint;
+        [Indent,SerializeField] NavMeshAgent agent;
+        
+        [TitleGroup("Detection")]
+        [Header("Range")] 
+        [Indent,SerializeField] SeenByCameraNotifier seenByCameraNotifier;
+        [Indent,SerializeField] float closeDetectionRange = 2f;
+        [Indent,SerializeField] float eyeDetectionRange = 5f;
+        [Indent,SerializeField] float loseDetectionRange = 8f;
+        
+        [Header("Sight")]
+        [Indent,SerializeField] float raycastOriginHeightOffset = 0.5f;
+        [Indent,SerializeField] LayerMask raycastLayerMask;
+        [Indent,SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
+        
+        [Header("After Pursue")]
+        [Indent,SerializeField] float standStillDurationAfterPursue = 1f;
+        [Indent, SerializeField] bool isRespawnAfterPursue;
+        [Indent,Indent,SerializeField] float respawnDelayAfterPursue = 1f;
+        [Indent,Indent,SerializeField] float minRespawnDistance = 5f;
+        
+        [TitleGroup("Info")]
         [Header("Movement")]
-        [SerializeField] float reachSqrThreshold = 0.04f;
-        [ReadOnly][ShowInInspector] float currentDelayPassed;
-
+        [Indent,SerializeField,ReadOnly] float currentMoveSpeed = 1f;
+        [Indent,SerializeField,ReadOnly] float distanceToPlayer;
+        
+        [Header("Status")]
+        [Indent,SerializeField,ReadOnly] bool isDetectedPlayer;
+        [Indent,SerializeField,ReadOnly] bool isPursuingLostPlayer;
+        [Indent,SerializeField,ReadOnly] bool isShouldStandStill;
+        [Indent,SerializeField,ReadOnly] float currentDelayPassed;
+        [Indent,SerializeField,ReadOnly] bool isSlowedDown;
+        
         Vector3 lastKnownPlayerPosition;
-        [ReadOnly][ShowInInspector] bool isPursuingLostPlayer;
-
+        SpeedSetting currentSpeedSetting;
+        
         public event Action OnDetectPlayer;
         public event Action OnLosePlayer;
         public event Action<Waypoint> OnFinishWaypoint;
 
-        //TODO: Link with GameManager or something
-        bool isPaused;
+        string StunId => gameObject.name + "_stun";
+        string ChangeSpeedId => gameObject.name + "_changeSpeed";
+        string RespawnId => gameObject.name + "_respawn";
 
-        string stunId => gameObject.name + "_stun";
+        [Header("Scan Info")]
+        [SerializeField] SpriteRenderer sprite;
+        Scanable scanable;
+        EnemyStage enemyStage = EnemyStage.Explore;
+
+        void Awake() 
+        {
+            scanable = GetComponentInChildren<Scanable>();
+        }
 
         void Start()
         {
+            scanable.onActiveScan += EnterSlowDown;
+            scanable.onScanComplete += EnterSuperSlowDown;
+
+            scanable.onDeactiveScan += ExitSlowDown;
+
             lastKnownPlayerPosition = transform.position;
             OnFinishWaypoint += NotifyOnFinishWaypoint;
+            ChangeSpeedSetting(exploreSpeed);
+            MakeVisibleEnemy(scanable.scanProgress);
         }
 
         void NotifyOnFinishWaypoint(Waypoint obj)
@@ -73,11 +116,10 @@ namespace HorrorJam.AI
         void Update()
         {
             Debug.DrawLine(transform.position, agent.destination, Color.white);
-            if (isPaused)
+            if (GameManager.Instance.IsPause)
                 return;
 
-            if (IsStunned)
-                return;
+            OnBeingScanned();
             
             ProcessDetection();
             ProcessMovement();
@@ -88,17 +130,39 @@ namespace HorrorJam.AI
             agent.destination = pos;
         }
 
+        [Button]
+        void ChangeSpeedSetting(SpeedSetting setting)
+        {
+            if (currentSpeedSetting == setting)
+                return;
+
+            currentSpeedSetting = setting;
+            DOTween.Kill(ChangeSpeedId);
+            DOTween.To(() => currentMoveSpeed, SetSpeed, currentSpeedSetting.speed, currentSpeedSetting.transitionDuration)
+                .SetEase(currentSpeedSetting.transitionEase)
+                .SetId(ChangeSpeedId);
+        }
+
+        void SetSpeed(float val)
+        {
+            currentMoveSpeed = val;
+            agent.speed = currentMoveSpeed;
+        }
+
         void ProcessMovement()
         {
             if (TryMoveToPlayer()) 
                 return;
-
+            
+            if (isShouldStandStill)
+                return;
+            
             MoveToCurrentWaypoint();
         }
 
         bool TryMoveToPlayer()
         {
-            if (IsDetectedPlayer)
+            if (isDetectedPlayer)
             {
                 SetDestination(lastKnownPlayerPosition);
                 return true;
@@ -112,8 +176,7 @@ namespace HorrorJam.AI
                 }
                 else
                 {
-                    isPursuingLostPlayer = false;
-                    SetStun(delayDurationAfterPursue);
+                    EndPursue();
                 }
 
                 return true;
@@ -122,14 +185,52 @@ namespace HorrorJam.AI
             return false;
         }
 
+        [Button]
+        void EndPursue()
+        {
+            isPursuingLostPlayer = false;
+            SetStun(standStillDurationAfterPursue);
+            ChangeSpeedSetting(exploreSpeed);
+
+            if (isRespawnAfterPursue)
+            {
+                scanable.OnDeactiveScanWithDuration(respawnDelayAfterPursue);
+                Schedule(respawnDelayAfterPursue, RespawnFarFromPlayer, RespawnId);
+            }
+        }
+
+        [Button]
+        void RespawnFarFromPlayer()
+        {
+            var playerPlanePos = AIManager.Instance.PlayerPlanePosition;
+            var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance);
+            if (targetWaypoint)
+                ReplaceTo(targetWaypoint);
+
+            scanable.ResetProgress();
+        }
+
+        void ReplaceTo(Waypoint targetWaypoint)
+        {
+            agent.enabled = false;
+            transform.position = targetWaypoint.transform.position;
+            agent.enabled = true;
+        }
+
+        [Button]
         void SetStun(float duration)
         {
-            DOTween.Kill(stunId);
-            IsStunned = true;
-            DOTween.Sequence()
-                .AppendInterval(duration)
-                .AppendCallback(() => IsStunned = false)
-                .SetId(stunId);
+            isShouldStandStill = true;
+            Schedule(standStillDurationAfterPursue, () => isShouldStandStill = false, StunId);
+        }
+
+        Sequence Schedule(float delay, TweenCallback callback, string id)
+        {
+            DOTween.Kill(id);
+            return DOTween.Sequence()
+                .AppendInterval(delay)
+                .AppendCallback(callback)
+                .SetId(id);
         }
 
         void MoveToCurrentWaypoint()
@@ -178,16 +279,16 @@ namespace HorrorJam.AI
             var myPos = transform.position;
             distanceToPlayer = Vector3.Distance(playerPos, myPos);
             
-            if (IsDetectedPlayer)
+            if (isDetectedPlayer)
             {
                 lastKnownPlayerPosition = AIManager.Instance.PlayerPosition;
                 if (distanceToPlayer >= loseDetectionRange)
-                    NotifyLoseDetection();
+                    LosePlayer();
             }
             else
                 TryDetectPlayer();
         }
-
+        
         void TryDetectPlayer()
         {
             var isSeenByCamera = seenByCameraNotifier.IsSeenByCamera;
@@ -195,7 +296,7 @@ namespace HorrorJam.AI
             {
                 if (isSeenByCamera)
                 {
-                    NotifyDetection();
+                    DetectPlayer();
                     return;
                 }
                 
@@ -209,12 +310,12 @@ namespace HorrorJam.AI
                     hitPosition.y = origin.y;
                     Debug.DrawLine(origin, hitPosition, isPlayer ? Color.red: Color.blue);
                     if (isPlayer)
-                        NotifyDetection();
+                        DetectPlayer();
                 }
             }
             else if (distanceToPlayer <= eyeDetectionRange && isSeenByCamera)
             {
-                NotifyDetection();
+                DetectPlayer();
             }
         }
 
@@ -228,17 +329,78 @@ namespace HorrorJam.AI
             return Physics.BoxCast(origin, raycastSize * 0.5f, direction, out hit, rotation, closeDetectionRange, raycastLayerMask);
         }
 
-        void NotifyDetection()
+        [Button]
+        void DetectPlayer()
         {
+            CancelRespawning();
             OnDetectPlayer?.Invoke();
-            IsDetectedPlayer = true;
+            ChangeSpeedSetting(chaseSpeed);
+            isDetectedPlayer = true;
+        }
+        
+        [Button]
+        void CancelRespawning()
+        {
+            DOTween.Kill(RespawnId);
         }
 
-        void NotifyLoseDetection()
+        [Button]
+        void LosePlayer()
         {
             OnLosePlayer?.Invoke();
-            IsDetectedPlayer = false;
+            ExitSlowDown();
+            isDetectedPlayer = false;
             isPursuingLostPlayer = true;
+        }
+
+        [Button]
+        public void EnterSlowDown()
+        {
+            if (!isDetectedPlayer)
+                return;
+            
+            if (isSlowedDown)
+                return;
+
+            ChangeSpeedSetting(slowedDownSpeed);
+            isSlowedDown = true;
+        }
+
+        [Button]
+        public void ExitSlowDown()
+        {
+            if (!isSlowedDown)
+                return;
+
+            ChangeSpeedSetting(isDetectedPlayer? chaseSpeed : exploreSpeed);
+            isSlowedDown = false;
+        }
+
+        [Button]
+        public void EnterSuperSlowDown()
+        {
+            if (isSlowedDown)
+                ChangeSpeedSetting(superSlowedDownSpeed);
+        }
+
+        public void OnBeingScanned()
+        {
+            MakeVisibleEnemy(scanable.scanProgress);
+        }
+
+        void MakeVisibleEnemy(float visibleValue)
+        {
+            float alpha = Mathf.Clamp(visibleValue / 100f,0f,1f); 
+
+            sprite.color = new Color(sprite.color.r,sprite.color.g,sprite.color.b,alpha);
+        }
+
+        void OnDestroy() 
+        {
+            scanable.onActiveScan -= EnterSlowDown;
+            scanable.onScanComplete -= EnterSuperSlowDown;
+
+            scanable.onDeactiveScan -= ExitSlowDown;
         }
 
 #if UNITY_EDITOR
@@ -254,8 +416,24 @@ namespace HorrorJam.AI
             
             Handles.color = Color.green;
             Handles.DrawWireDisc(myPosition,Vector3.up,  loseDetectionRange);
+            
+            float scanProgress = 0;
+            if(scanable != null)
+                scanProgress = scanable.scanProgress;
+                
+            GUI.color = scanProgress != 0 ? Color.red : Color.green;
+            Handles.Label(transform.position + new Vector3(0,2.15f,0), $"Scan Progress : {scanProgress}");
+
             Handles.color = color;
         }
 #endif
+    }
+
+    [Serializable]
+    public class SpeedSetting
+    {
+        public float speed = 1f;
+        public Ease transitionEase;
+        public float transitionDuration = 1f;
     }
 }

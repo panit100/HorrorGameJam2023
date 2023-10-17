@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Sirenix.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -20,6 +22,22 @@ namespace HorrorJam.AI
         public Waypoint GetRandomWaypoint()
         {
             return waypointList[Random.Range(0, waypointList.Count)];
+        }
+        
+        public Waypoint GetFarEnoughRandomWaypointOnPlane(Vector2 originPos, float minDistance)
+        {
+            var farEnoughWaypointList = waypointList
+                .Where(waypoint => (originPos - waypoint.PlanePosition).sqrMagnitude >= (minDistance * minDistance))
+                .ToArray();
+
+            if (farEnoughWaypointList.Length == 0)
+            {
+                return waypointList
+                    .OrderByDescending(waypoint => (originPos - waypoint.PlanePosition).sqrMagnitude)
+                    .FirstOrDefault();
+            }
+
+            return farEnoughWaypointList[Random.Range(0, farEnoughWaypointList.Length)];
         }
     }
 }
