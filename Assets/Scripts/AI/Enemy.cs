@@ -37,8 +37,7 @@ namespace HorrorJam.AI
         [Indent,SerializeField] NavMeshAgent agent;
         
         [Header("JumpScareWarp")] 
-        [Indent, SerializeField] float minJumpScareWarpDistance = 5f;
-        [Indent, SerializeField] float maxJumpScareWarpDistance = 10f;
+        [Indent, SerializeField] float jumpScareWarpDistance = 5f;
         
         [TitleGroup("Detection")]
         [Header("Range")] 
@@ -390,11 +389,14 @@ namespace HorrorJam.AI
         [Button]
         public void JumpScareWarp()
         {
-            var playerPlanePos = AIManager.Instance.PlayerPlanePosition;
-            var targetWaypoint = currentWaypointContainer
-                .GetRandomWaypointWithinRange(playerPlanePos, minJumpScareWarpDistance, maxJumpScareWarpDistance);
-            if (targetWaypoint)
-                ReplaceTo(targetWaypoint);
+            var player = PlayerManager.Instance.transform;
+            var spawnPos = player.position + (player.forward * jumpScareWarpDistance);
+            if (AIManager.Instance.TryGetPositionOnSurface(spawnPos, out var clampedSpawnPos))
+            {
+                transform.position = clampedSpawnPos;
+                DetectPlayer();
+                transform.LookAt(player.transform.position);
+            }
         }
 
         public void OnBeingScanned()
