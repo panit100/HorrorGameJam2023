@@ -26,18 +26,52 @@ namespace HorrorJam.AI
         
         public Waypoint GetFarEnoughRandomWaypointOnPlane(Vector2 originPos, float minDistance)
         {
-            var farEnoughWaypointList = waypointList
-                .Where(waypoint => (originPos - waypoint.PlanePosition).sqrMagnitude >= (minDistance * minDistance))
-                .ToArray();
-
-            if (farEnoughWaypointList.Length == 0)
+            var farEnoughWaypoints = GetFarEnoughWaypoints(originPos, minDistance);
+            if (farEnoughWaypoints.Length == 0)
             {
-                return waypointList
-                    .OrderByDescending(waypoint => (originPos - waypoint.PlanePosition).sqrMagnitude)
-                    .FirstOrDefault();
+                return GetMostFarPoint(originPos);
             }
 
-            return farEnoughWaypointList[Random.Range(0, farEnoughWaypointList.Length)];
+            return farEnoughWaypoints[Random.Range(0, farEnoughWaypoints.Length)];
+        }
+
+        Waypoint GetMostFarPoint(Vector2 originPos)
+        {
+            return waypointList
+                .OrderByDescending(waypoint => (originPos - waypoint.PlanePosition).sqrMagnitude)
+                .FirstOrDefault();
+        }
+
+        public Waypoint GetRandomWaypointWithinRange(Vector2 originPos, float minDistance, float maxDistance)
+        {
+            var farEnoughWaypoints = GetFarEnoughWaypoints(originPos, minDistance);
+            var waypointsWithinRange = farEnoughWaypoints
+                .Where(waypoint => (originPos - waypoint.PlanePosition).sqrMagnitude <= (maxDistance * maxDistance))
+                .ToArray();
+
+            if (waypointsWithinRange.Length == 0)
+            {
+                return farEnoughWaypoints.Length == 0 ? 
+                    GetMostFarPoint(originPos) :
+                    farEnoughWaypoints[Random.Range(0, farEnoughWaypoints.Length)];
+            }
+
+            var player = PlayerManager.Instance.transform;
+            var waypointsInFrontOfPlayer = waypointsWithinRange
+                .Where(waypoint => player.InverseTransformPoint(waypoint.PlanePosition).z > 0)
+                .ToArray();
+
+            if (waypointsInFrontOfPlayer.Length == 0)
+                return waypointsWithinRange[Random.Range(0, waypointsWithinRange.Length)];
+            
+            return waypointsInFrontOfPlayer[Random.Range(0, waypointsInFrontOfPlayer.Length)];
+        }
+
+        Waypoint[] GetFarEnoughWaypoints(Vector2 originPos, float minDistance)
+        {
+            return waypointList
+                .Where(waypoint => (originPos - waypoint.PlanePosition).sqrMagnitude >= (minDistance * minDistance))
+                .ToArray();
         }
     }
 }
