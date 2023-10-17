@@ -3,45 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-class MainObjectiveData{
+public enum ObjectiveType
+{
+    TakePhoto,
+    ReachPosition,
+    ScanObject
+}
+
+public class MainObjectiveData{
     public string ObjectiveName;
     public string ObjectiveCode;
-    public ObjectiveType objectiveType;
+    public string ObjectiveType;
     public string NextObjectiveCode;
     public string LogMessage;
     
-    public enum ObjectiveType
+    public ObjectiveType GetObjectiveType()
     {
-        TakePhoto,
-        ReachPosition,
-        ScanObject
-    }
-
-    public MainObjectiveData(string _ObjectiveName, string _ObjectiveCode, string _ObjectiveType, string _NextObjectiveCode, string _LogMessage)
-    {
-        ObjectiveName = _ObjectiveName;
-        ObjectiveCode = _ObjectiveCode;
-        SetObjectiveType(_ObjectiveType);
-        NextObjectiveCode = _NextObjectiveCode;
-        LogMessage = _LogMessage;
-    }
-
-    void SetObjectiveType(string _objectiveType)
-    {
-        switch (_objectiveType)
+        switch (this.ObjectiveType)
         {
             case "ObjectiveType.TakePhoto":
-                objectiveType = ObjectiveType.TakePhoto;
-                break;
+                return global::ObjectiveType.TakePhoto;
             case "ObjectiveType.ReachPosition":
-                objectiveType = ObjectiveType.ReachPosition;
-                break;
+                return global::ObjectiveType.ReachPosition;
             case "ObjectiveType.ScanObject":
-                objectiveType = ObjectiveType.ScanObject;
-                break;
+                return global::ObjectiveType.ScanObject;
             default:
-                Debug.Log("Set Objective Error.");
-                break;
+                return global::ObjectiveType.TakePhoto;
         }
     }
 }
