@@ -5,6 +5,7 @@ namespace HorrorJam.AI
 {
     public class AIManager : Singleton<AIManager>
     {
+        public Vector3 PlayerPlanePosition => new Vector2(PlayerPosition.x, PlayerPosition.z);
         public Vector3 PlayerPosition { get; private set; }
         Transform playerTransform;
         protected override void InitAfterAwake()
