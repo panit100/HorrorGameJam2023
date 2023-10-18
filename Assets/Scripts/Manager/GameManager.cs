@@ -55,6 +55,7 @@ public class GameManager : Singleton<GameManager>
             case GameStage.Playing:
                 //TODO: Run Cutscene
                 TimeManager.Instance.SetCurrentTime();
+                MassageManager.Instance.Init();
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
                 InputSystemManager.Instance.ToggleUIControl(false);

@@ -15,6 +15,7 @@ public class MainObjectiveData{
     public string ObjectiveCode;
     public string ObjectiveType;
     public string NextObjectiveCode;
+    public string Sender;
     public string LogMessage;
     
     public ObjectiveType GetObjectiveType()
@@ -40,6 +41,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
     public List<Objective> objectiveItems;
 
     Dictionary<string, MainObjectiveData> mainObjectiveDataDictionary = new Dictionary<string, MainObjectiveData>();
+    public Dictionary<string, MainObjectiveData> MainObjectiveDataDictionary => mainObjectiveDataDictionary;
     MainObjectiveData currentMainObjectiveData;
     [SerializeField] string mainObjectiveFile;
     [Header("UI")]
@@ -51,12 +53,12 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
     private void Start()
     {
-        LoadDialogueFromCSV(mainObjectiveFile);
+        LoadDialogueFromCSV();
         //SetupObjective();
     }
-    void LoadDialogueFromCSV(string csvFile)
+    public void LoadDialogueFromCSV()
     {
-        MainObjectiveData[] mainObjectiveDatas = CSVHelper.LoadCSVAsObject<MainObjectiveData>(csvFile);
+        MainObjectiveData[] mainObjectiveDatas = CSVHelper.LoadCSVAsObject<MainObjectiveData>(mainObjectiveFile);
 
         foreach (var data in mainObjectiveDatas)
         {
