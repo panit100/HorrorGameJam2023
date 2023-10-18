@@ -7,6 +7,13 @@ public class TriggerObjective : Objective
 
     void OnTriggerEnter(Collider other) 
     {
-        CheckObjective();
+        if(!other.CompareTag("Player"))
+            return;
+
+        if(CheckObjective())
+        {
+            MainObjectiveManager.Instance.UpdateProgress(objectiveCode);
+        }
+
     }
 }

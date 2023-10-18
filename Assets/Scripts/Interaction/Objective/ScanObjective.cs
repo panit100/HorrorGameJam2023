@@ -16,13 +16,13 @@ public class ScanObjective : Objective, InteractObject
 
     public void OnInteract()
     {
-        if(scanable != null)
-            if(!scanable.AlreadyScan)
-                return;
-
-        if(CheckObjective())
-            this.gameObject.SetActive(false);
-
+        if(!scanable.AlreadyScan)
+            return;
         
+        if(CheckObjective())
+        {
+            MainObjectiveManager.Instance.UpdateProgress(objectiveCode);
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -1007,6 +1007,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScanObjective (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9068974035931357913, guid: 909ad1fbf7e41e34ea3c28c6688b4d57, type: 3}
+      propertyPath: objectiveCode
+      value: tp_terminal
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24078,17 +24082,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!114 &822922484 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9068974035931357913, guid: 909ad1fbf7e41e34ea3c28c6688b4d57, type: 3}
-  m_PrefabInstance: {fileID: 1210253170}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd9f3af7860c4d4a8d337bdde2383e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &828978662
 GameObject:
   m_ObjectHideFlags: 0
@@ -28248,12 +28241,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df489cf6e2662049a77e4ce8fbe79fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentObjective: {fileID: 0}
-  objectiveIndex: 0
-  objectiveItems:
-  - {fileID: 822922484}
-  - {fileID: 1854564160}
-  - {fileID: 1954038998}
+  startMainObjectiveCode: tp_terminal
+  currentMainObjectiveCode: 
   mainObjectiveFile: GameData
   objectiveText: {fileID: 591596096}
 --- !u!1 &1067697153
@@ -38717,6 +38706,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScanObjective
       objectReference: {fileID: 0}
+    - target: {fileID: 9068974035931357913, guid: 909ad1fbf7e41e34ea3c28c6688b4d57, type: 3}
+      propertyPath: objectiveCode
+      value: so_tool_sci
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -39354,6 +39347,10 @@ PrefabInstance:
     - target: {fileID: 1736332731209245595, guid: 22ba5865a82a5454581ed8e8d970d0f5, type: 3}
       propertyPath: m_Name
       value: PhotoObjective
+      objectReference: {fileID: 0}
+    - target: {fileID: 4763697324154691782, guid: 22ba5865a82a5454581ed8e8d970d0f5, type: 3}
+      propertyPath: objectiveCode
+      value: rp_lab
       objectReference: {fileID: 0}
     - target: {fileID: 8263342463800157896, guid: 22ba5865a82a5454581ed8e8d970d0f5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -46524,17 +46521,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852146201}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1854564160 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4763697324154691782, guid: 22ba5865a82a5454581ed8e8d970d0f5, type: 3}
-  m_PrefabInstance: {fileID: 1347827579}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2436c9fc63be078408120b3393a91b20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1856097897
 GameObject:
   m_ObjectHideFlags: 0
@@ -46981,17 +46967,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942124279}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1954038998 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9068974035931357913, guid: 909ad1fbf7e41e34ea3c28c6688b4d57, type: 3}
-  m_PrefabInstance: {fileID: 136369107}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd9f3af7860c4d4a8d337bdde2383e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1961558118
 GameObject:
   m_ObjectHideFlags: 0
@@ -47714,7 +47689,7 @@ SceneRoots:
   - {fileID: 1929271646}
   - {fileID: 1112945445}
   - {fileID: 1856097898}
-  - {fileID: 136369107}
   - {fileID: 260465755}
+  - {fileID: 136369107}
   - {fileID: 1210253170}
   - {fileID: 1347827579}

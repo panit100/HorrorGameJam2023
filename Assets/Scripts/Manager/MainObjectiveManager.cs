@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Sirenix.OdinInspector;
 
 public enum ObjectiveType
 {
@@ -36,14 +37,15 @@ public class MainObjectiveData{
 
 public class MainObjectiveManager : Singleton<MainObjectiveManager>
 {
-    [SerializeField] string startMainObjectiveCode; //TODO: Change to string or MainObjectiveData
+    [SerializeField] string startMainObjectiveCode;
 
     Dictionary<string, MainObjectiveData> mainObjectiveDataDictionary = new Dictionary<string, MainObjectiveData>();
     public Dictionary<string, MainObjectiveData> MainObjectiveDataDictionary => mainObjectiveDataDictionary;
-    MainObjectiveData currentMainObjectiveData;
+    [Indent,SerializeField,ReadOnly] string currentMainObjectiveCode;
     [SerializeField] string mainObjectiveFile;
     [Header("UI")]
     [SerializeField] TextMeshProUGUI objectiveText;
+    
     protected override void InitAfterAwake()
     {
 
@@ -54,6 +56,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         LoadDialogueFromCSV();
         SetupObjective();
     }
+
     public void LoadDialogueFromCSV()
     {
         MainObjectiveData[] mainObjectiveDatas = CSVHelper.LoadCSVAsObject<MainObjectiveData>(mainObjectiveFile);
@@ -67,58 +70,35 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
     void SetupObjective()
     {
-        currentMainObjectiveData = mainObjectiveDataDictionary[startMainObjectiveCode];
-        UpdateObjectiveText();
+        currentMainObjectiveCode = startMainObjectiveCode;
     }
 
-    public bool GetCheckObjective(string objectiveCode)
+    public bool isEqualCurrentObjective(string objectiveCode)
     {
-        //TODO: Use objective code to check current objective
-        if (currentMainObjectiveData.ObjectiveCode == objectiveCode)
-        {
-            UpdateProgress();
+        if (currentMainObjectiveCode == objectiveCode)
             return true;
-        }
-        return false;
-    }
-    void UpdateProgress()
-    {
-        if (currentMainObjectiveData.NextObjectiveCode == "")
-        {
-            print("No Objective");
-        }
         else
-        {
-            currentMainObjectiveData = mainObjectiveDataDictionary[currentMainObjectiveData.NextObjectiveCode];
-        }
-        //if (objectiveIndex < objectiveItems.Count)
-        //{
-        //    currentObjective = objectiveItems[objectiveIndex];
-        //}
-        //else
-        //{
-        //    currentObjective = null;
-        //}
-        UpdateObjectiveText();
+            return false;
     }
-    void UpdateObjectiveText()
+    
+    public void UpdateProgress(string objectiveCode)
     {
-        //if (currentObjective == null)
-        //{
-        //    objectiveText.text = "-";
-        //    return;
-        //}
-        //if (currentObjective.GetComponent<InteractObject>() != null)
-        //{
-        //    objectiveText.text = "Find " + currentObjective.name;
-        //}
-        //else if (currentObjective.GetComponent<Scanable>() != null)
-        //{
-        //    objectiveText.text = "Find and Scan " + currentObjective.name;
-        //}
+        if (!isEqualCurrentObjective(objectiveCode))
+            return;
+
+        SendLogToPipBoy();
+        SetNextObjective(mainObjectiveDataDictionary[currentMainObjectiveCode].NextObjectiveCode);
+
     }
 
-    //TODO: Create function to Get log massage
+    public void SendLogToPipBoy()
+    {
+        MassageManager.Instance.AddLogData(mainObjectiveDataDictionary[currentMainObjectiveCode]);
+    }
 
-    //TODO: Craete function to Set Next Objective
+    string SetNextObjective(string NextObjectiveCode)
+    {
+        currentMainObjectiveCode = mainObjectiveDataDictionary[currentMainObjectiveCode].NextObjectiveCode;
+        return currentMainObjectiveCode;
+    }
 }
