@@ -1,0 +1,5 @@
+ObjectiveName,ObjectiveCode,ObjectiveType,NextObjectiveCode,Sender,LogMessage
+string,string,string,string,string,string
+Take photo of broken terminal.,tp_terminal,ObjectiveType.TakePhoto,rp_lab,testSender,testmessage
+Get in the lab.,rp_lab,ObjectiveType.ReachPosition,so_tool_sci,testSender,testmessage
+Scan scientific tool,so_tool_sci,ObjectiveType.ScanObject,test,testSender,testmessage

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public enum GameStage
 {
     MainMenu,
     Playing,
+    Pause,
     GameOver,
 }
 
@@ -16,7 +17,7 @@ public class GameManager : Singleton<GameManager>
 
     public GameStage GameStage => gameStage;
 
-    bool isPause = false;
+    [Indent,SerializeField,ReadOnly] bool isPause = false;
     public bool IsPause => isPause;
     protected override void InitAfterAwake()
     {
@@ -26,33 +27,35 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         AddInputListener();
-        OnChangeGameStage(GameStage.Playing);
+        OnChangeGameStage(GameStage.Playing); //TODO: Remove when finish game
     }
 
     void AddInputListener()
     {
         InputSystemManager.Instance.onPause += OnPause;
-        InputSystemManager.Instance.onPause += OnResume;
     }
 
     void RemoveInputListener()
     {
         InputSystemManager.Instance.onPause -= OnPause;
-        InputSystemManager.Instance.onPause -= OnResume;
     }
 
     public void OnChangeGameStage(GameStage _gameStage)
     {
+        print(_gameStage.ToString());
+
         gameStage = _gameStage;
 
         switch(gameStage)
         {
             case GameStage.MainMenu:
+                LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 break;
             case GameStage.Playing:
+                LockCursor(true);
                 //TODO: Run Cutscene
                 TimeManager.Instance.SetCurrentTime();
 
@@ -60,7 +63,16 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleUIControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 break;
+            case GameStage.Pause:
+                isPause = true;
+                LockCursor(false);
+
+                InputSystemManager.Instance.TogglePlayerControl(false);
+                InputSystemManager.Instance.ToggleUIControl(true);
+                InputSystemManager.Instance.ToggleInGameControl(true);
+                break;
             case GameStage.GameOver:
+                LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(false);
@@ -72,18 +84,10 @@ public class GameManager : Singleton<GameManager>
 
     public void OnPause()
     {
-        if(isPause)
-            return;
-
-        isPause = true;
-    }
-
-    public void OnResume()
-    {
-        if(!isPause)
-            return;
-
-        isPause = false;
+        if(gameStage == GameStage.Playing)
+            OnChangeGameStage(GameStage.Pause);
+        else if(gameStage == GameStage.Pause)
+            OnChangeGameStage(GameStage.Playing);
     }
 
     public void OnDie()
@@ -95,6 +99,20 @@ public class GameManager : Singleton<GameManager>
     }
 
     //TODO: End Game Cutscene
+
+    void LockCursor(bool toggle)
+    {
+        if(toggle)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
 
     void OnDestroy() 
     {
