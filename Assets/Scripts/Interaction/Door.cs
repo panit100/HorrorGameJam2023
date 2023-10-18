@@ -36,6 +36,12 @@ public class Door : MonoBehaviour
     // }
 
     [Button]
+    public void OpenDoorAndBakeNavMesh()
+    {
+        OpenDoor();
+        AIManager.Instance.BakeNavMeshAfterDelay(duration);
+    }
+
     public void OpenDoor()
     {
         // if(scanable != null)
@@ -44,17 +50,23 @@ public class Door : MonoBehaviour
 
         DOTween.Kill(doorID);
         transform
-            .DOMove(transform.position + movePos,duration)
+            .DOMove(transform.position + movePos, duration)
             .SetEase(ease)
             .SetId(doorID);
     }
 
     [Button]
+    public void CloseDoorAndBakeNavMesh()
+    {
+        CloseDoor();
+        AIManager.Instance.BakeNavMeshAfterDelay(duration);
+    }
+
     public void CloseDoor()
     {
         DOTween.Kill(doorID);
         transform
-            .DOMove(originPos,duration)
+            .DOMove(originPos, duration)
             .SetEase(ease)
             .SetId(doorID);
     }

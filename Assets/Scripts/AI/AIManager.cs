@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
@@ -29,9 +30,11 @@ namespace HorrorJam.AI
         }
 
         [Button]
-        public void BakeNavMesh()
+        public void BakeNavMeshAfterDelay(float delay)
         {
-            surface.BuildNavMesh();
+            DOTween.Sequence()
+                .AppendInterval(delay)
+                .AppendCallback(surface.BuildNavMesh);
         }
     }
 }

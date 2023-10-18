@@ -27,7 +27,7 @@ public class DoorManager : Singleton<DoorManager>
         {
             n.OpenDoor();
         }
-
-        DOTween.Sequence().AppendInterval(1f).AppendCallback(AIManager.Instance.BakeNavMesh);
+        
+        AIManager.Instance.BakeNavMeshAfterDelay(1f);
     }
 }
