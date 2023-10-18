@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace HorrorJam.Audio
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : Singleton<AudioManager>
     {
         [SerializeField] List<AudioRecord> recordList = new List<AudioRecord>();
         [SerializeField] float soundEffectVolume = 0.75f;
@@ -44,6 +44,10 @@ namespace HorrorJam.Audio
         AudioRecord FindRecord(string id)
         {
             return recordList.FirstOrDefault(rec => rec.id == id);
+        }
+
+        protected override void InitAfterAwake()
+        {
         }
     }
 
