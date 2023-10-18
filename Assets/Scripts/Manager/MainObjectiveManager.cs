@@ -3,17 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+public enum ObjectiveType
+{
+    TakePhoto,
+    ReachPosition,
+    ScanObject
+}
+
+public class MainObjectiveData{
+    public string ObjectiveName;
+    public string ObjectiveCode;
+    public string ObjectiveType;
+    public string NextObjectiveCode;
+    public string LogMessage;
+    
+    public ObjectiveType GetObjectiveType()
+    {
+        switch (this.ObjectiveType)
+        {
+            case "ObjectiveType.TakePhoto":
+                return global::ObjectiveType.TakePhoto;
+            case "ObjectiveType.ReachPosition":
+                return global::ObjectiveType.ReachPosition;
+            case "ObjectiveType.ScanObject":
+                return global::ObjectiveType.ScanObject;
+            default:
+                return global::ObjectiveType.TakePhoto;
+        }
+    }
+}
+
 public class MainObjectiveManager : Singleton<MainObjectiveManager>
 {
-    protected override void InitAfterAwake(){}
-    public MainObjectiveItem currentObjective;
+    public Objective currentObjective; //TODO: Change to string or MainObjectiveData
     [SerializeField] int objectiveIndex = 0;
-    public List<MainObjectiveItem> objectiveItems;
+    public List<Objective> objectiveItems;
+
+    Dictionary<string, MainObjectiveData> mainObjectiveDataDictionary = new Dictionary<string, MainObjectiveData>();
+    MainObjectiveData currentMainObjectiveData;
+    [SerializeField] string mainObjectiveFile;
     [Header("UI")]
     [SerializeField] TextMeshProUGUI objectiveText;
+    protected override void InitAfterAwake()
+    {
+
+    }
+
     private void Start()
     {
-        SetupObjective();
+        LoadDialogueFromCSV(mainObjectiveFile);
+        //SetupObjective();
+    }
+    void LoadDialogueFromCSV(string csvFile)
+    {
+        MainObjectiveData[] mainObjectiveDatas = CSVHelper.LoadCSVAsObject<MainObjectiveData>(csvFile);
+
+        foreach (var data in mainObjectiveDatas)
+        {
+            mainObjectiveDataDictionary.Add(data.ObjectiveCode, data);
+            print(mainObjectiveDataDictionary[data.ObjectiveCode].ObjectiveName);
+        }
     }
 
     void SetupObjective()
@@ -26,15 +75,17 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         UpdateObjectiveText();
     }
 
-    public void GetCheckObjective(MainObjectiveItem checkObjective)
+    public bool GetCheckObjective(string objectiveCode)
     {
-        if (checkObjective == currentObjective)
-        {
-            checkObjective.gameObject.SetActive(false);
-            UpdateProgress();
-        }
-    }
+        //TODO: Use objective code to check current objective
+        // if (checkObjective == currentObjective)
+        // {
+        //     UpdateProgress();
+        //     return true;
+        // }
 
+        return false;
+    }
     void UpdateProgress()
     {
         objectiveIndex += 1;
@@ -49,7 +100,6 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         }
         UpdateObjectiveText();
     }
-    
     void UpdateObjectiveText()
     {
         if (currentObjective == null)
@@ -66,4 +116,8 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
             objectiveText.text = "Find and Scan " + currentObjective.name;
         }
     }
+
+    //TODO: Create function to Get log massage
+
+    //TODO: Craete function to Set Next Objective
 }

@@ -10,6 +10,4 @@ public class Equipment : MonoBehaviour
     {
         isPress = !isPress;
     }
-
-    
 }

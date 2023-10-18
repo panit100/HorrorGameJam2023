@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CameraEquipment : Equipment
@@ -10,6 +11,8 @@ public class CameraEquipment : Equipment
     [SerializeField] RenderTexture renderTexture;
     [SerializeField] Camera screenshotCamera;
     [SerializeField] float displayImageTime;
+
+    public UnityEvent onUse;
 
     Texture2D screenshot;
     bool isUsing = false;
@@ -38,6 +41,7 @@ public class CameraEquipment : Equipment
         ActiveFlash();
         CaptureScreenshot();
         StartCoroutine(DisplayImage());
+        onUse?.Invoke();
     }
 
     void ActiveFlash()
@@ -97,5 +101,10 @@ public class CameraEquipment : Equipment
             cameraShotCanvas.alpha = 1;
         else
             cameraShotCanvas.alpha = 0;
+    }
+
+    void OnDestroy() 
+    {
+        onUse?.RemoveAllListeners();
     }
 }

@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33fbb27e7e7a4343b082ba55dd456c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batteryAmout: 100
+  batteryConsumeAmount: 10
+  batteryRefillAmount: 5
   scanRange: 10
   fovDeg: 45
 --- !u!1 &3698188140309934681
@@ -96,7 +99,7 @@ GameObject:
   - component: {fileID: 7581714085467213838}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -713,3 +716,6 @@ MonoBehaviour:
   renderTexture: {fileID: 8400000, guid: 4907f85c02ba6314a9629a00d005917c, type: 2}
   screenshotCamera: {fileID: 0}
   displayImageTime: 3
+  onUse:
+    m_PersistentCalls:
+      m_Calls: []
