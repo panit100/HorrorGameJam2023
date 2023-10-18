@@ -45,6 +45,8 @@ public class MassageManager : Singleton<MassageManager>
     public void AddLogData(MainObjectiveData objectiveData)
     {
         //TODO: Add objective log to log data
+        print(objectiveData.Sender);
+        print(objectiveData.LogMessage);
         LogData newLogData = new LogData(objectiveData.Sender,TimeManager.Instance.GetCurrentTime(),objectiveData.LogMessage,LogType.Objective);
         logDataDic.Add(newLogData);
 
