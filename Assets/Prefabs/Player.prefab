@@ -74,7 +74,7 @@ Transform:
   m_GameObject: {fileID: 3698188140309934681}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.40100002, z: 0.42}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e4f87ea15a67c49ab8421eb700672c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerBaseSpeed: 5
+  playerBaseSpeed: 8
 --- !u!114 &-8522600833219599454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,7 +573,7 @@ Transform:
   m_GameObject: {fileID: 8084677529463175217}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.40100002, z: 0.42000008}
+  m_LocalPosition: {x: 0.00000044703484, y: 0.65, z: 0.41999745}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -602,10 +602,10 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 5667049362793293802}
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 45
     OrthographicSize: 10
-    NearClipPlane: 0.1
-    FarClipPlane: 5000
+    NearClipPlane: 0.01
+    FarClipPlane: 50
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
