@@ -46,10 +46,9 @@ public class PipboyMaterialController : MonoBehaviour
      
          transform.localPosition = startpos;
          transform.DOLocalMove(endpose, fadeinduration*0.95f).SetEase(ScreenEase);
-        this.transform.rotation = Quaternion.Euler(new Vector3(0,-90,-90));
-        transform.DORotate(
-            new Vector3(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y,
-                transform.rotation.eulerAngles.z + 90f), fadeinduration ).SetEase(ScreenEase);
+        this.transform.localRotation = Quaternion.Euler(new Vector3(0,-90,-90));
+        transform.DOLocalRotate(
+            new Vector3(0, -90, 0f), fadeinduration).SetEase(ScreenEase);
      
      }
 
