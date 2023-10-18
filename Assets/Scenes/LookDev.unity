@@ -277,7 +277,7 @@ MonoBehaviour:
   verticalScanlines: 1
   shadowIntensity: 0.5
   downscale: 0
-  snapCamera: 1
+  snapCamera: 0
   camInaccuracy: 0.5
   camSnapping: 0
   shadowType: 0
@@ -1236,6 +1236,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1890393473 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7550328305668008823, guid: 2f01e10e51f45f4418aaaa17f977c3db, type: 3}
+  m_PrefabInstance: {fileID: 1274771602560102737}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &2021823519
 Mesh:
   m_ObjectHideFlags: 0
@@ -1576,15 +1581,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 077574d94649f70478756c1c39db2d2f, type: 2}
     - target: {fileID: 6515177043989659173, guid: 2f01e10e51f45f4418aaaa17f977c3db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0.009
       objectReference: {fileID: 0}
     - target: {fileID: 6515177043989659173, guid: 2f01e10e51f45f4418aaaa17f977c3db, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 6515177043989659173, guid: 2f01e10e51f45f4418aaaa17f977c3db, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.105
+      value: 0.066
       objectReference: {fileID: 0}
     - target: {fileID: 6515177043989659173, guid: 2f01e10e51f45f4418aaaa17f977c3db, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1659,7 +1664,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c66877d0e332444aa73e7d8367130a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Pipboyscreen: {fileID: 2100000, guid: 3eee53749d390ed4d8ebfe278f1cf21d, type: 2}
+  Pipboymesh: {fileID: 1890393473}
+  ScreenEase: 2
+  fadeinduration: 0.375
+  startpos: {x: 0.009, y: -0.07, z: 0.066}
+  endpose: {x: 0.009, y: -0.01, z: 0.066}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
