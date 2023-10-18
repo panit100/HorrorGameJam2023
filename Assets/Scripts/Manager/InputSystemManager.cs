@@ -113,7 +113,9 @@ public class InputSystemManager : Singleton<InputSystemManager>
 
     private void OnUseArmConsole(InputValue value)
     {
-        //TODO: LockCursor(false) when open armconsole and LockCursor(true) when close armconsole
+        //TODO: LockCursor(false), InputSystemManager.Instance.TogglePlayerControl(false); when open armconsole and LockCursor(true) , InputSystemManager.Instance.TogglePlayerControl(true); when close armconsole
+        //TODO: if press Q , Check is pipboy using. if it didn't use then use it, but if it use then hide.
+        
         onUseArmConsole?.Invoke();
     }
 
