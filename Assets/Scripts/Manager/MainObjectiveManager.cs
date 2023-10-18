@@ -36,9 +36,7 @@ public class MainObjectiveData{
 
 public class MainObjectiveManager : Singleton<MainObjectiveManager>
 {
-    public Objective currentObjective; //TODO: Change to string or MainObjectiveData
-    [SerializeField] int objectiveIndex = 0;
-    public List<Objective> objectiveItems;
+    [SerializeField] string startMainObjectiveCode; //TODO: Change to string or MainObjectiveData
 
     Dictionary<string, MainObjectiveData> mainObjectiveDataDictionary = new Dictionary<string, MainObjectiveData>();
     public Dictionary<string, MainObjectiveData> MainObjectiveDataDictionary => mainObjectiveDataDictionary;
@@ -54,7 +52,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
     private void Start()
     {
         LoadDialogueFromCSV();
-        //SetupObjective();
+        SetupObjective();
     }
     public void LoadDialogueFromCSV()
     {
@@ -69,54 +67,55 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
     void SetupObjective()
     {
-        if (objectiveItems.Count == 0)
-        {
-            return;
-        }
-        currentObjective = objectiveItems[objectiveIndex];
+        currentMainObjectiveData = mainObjectiveDataDictionary[startMainObjectiveCode];
         UpdateObjectiveText();
     }
 
     public bool GetCheckObjective(string objectiveCode)
     {
         //TODO: Use objective code to check current objective
-        // if (checkObjective == currentObjective)
-        // {
-        //     UpdateProgress();
-        //     return true;
-        // }
-
+        if (currentMainObjectiveData.ObjectiveCode == objectiveCode)
+        {
+            UpdateProgress();
+            return true;
+        }
         return false;
     }
     void UpdateProgress()
     {
-        objectiveIndex += 1;
-        if (objectiveIndex < objectiveItems.Count)
+        if (currentMainObjectiveData.NextObjectiveCode == "")
         {
-            currentObjective = objectiveItems[objectiveIndex];
+            print("No Objective");
         }
         else
         {
-            currentObjective = null;
-            print("No Objective");
+            currentMainObjectiveData = mainObjectiveDataDictionary[currentMainObjectiveData.NextObjectiveCode];
         }
+        //if (objectiveIndex < objectiveItems.Count)
+        //{
+        //    currentObjective = objectiveItems[objectiveIndex];
+        //}
+        //else
+        //{
+        //    currentObjective = null;
+        //}
         UpdateObjectiveText();
     }
     void UpdateObjectiveText()
     {
-        if (currentObjective == null)
-        {
-            objectiveText.text = "-";
-            return;
-        }
-        if (currentObjective.GetComponent<InteractObject>() != null)
-        {
-            objectiveText.text = "Find " + currentObjective.name;
-        }
-        else if (currentObjective.GetComponent<Scanable>() != null)
-        {
-            objectiveText.text = "Find and Scan " + currentObjective.name;
-        }
+        //if (currentObjective == null)
+        //{
+        //    objectiveText.text = "-";
+        //    return;
+        //}
+        //if (currentObjective.GetComponent<InteractObject>() != null)
+        //{
+        //    objectiveText.text = "Find " + currentObjective.name;
+        //}
+        //else if (currentObjective.GetComponent<Scanable>() != null)
+        //{
+        //    objectiveText.text = "Find and Scan " + currentObjective.name;
+        //}
     }
 
     //TODO: Create function to Get log massage
