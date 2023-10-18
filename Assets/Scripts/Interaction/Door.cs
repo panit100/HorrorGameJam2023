@@ -5,65 +5,68 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
 
-public class Door : MonoBehaviour, InteractObject
+public class Door : MonoBehaviour
 {
-    [SerializeField] Transform doorTransform;
-    [SerializeField] float moveValue = 5f;
+    [SerializeField] Vector3 movePos;
     [SerializeField] float duration = 1f;
     [SerializeField] Ease ease;
-    [SerializeField] bool scanBeforeInteract = false;
+    // [SerializeField] bool scanBeforeInteract = false;
 
     Vector3 originPos;
-    SpriteRenderer buttonSprite;
-    Scanable scanable;
+    // SpriteRenderer buttonSprite;
+    // Scanable scanable;
+    
+    string doorID => gameObject.name + "_ID";
     void Start()
     {
-        buttonSprite = GetComponent<SpriteRenderer>();
+        // buttonSprite = GetComponent<SpriteRenderer>();
 
-        if(TryGetComponent<Scanable>(out Scanable _scanable))
-            scanable = _scanable;
+        // if(TryGetComponent<Scanable>(out Scanable _scanable))
+        //     scanable = _scanable;
 
         originPos = transform.position;
 
-        OnBeingScanned();
+        // OnBeingScanned();
     }
 
-    void Update()
+    // void Update()
+    // {
+    //     OnBeingScanned();
+    // }
+
+    [Button]
+    public void OpenDoor()
     {
-        OnBeingScanned();
+        // if(scanable != null)
+        //     if(!scanable.AlreadyScan)
+        //         return;
+
+        DOTween.Kill(doorID);
+        transform.DOMove(transform.position + movePos,duration).SetEase(ease).SetId(doorID);
     }
 
     [Button]
-    void OpenDoor()
+    public void CloseDoor()
     {
-        if(scanable != null)
-            if(!scanable.AlreadyScan)
-                return;
-
-        doorTransform.DOMoveY(transform.position.y+moveValue,duration).SetEase(ease);
+        DOTween.Kill(doorID);
+        transform.DOMove(originPos,duration).SetEase(ease).SetId(doorID);
     }
 
-    [Button]
-    void CloseDoor()
-    {
-        doorTransform.DOMoveY(originPos.y,duration).SetEase(ease);;
-    }
+    // public void OnInteract()
+    // {
+    //     OpenDoor();
+    // }
 
-    public void OnInteract()
-    {
-        OpenDoor();
-    }
+    // public void OnBeingScanned()
+    // {
+    //     if(scanable != null)
+    //         MakeVisibleEnemy(scanable.scanProgress);
+    // }
 
-    public void OnBeingScanned()
-    {
-        if(scanable != null)
-            MakeVisibleEnemy(scanable.scanProgress);
-    }
+    // void MakeVisibleEnemy(float visibleValue)
+    // {
+    //     float alpha = Mathf.Clamp(visibleValue / 100f,0f,1f); 
 
-    void MakeVisibleEnemy(float visibleValue)
-    {
-        float alpha = Mathf.Clamp(visibleValue / 100f,0f,1f); 
-
-        buttonSprite.color = new Color(buttonSprite.color.r,buttonSprite.color.g,buttonSprite.color.b,alpha);
-    }
+    //     buttonSprite.color = new Color(buttonSprite.color.r,buttonSprite.color.g,buttonSprite.color.b,alpha);
+    // }
 }
