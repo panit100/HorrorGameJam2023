@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
 
@@ -42,14 +43,20 @@ public class Door : MonoBehaviour
         //         return;
 
         DOTween.Kill(doorID);
-        transform.DOMove(transform.position + movePos,duration).SetEase(ease).SetId(doorID);
+        transform
+            .DOMove(transform.position + movePos,duration)
+            .SetEase(ease)
+            .SetId(doorID);
     }
 
     [Button]
     public void CloseDoor()
     {
         DOTween.Kill(doorID);
-        transform.DOMove(originPos,duration).SetEase(ease).SetId(doorID);
+        transform
+            .DOMove(originPos,duration)
+            .SetEase(ease)
+            .SetId(doorID);
     }
 
     // public void OnInteract()

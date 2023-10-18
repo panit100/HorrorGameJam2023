@@ -1,3 +1,5 @@
+using Sirenix.OdinInspector;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +10,9 @@ namespace HorrorJam.AI
         public Vector3 PlayerPlanePosition => new Vector2(PlayerPosition.x, PlayerPosition.z);
         public Vector3 PlayerPosition { get; private set; }
         Transform playerTransform;
+
+        [SerializeField] NavMeshSurface surface;
+        
         protected override void InitAfterAwake()
         {
             
@@ -21,6 +26,12 @@ namespace HorrorJam.AI
         void Update()
         {
             PlayerPosition = playerTransform.position;
+        }
+
+        [Button]
+        public void BakeNavMesh()
+        {
+            surface.BuildNavMesh();
         }
     }
 }

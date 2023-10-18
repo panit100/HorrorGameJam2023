@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -25,5 +27,7 @@ public class DoorManager : Singleton<DoorManager>
         {
             n.OpenDoor();
         }
+
+        DOTween.Sequence().AppendInterval(1f).AppendCallback(AIManager.Instance.BakeNavMesh);
     }
 }
