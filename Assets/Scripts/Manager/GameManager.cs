@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameStage
 {
     MainMenu,
     Playing,
     Pause,
+    Cutscene,
     GameOver,
 }
 
@@ -21,13 +23,14 @@ public class GameManager : Singleton<GameManager>
     public bool IsPause => isPause;
     protected override void InitAfterAwake()
     {
-
+        AddInputListener();
     }
 
     void Start()
     {
-        AddInputListener();
-        OnChangeGameStage(GameStage.Playing); //TODO: Remove when finish game
+        #if !UNITY_EDITOR
+            LoadCoreScene();
+        #endif
     }
 
     void AddInputListener()
@@ -42,8 +45,6 @@ public class GameManager : Singleton<GameManager>
 
     public void OnChangeGameStage(GameStage _gameStage)
     {
-        print(_gameStage.ToString());
-
         gameStage = _gameStage;
 
         switch(gameStage)
@@ -56,8 +57,6 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameStage.Playing:
                 LockCursor(true);
-                //TODO: Run Cutscene
-                TimeManager.Instance.SetCurrentTime();
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
                 InputSystemManager.Instance.ToggleUIControl(false);
@@ -78,6 +77,9 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
 
                 //TODO: Play Die Cutscene
+                //TODO: Load MainMenu after cutscene
+                break;
+            case GameStage.Cutscene:
                 break;
         }
     }
@@ -92,13 +94,38 @@ public class GameManager : Singleton<GameManager>
 
     public void OnDie()
     {
-        //TODO: Run Cutscene
-        Debug.LogWarning("Game Over!!! Noob!");
+        //TODO: Run Cutscene when die
         isPause = true;
         OnChangeGameStage(GameStage.GameOver);
     }
+    //TODO: Start Game Cutscene
+    public void OnStartGame()
+    {
+        TimeManager.Instance.SetCurrentTime();
+
+        //TODO: Run Cutscene when startGame
+
+        //Lock Keyboard and Mouse
+        LockCursor(true);
+        InputSystemManager.Instance.TogglePlayerControl(false);
+        InputSystemManager.Instance.ToggleUIControl(false);
+        InputSystemManager.Instance.ToggleInGameControl(true);
+        
+        //TODO: When end cutscene change stage to Playing
+    }
+
 
     //TODO: End Game Cutscene
+    public void OnEndGame()
+    {
+        //TODO: Run Cutscene when endGame
+
+        //Lock Keyboard and Mouse
+        LockCursor(true);
+        InputSystemManager.Instance.TogglePlayerControl(false);
+        InputSystemManager.Instance.ToggleUIControl(false);
+        InputSystemManager.Instance.ToggleInGameControl(false);
+    }
 
     void LockCursor(bool toggle)
     {
@@ -112,6 +139,19 @@ public class GameManager : Singleton<GameManager>
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+    }
+
+    void LoadCoreScene()
+    {
+        SceneManager.LoadScene(SceneController.Instance.SCENE_CORE, LoadSceneMode.Additive);
+        StartCoroutine(GoToSceneMainMenu());
+    }
+
+    IEnumerator GoToSceneMainMenu()
+    {
+        yield return new WaitUntil(() => SceneController.Instance != null);
+        GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, null);
     }
 
     void OnDestroy() 
