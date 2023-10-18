@@ -16,22 +16,6 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         AddInputListener();
-
-        LockCursor(true);
-    }
-
-    void LockCursor(bool toggle)
-    {
-        if(toggle)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
     }
 
     void AddInputListener()

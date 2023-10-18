@@ -18,7 +18,6 @@ public class InputSystemManager : Singleton<InputSystemManager>
     public UnityAction onInteract;
     public UnityAction onUseEquipment;
     public UnityAction onPause;
-    public UnityAction onUsePipBoy;
     public UnityAction onUseArmConsole;
     public UnityAction<int> onUseScanner;
     public UnityAction<int> onUseCamera;
@@ -112,13 +111,9 @@ public class InputSystemManager : Singleton<InputSystemManager>
         onPause?.Invoke();
     }
 
-    private void OnUsePipBoy(InputValue value)
-    {
-        onUsePipBoy?.Invoke();
-    }
-
     private void OnUseArmConsole(InputValue value)
     {
+        //TODO: LockCursor(false) when open armconsole and LockCursor(true) when close armconsole
         onUseArmConsole?.Invoke();
     }
 
