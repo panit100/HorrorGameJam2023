@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class Objective : MonoBehaviour
 {
-    [SerializeField] string objectiveCode;
+    [SerializeField]protected string objectiveCode;
 
-    protected bool CheckObjective()
+    public bool CheckObjective()
     {
-        return MainObjectiveManager.Instance.GetCheckObjective(objectiveCode);
+        return MainObjectiveManager.Instance.isEqualCurrentObjective(objectiveCode);
     }
 
 }

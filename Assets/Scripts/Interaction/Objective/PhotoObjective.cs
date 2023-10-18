@@ -21,8 +21,11 @@ public class PhotoObjective : Objective
 
     public void OnTakeObjectivePhoto()
     {
-        if(IsSeenByPlayer)
-            CheckObjective();
+        if(!IsSeenByPlayer)
+            return;
+
+        if(CheckObjective())
+            MainObjectiveManager.Instance.UpdateProgress(objectiveCode);
     }
 
 
