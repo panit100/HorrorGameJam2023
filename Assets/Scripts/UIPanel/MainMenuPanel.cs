@@ -22,7 +22,7 @@ public class MainMenuPanel : MonoBehaviour
 
     void OnClickStartButton()
     {
-
+        SceneController.Instance.OnLoadSceneAsync("Scene_Main");
     }
 
     void OnClickSettingButton()
