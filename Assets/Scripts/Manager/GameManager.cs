@@ -28,6 +28,10 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
+        #if UNITY_EDITOR
+            LockCursor(true);
+        #endif
+        
         #if !UNITY_EDITOR
             LoadCoreScene();
         #endif
