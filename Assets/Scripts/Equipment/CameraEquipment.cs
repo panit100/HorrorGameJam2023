@@ -1,24 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CameraEquipment : Equipment
 {
+    [SerializeField] private GameObject animationRoot;
     [SerializeField] CanvasGroup cameraShotCanvas;
     [SerializeField] RawImage imageDisplay;
     [SerializeField] RenderTexture renderTexture;
     [SerializeField] Camera screenshotCamera;
     [SerializeField] float displayImageTime;
-
+    [SerializeField] private GameObject MeshGroup;
+    [SerializeField] private Image Flash;
     public UnityEvent onUse;
 
     Texture2D screenshot;
     bool isUsing = false;
 
+    [Header("For animation")] 
+    [SerializeField]private float AnimDuration;
+    [SerializeField]private Vector3 initpos;
+    [SerializeField]private Vector3 endpos;
+    [SerializeField]private Vector3 initrot;
+    [SerializeField]private Vector3 endrot;
+    private Tween Onhold;
     void Start()
     {
+        MeshGroup.SetActive(false);
         equipmentType = EquipmentType.Camera;
         EnableCanvas(false);
     }
@@ -30,7 +42,30 @@ public class CameraEquipment : Equipment
         if(isPress)
             OnPressShutter();
     }
-
+    
+    [Button]
+    public override void HoldAnim()
+    {
+        base.HoldAnim();
+        if(!Application.isPlaying)return;   
+        MeshGroup.SetActive(true);
+        Onhold.Kill();
+        animationRoot.transform.localPosition = initpos;
+        Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo);
+        animationRoot.transform.localRotation = Quaternion.Euler(initrot);
+        animationRoot.transform.DOLocalRotate(endrot,AnimDuration).SetEase(Ease.OutExpo);
+        MeshGroup.SetActive(true);
+        
+    }
+    
+    public override void PutAnim()
+    {
+        base.HoldAnim();
+        if(!Application.isPlaying)return;   
+        MeshGroup.SetActive(false);
+        
+    }
+   
     void OnPressShutter()
     {
         if(isUsing)
@@ -46,7 +81,13 @@ public class CameraEquipment : Equipment
 
     void ActiveFlash()
     {
-
+        Color temp = Flash.color;
+        temp.a = 1;
+        DOVirtual.Float(temp.a, 0, 1f, (value =>
+        {
+            temp.a = value;
+            Flash.color = temp;
+        })).SetEase(Ease.Flash);
     }
 
     void CaptureScreenshot()

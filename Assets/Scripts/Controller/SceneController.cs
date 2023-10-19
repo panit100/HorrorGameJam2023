@@ -18,6 +18,7 @@ public class SceneController : Singleton<SceneController>
 
     protected override void InitAfterAwake()
     {
+            
 #if !UNITY_EDITOR
         LoadCoreScene();
 #endif
