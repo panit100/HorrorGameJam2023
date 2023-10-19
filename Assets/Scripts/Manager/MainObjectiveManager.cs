@@ -43,8 +43,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
     public Dictionary<string, MainObjectiveData> MainObjectiveDataDictionary => mainObjectiveDataDictionary;
     [Indent,SerializeField,ReadOnly] string currentMainObjectiveCode;
     [SerializeField] string mainObjectiveFile;
-    [Header("UI")]
-    [SerializeField] TextMeshProUGUI objectiveText;
+   
     
     protected override void InitAfterAwake()
     {
