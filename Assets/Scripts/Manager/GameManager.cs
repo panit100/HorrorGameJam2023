@@ -31,7 +31,7 @@ public class GameManager : Singleton<GameManager>
         #if UNITY_EDITOR
             LockCursor(true);
         #endif
-        
+
         #if !UNITY_EDITOR
             LoadCoreScene();
         #endif
@@ -40,11 +40,13 @@ public class GameManager : Singleton<GameManager>
     void AddInputListener()
     {
         InputSystemManager.Instance.onPause += OnPause;
+        InputSystemManager.Instance.onPause += ShowSkipCutsceneUI;
     }
 
     void RemoveInputListener()
     {
         InputSystemManager.Instance.onPause -= OnPause;
+        InputSystemManager.Instance.onPause -= ShowSkipCutsceneUI;
     }
 
     public void OnChangeGameStage(GameStage _gameStage)
@@ -84,6 +86,10 @@ public class GameManager : Singleton<GameManager>
                 //TODO: Load MainMenu after cutscene
                 break;
             case GameStage.Cutscene:
+                LockCursor(true);
+                InputSystemManager.Instance.TogglePlayerControl(false);
+                InputSystemManager.Instance.ToggleUIControl(false);
+                InputSystemManager.Instance.ToggleInGameControl(true);
                 break;
         }
     }
@@ -129,6 +135,22 @@ public class GameManager : Singleton<GameManager>
         InputSystemManager.Instance.TogglePlayerControl(false);
         InputSystemManager.Instance.ToggleUIControl(false);
         InputSystemManager.Instance.ToggleInGameControl(false);
+    }
+
+    void ShowSkipCutsceneUI()
+    {
+        //TODO: Skip Cutscene
+        if(gameStage != GameStage.Cutscene)
+            return;
+        
+        //TODO: Show skip button
+    }   
+
+    public void OnSkipCutScene()
+    {
+        //TODO: Skip Cutscene
+
+        OnChangeGameStage(GameStage.Playing);
     }
 
     void LockCursor(bool toggle)
