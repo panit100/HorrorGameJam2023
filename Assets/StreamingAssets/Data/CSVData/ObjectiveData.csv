@@ -1,5 +1,22 @@
 ObjectiveName,ObjectiveCode,ObjectiveType,NextObjectiveCode,Sender,LogMessage
 string,string,string,string,string,string
-Take photo of broken terminal.,tp_terminal,ObjectiveType.TakePhoto,rp_lab,testSender,testmessage
-Get in the lab.,rp_lab,ObjectiveType.ReachPosition,so_tool_sci,testSender,testmessage
-Scan scientific tool,so_tool_sci,ObjectiveType.ScanObject,test,testSender,testmessage
+Take photo of Science suit,tp_suit,ObjectiveType.TakePhoto,rp_con,,
+Open Control Room,rp_con,ObjectiveType.ReachPosition,so_tool_sci,,
+Scan Scientific tool,so_tool_sci,ObjectiveType.ScanObject,tp_shelfroom,,
+Take photo in Shelf Room,tp_shelfroom,ObjectiveType.TakePhoto,so_tool_shelf,,
+Scan Shelf science,so_tool_shelf,ObjectiveType.ScanObject,rp_lab,,
+Check Laboratory zone,rp_lab,ObjectiveType.ReachPosition,tp_laboratory_1,,
+Take photo Laboratory zone 1/3,tp_laboratory_1,ObjectiveType.TakePhoto,tp_laboratory_2,,
+Take photo Laboratory zone 2/3,tp_laboratory_2,ObjectiveType.TakePhoto,tp_laboratory_3,,
+Take photo Laboratory zone 3/3,tp_laboratory_3,ObjectiveType.TakePhoto,so_lab_sci,,
+Scan Lab bench,so_lab_sci,ObjectiveType.ScanObject,so_cham_sci,,
+Scan Growth chamber,so_cham_sci,ObjectiveType.ScanObject,so_ex_sci,,
+Scan Experimental bed,so_ex_sci,ObjectiveType.ScanObject,rp_storage,,
+Check Storage room,rp_storage,ObjectiveType.ReachPosition,tp_storage,,
+Take photo Storage room,tp_storage,ObjectiveType.TakePhoto,so_ob_storage_1,,
+Scan Object in Storage room 1/2,so_ob_storage_1,ObjectiveType.ScanObject,so_ob_storage_2,,
+Scan Object in Storage room 2/2,so_ob_storage_2,ObjectiveType.ScanObject,rp_restaurant ,,
+Check Restaurant ,rp_restaurant ,ObjectiveType.ReachPosition,tp_restaurant,,
+Take photo Restaurant,tp_restaurant,ObjectiveType.TakePhoto,so_ob_restaurant,,
+Scan Object in Restaurant,so_ob_restaurant,ObjectiveType.ScanObject,rp_base,,
+Get back to base,rp_base,ObjectiveType.ReachPosition,,,
