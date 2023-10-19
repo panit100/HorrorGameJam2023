@@ -31,7 +31,8 @@ public class GameManager : Singleton<GameManager>
     {
         #if UNITY_EDITOR
             LockCursor(true);
-            OnStartGame();
+            TimeManager.Instance.SetCurrentTime();
+            OnChangeGameStage(GameStage.Playing);
         #endif
 
         #if !UNITY_EDITOR
