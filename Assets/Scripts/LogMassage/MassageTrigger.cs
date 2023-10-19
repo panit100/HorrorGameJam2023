@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MassageTrigger : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class MassageTrigger : MonoBehaviour
     [SerializeField] float massageDelay;
 
     string MassageId => $"Massage_{massageCode}";
+    [SerializeField] UnityEvent unityEvent;
+
     
     void Start()
     {
@@ -21,7 +24,7 @@ public class MassageTrigger : MonoBehaviour
         return DOTween.Sequence()
             .AppendInterval(delay)
             .AppendCallback(callback)
-            .SetId(id);
+            .SetId(id).OnComplete(() => unityEvent?.Invoke());;
     }
 
     void SendLogToPipBoy()
