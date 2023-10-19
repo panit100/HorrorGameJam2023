@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,7 @@ public enum GameStage
 {
     MainMenu,
     Playing,
+    OnPipboy,
     Pause,
     Cutscene,
     GameOver,
@@ -70,6 +72,13 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleUIControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 break;
+            case GameStage.OnPipboy:
+                LockCursor(false);
+                
+                InputSystemManager.Instance.TogglePlayerControl(false);
+                InputSystemManager.Instance.ToggleUIControl(true);
+                InputSystemManager.Instance.ToggleInGameControl(true);
+                break;
             case GameStage.Pause:
                 isPause = true;
                 LockCursor(false);
@@ -92,6 +101,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleUIControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
+
+                PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
                 break;
         }
     }
@@ -106,10 +117,10 @@ public class GameManager : Singleton<GameManager>
 
     public void OnDie()
     {
-        //TODO: Run Cutscene when die
         isPause = true;
         OnChangeGameStage(GameStage.GameOver);
     }
+
     //TODO: Start Game Cutscene
     public void OnStartGame()
     {
@@ -150,6 +161,7 @@ public class GameManager : Singleton<GameManager>
         //TODO: Show skip button
     }   
 
+    [Button]
     public void OnSkipCutScene()
     {
         //TODO: Skip Cutscene
@@ -169,12 +181,6 @@ public class GameManager : Singleton<GameManager>
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-    }
-
-    void LoadCoreScene()
-    {
-        SceneManager.LoadScene(SceneController.Instance.SCENE_CORE, LoadSceneMode.Additive);
-        StartCoroutine(GoToSceneMainMenu());
     }
 
     IEnumerator GoToSceneMainMenu()

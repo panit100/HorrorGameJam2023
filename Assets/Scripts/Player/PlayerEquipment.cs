@@ -18,6 +18,7 @@ public class PlayerEquipment : MonoBehaviour
     void Start()
     {
         AddInputListener();
+        SwitchEquipment(0);
     }
 
     void AddInputListener()
@@ -25,6 +26,7 @@ public class PlayerEquipment : MonoBehaviour
         InputSystemManager.Instance.onUseEquipment += OnUseEquipment;
         InputSystemManager.Instance.onUseScanner += SwitchEquipment;
         InputSystemManager.Instance.onUseCamera += SwitchEquipment;
+        InputSystemManager.Instance.onUseArmConsole += OnUseArm;
     }
 
     void RemoveInputListener()
@@ -32,12 +34,23 @@ public class PlayerEquipment : MonoBehaviour
         InputSystemManager.Instance.onUseEquipment -= OnUseEquipment;
         InputSystemManager.Instance.onUseScanner -= SwitchEquipment;
         InputSystemManager.Instance.onUseCamera -= SwitchEquipment;
+        InputSystemManager.Instance.onUseArmConsole -= OnUseArm;
         
+    }
+
+    void OnUseArm()
+    {
+        foreach (var VARIABLE in equipment)
+        {
+            VARIABLE.PutAnim();
+        }
     }
 
     void OnUseEquipment()
     {
         equipment.Find(n => n.equipmentType == currentEquipment).OnUse();
+        
+       
         //TODO สร้างตัวแปร 2 ตัวไว้เก็บ gameobject โมเดล เเล้วเช็ค if currentEquipment เเล้วปิดโมเดลอันที่ไม่ใช้
     }
 
@@ -54,6 +67,15 @@ public class PlayerEquipment : MonoBehaviour
 
     void SwitchEquipment(int index)
     {
+      
         currentEquipment = equipment[index].equipmentType;
+        foreach (var VARIABLE in equipment)
+        {
+            if (VARIABLE.equipmentType != currentEquipment)
+            {
+                VARIABLE.PutAnim();
+            }
+        }
+        equipment[index].HoldAnim();
     }
 }

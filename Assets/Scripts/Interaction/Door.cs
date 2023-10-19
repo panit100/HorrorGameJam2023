@@ -73,6 +73,11 @@ public class Door : MonoBehaviour
             .SetId(doorID);
     }
 
+    public void OpenAllDoor()
+    {
+        DoorManager.Instance.OnOpenAllDoor();
+    }
+
     // public void OnInteract()
     // {
     //     OpenDoor();

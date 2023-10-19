@@ -10,4 +10,13 @@ public class Equipment : MonoBehaviour
     {
         isPress = !isPress;
     }
+
+    public virtual void HoldAnim()
+    {
+        
+    }
+    public virtual void PutAnim()
+    {
+        
+    }
 }
