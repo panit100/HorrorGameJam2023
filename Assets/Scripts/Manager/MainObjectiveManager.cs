@@ -53,7 +53,6 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
     private void Start()
     {
         LoadDialogueFromCSV();
-        SetupObjective();
     }
 
     public void LoadDialogueFromCSV()
@@ -66,7 +65,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         }
     }
 
-    void SetupObjective()
+    public void SetupObjective()
     {
         currentMainObjectiveCode = startMainObjectiveCode;
     }

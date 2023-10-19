@@ -13,7 +13,7 @@ public class MassageText : MonoBehaviour
 
     public void SetMassageText(string text)
     {
-        // AudioManager.Instance.PlayOneShot();
+        AudioManager.Instance.PlayOneShot("newMassage");
         massageText.text = text;
     }
 }

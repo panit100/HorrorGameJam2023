@@ -139,6 +139,7 @@ public class GameManager : Singleton<GameManager>
         
         //TODO: When end cutscene change stage to Playing
         OnSkipCutScene();
+        MainObjectiveManager.Instance.SetupObjective();
     }
 
 
