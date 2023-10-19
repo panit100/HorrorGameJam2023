@@ -13,7 +13,7 @@ namespace HorrorJam.AI
         Transform playerTransform;
 
         [SerializeField] NavMeshSurface surface;
-        
+        Enemy[] enemies;
         protected override void InitAfterAwake()
         {
             
@@ -22,6 +22,7 @@ namespace HorrorJam.AI
         void Start()
         {
             playerTransform = PlayerManager.Instance.transform;
+            enemies = GameObject.FindObjectsOfType<Enemy>();
         }
 
         void Update()
@@ -35,6 +36,22 @@ namespace HorrorJam.AI
             DOTween.Sequence()
                 .AppendInterval(delay)
                 .AppendCallback(surface.BuildNavMesh);
+        }
+        
+        [Button]
+        public void ShowAllEnemy()
+        {
+            //TODO: Run when cutscene end
+            foreach(var n in enemies)
+                n.ShowAI();
+        }
+
+        [Button]
+        public void HideAllEnemy()
+        {
+            //TODO: Run on game start
+            foreach(var n in enemies)
+                n.HideAI();
         }
     }
 }

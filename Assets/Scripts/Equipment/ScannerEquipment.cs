@@ -29,9 +29,22 @@ public class ScannerEquipment : Equipment
     float fovRad => fovDeg * Mathf.Deg2Rad;
     float angThresh => Mathf.Cos(fovRad / 2);
 
+    [SerializeField] ScannerCanvasV2 scannerCanvas;
+
     List<Scanable> scanningObject = new List<Scanable>();
+    
+    [Header("For animation")] 
+    [SerializeField]private float AnimDuration;
+    [SerializeField]private Vector3 initpos;
+    [SerializeField]private Vector3 endpos;
+    [SerializeField]private Vector3 initrot;
+    [SerializeField]private Vector3 endrot;
+    [SerializeField] private GameObject MeshGroup;
+    [SerializeField] private GameObject animationRoot;
+    private Tween Onhold;
 
     bool isScanning = false;
+    Collider[] objectInRange;
 
     void Start()
     {
@@ -47,25 +60,72 @@ public class ScannerEquipment : Equipment
         else
             OnUnscan();
     }
+    public override void HoldAnim()
+    {
+        base.HoldAnim();
+        if(!Application.isPlaying)return;   
+        MeshGroup.SetActive(true);
+        Onhold.Kill();
+        animationRoot.transform.localPosition = initpos;
+        Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo);
+        animationRoot.transform.localRotation = Quaternion.Euler(initrot);
+        animationRoot.transform.DOLocalRotate(endrot,AnimDuration).SetEase(Ease.OutExpo);
+        MeshGroup.SetActive(true);
+        
+    }
+    
+    public override void PutAnim()
+    {
+        base.HoldAnim();
+        if(!Application.isPlaying)return;   
+        MeshGroup.SetActive(false);
+        
+    }
 
     void Update()
     {
-        if(isScanning && batteryAmout <= 0)
+        objectInRange = GetObjectInRange();
+
+        if (isScanning && batteryAmout <= 0)
+        {
             OnUnscan();
+        }
+          
 
         if(isScanning)
             ConsumeBattery();
         else
             RefillBattery();
+
+        if(scannerCanvas != null)
+        {
+            scannerCanvas.UpdateBattery(batteryAmout);
+
+            if(!isScanning)
+            {
+                if(isScanableObjectInRange()) 
+                    scannerCanvas.UpdateText("Detect");
+                else
+                    scannerCanvas.UpdateText("Not Found");
+            }
+            else
+            {
+                scannerCanvas.UpdateText("Scanning");
+            }
+            
+        }
+
+
     }
 
     void OnScan()
     {
         isScanning = true;
-        
-        Collider[] scanObject = Physics.OverlapSphere(transform.position,scanRange);
 
-        foreach(var n in scanObject)
+        if(objectInRange == null)
+            return;
+
+        foreach(var n in objectInRange)
         {
             if(n.GetComponent<Scanable>() != null)
             {
@@ -73,6 +133,9 @@ public class ScannerEquipment : Equipment
                 {
                     n.GetComponent<Scanable>().OnActiveScan();
                     scanningObject.Add(n.GetComponent<Scanable>());
+
+                    if(n.TryGetComponent<ScanObjective>(out ScanObjective scan))
+                        scannerCanvas.SetScanner(scan);
                 }
             }
         }
@@ -86,11 +149,32 @@ public class ScannerEquipment : Equipment
         foreach(var n in scanningObject)
         {
             n.OnDeactiveScan();
+            
         }
 
         scanningObject.Clear();
 
+        scannerCanvas.SetScanner(null);
+
         isScanning = false;
+    }
+
+    Collider[] GetObjectInRange()
+    {
+        return Physics.OverlapSphere(transform.position,scanRange);
+    }
+
+    bool isScanableObjectInRange()
+    {
+        foreach(var n in objectInRange)
+        {
+            if(n.GetComponent<Scanable>() != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool CylindricalSectorContains(Vector3 position)

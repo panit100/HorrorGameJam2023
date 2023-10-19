@@ -5,6 +5,7 @@ using DG.Tweening;
 using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Door : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Door : MonoBehaviour
     Vector3 originPos;
     // SpriteRenderer buttonSprite;
     // Scanable scanable;
+
     
     string doorID => gameObject.name + "_ID";
     void Start()
@@ -42,7 +44,7 @@ public class Door : MonoBehaviour
         AIManager.Instance.BakeNavMeshAfterDelay(duration);
     }
 
-    public void OpenDoor()
+    void OpenDoor()
     {
         // if(scanable != null)
         //     if(!scanable.AlreadyScan)

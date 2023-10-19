@@ -18,6 +18,7 @@ public class PlayerEquipment : MonoBehaviour
     void Start()
     {
         AddInputListener();
+        SwitchEquipment(1);
     }
 
     void AddInputListener()
@@ -38,6 +39,8 @@ public class PlayerEquipment : MonoBehaviour
     void OnUseEquipment()
     {
         equipment.Find(n => n.equipmentType == currentEquipment).OnUse();
+        
+       
         //TODO สร้างตัวแปร 2 ตัวไว้เก็บ gameobject โมเดล เเล้วเช็ค if currentEquipment เเล้วปิดโมเดลอันที่ไม่ใช้
     }
 
@@ -54,6 +57,15 @@ public class PlayerEquipment : MonoBehaviour
 
     void SwitchEquipment(int index)
     {
+      
         currentEquipment = equipment[index].equipmentType;
+        foreach (var VARIABLE in equipment)
+        {
+            if (VARIABLE.equipmentType != currentEquipment)
+            {
+                VARIABLE.PutAnim();
+            }
+        }
+        equipment[index].HoldAnim();
     }
 }
