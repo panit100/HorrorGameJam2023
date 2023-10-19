@@ -29,8 +29,8 @@ public class InputSystemManager : Singleton<InputSystemManager>
     InputActionMap inGameControlMap;
 
     bool globalInputEnable = false;
-    bool playerControlEnable = true;   
-    bool uiControlMapEnable = false;
+    bool playerControlEnable = false;   
+    bool uiControlMapEnable = true;
     bool inGameMapEnable = true;
 
     protected override void InitAfterAwake()

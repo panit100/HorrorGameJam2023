@@ -10,7 +10,7 @@ public class LoadSceneController : MonoBehaviour
     {
 #if UNITY_EDITOR
         if(SceneManager.sceneCount == 1 )
-            StartCoroutine(SceneController.Instance.GoToSceneMainMenu());
+            StartCoroutine(GameManager.Instance.GoToSceneMainMenu());
 #endif
     }
 

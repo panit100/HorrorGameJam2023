@@ -899,19 +899,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596910429}
   m_CullTransparentMesh: 1
---- !u!114 &596910433
-MonoBehaviour:
+--- !u!225 &596910433
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596910429}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af9fc438c5577714f907ca76c69ec360, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backButton: {fileID: 1736024907}
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &609929849
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,8 +1097,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -319, y: -834}
-  m_SizeDelta: {x: 195.8, y: 40.2}
+  m_AnchoredPosition: {x: -270.4, y: -808.8}
+  m_SizeDelta: {x: 293, y: 90.7}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &710165912
 MonoBehaviour:
@@ -1415,7 +1414,7 @@ GameObject:
   - component: {fileID: 793352571}
   - component: {fileID: 793352573}
   - component: {fileID: 793352572}
-  - component: {fileID: 793352574}
+  - component: {fileID: 793352575}
   m_Layer: 5
   m_Name: SettingPanel
   m_TagString: Untagged
@@ -1485,20 +1484,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793352570}
   m_CullTransparentMesh: 1
---- !u!114 &793352574
-MonoBehaviour:
+--- !u!225 &793352575
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793352570}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f71a0a61dbaeaf4f98ff39bbb6bb9a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  backButton: {fileID: 1294431132}
-  masterVolumeSlider: {fileID: 1563979182}
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &801336688
 GameObject:
   m_ObjectHideFlags: 0
@@ -1744,8 +1741,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -319, y: -434}
-  m_SizeDelta: {x: 195.8, y: 40.2}
+  m_AnchoredPosition: {x: -196.25, y: -408.8}
+  m_SizeDelta: {x: 441.3, y: 90.6}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1043314585
 MonoBehaviour:
@@ -2265,24 +2262,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309567293}
   m_CullTransparentMesh: 1
---- !u!114 &1309567297
-MonoBehaviour:
+--- !u!225 &1309567297
+CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309567293}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5def4dbbbeaf638478f68879839fd83b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startButton: {fileID: 1043314585}
-  settingButton: {fileID: 1400346437}
-  settingPanel: {fileID: 793352570}
-  howToPlayButton: {fileID: 1857005604}
-  howToPlayPanel: {fileID: 596910429}
-  quitButton: {fileID: 710165912}
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1329278742
 GameObject:
   m_ObjectHideFlags: 0
@@ -2489,8 +2480,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -319, y: -580}
-  m_SizeDelta: {x: 195.8, y: 40.2}
+  m_AnchoredPosition: {x: -190.33, y: -553.6}
+  m_SizeDelta: {x: 453.14, y: 93}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1400346437
 MonoBehaviour:
@@ -3084,8 +3075,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -319, y: -707}
-  m_SizeDelta: {x: 195.8, y: 40.2}
+  m_AnchoredPosition: {x: -89.5, y: -659.9}
+  m_SizeDelta: {x: 654.9, y: 134.5}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1857005604
 MonoBehaviour:
@@ -3131,13 +3122,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2006035287}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 2006035288}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: OnHowToPlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3210,6 +3201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e93208412e745204c8f24d4927b6cfc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuGroup: {fileID: 1309567297}
+  settingGroup: {fileID: 793352575}
+  howToPlayGroup: {fileID: 596910433}
 --- !u!4 &2006035289
 Transform:
   m_ObjectHideFlags: 0

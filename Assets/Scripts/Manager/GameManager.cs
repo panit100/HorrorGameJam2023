@@ -35,10 +35,6 @@ public class GameManager : Singleton<GameManager>
             TimeManager.Instance.SetCurrentTime();
             OnChangeGameStage(GameStage.Playing);
         #endif
-
-        #if !UNITY_EDITOR
-            LoadCoreScene();
-        #endif
     }
 
     void AddInputListener()
@@ -66,7 +62,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 break;
             case GameStage.Playing:
-                FindObjectOfType<PausePanel>().EnablePausePanel(false);
+                if(FindObjectOfType<PausePanel>() != null)
+                    FindObjectOfType<PausePanel>().EnablePausePanel(false);
                 LockCursor(true);
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
@@ -87,8 +84,9 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
-
-                FindObjectOfType<PausePanel>().EnablePausePanel(true);
+                
+                if(FindObjectOfType<PausePanel>() != null)
+                    FindObjectOfType<PausePanel>().EnablePausePanel(true);
                 break;
             case GameStage.GameOver:
                 LockCursor(false);
@@ -186,14 +184,21 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public IEnumerator GoToSceneMainMenu()
-    {
-        yield return new WaitUntil(() => SceneController.Instance != null);
-        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, () => {GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);});
-    }
-
     void OnDestroy() 
     {
         RemoveInputListener();
+    }
+
+    public IEnumerator GoToSceneMainMenu()
+    {
+        yield return new WaitUntil(() => SceneController.Instance != null);
+        GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, null);
+    }
+
+    public IEnumerator GoToSceneGame()
+    {
+        yield return new WaitUntil(() => SceneController.Instance != null);
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAIN, null, () => {OnStartGame();});
     }
 }
