@@ -29,7 +29,7 @@ public class ScannerEquipment : Equipment
     float fovRad => fovDeg * Mathf.Deg2Rad;
     float angThresh => Mathf.Cos(fovRad / 2);
 
-    [SerializeField] ScannerCanvas scannerCanvas;
+    [SerializeField] ScannerCanvasV2 scannerCanvas;
 
     List<Scanable> scanningObject = new List<Scanable>();
     
@@ -86,8 +86,11 @@ public class ScannerEquipment : Equipment
     {
         objectInRange = GetObjectInRange();
 
-        if(isScanning && batteryAmout <= 0)
+        if (isScanning && batteryAmout <= 0)
+        {
             OnUnscan();
+        }
+          
 
         if(isScanning)
             ConsumeBattery();
