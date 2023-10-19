@@ -27,7 +27,7 @@ public class PlayerManager : Singleton<PlayerManager>
         playerMovement = GetComponent<PlayerMovement>();
         playerInteract = GetComponent<PlayerInteract>();
         playerEquipment = GetComponent<PlayerEquipment>();
-        playerCamera = GetComponent<PlayerCamera>();
+        playerCamera = GetComponentInChildren<PlayerCamera>();
     }
 
     public void OnChangeStage(PlayerState _state)

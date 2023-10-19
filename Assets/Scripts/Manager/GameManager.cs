@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -109,6 +110,7 @@ public class GameManager : Singleton<GameManager>
         //TODO: Run Cutscene when die
         isPause = true;
         OnChangeGameStage(GameStage.GameOver);
+        PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),3f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
     }
     //TODO: Start Game Cutscene
     public void OnStartGame()
@@ -169,12 +171,6 @@ public class GameManager : Singleton<GameManager>
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-    }
-
-    void LoadCoreScene()
-    {
-        SceneManager.LoadScene(SceneController.Instance.SCENE_CORE, LoadSceneMode.Additive);
-        StartCoroutine(GoToSceneMainMenu());
     }
 
     IEnumerator GoToSceneMainMenu()
