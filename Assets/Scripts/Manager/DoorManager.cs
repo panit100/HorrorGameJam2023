@@ -25,7 +25,7 @@ public class DoorManager : Singleton<DoorManager>
     {
         foreach(var n in doors)
         {
-            n.OpenDoorAndBakeNavMesh();
+            n.OpenDoor();
         }
         
         AIManager.Instance.BakeNavMeshAfterDelay(1f);

@@ -44,7 +44,7 @@ public class Door : MonoBehaviour
         AIManager.Instance.BakeNavMeshAfterDelay(duration);
     }
 
-    void OpenDoor()
+    public void OpenDoor()
     {
         // if(scanable != null)
         //     if(!scanable.AlreadyScan)
