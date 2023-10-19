@@ -99,6 +99,9 @@ public class ScannerEquipment : Equipment
                 {
                     n.GetComponent<Scanable>().OnActiveScan();
                     scanningObject.Add(n.GetComponent<Scanable>());
+
+                    if(n.TryGetComponent<ScanObjective>(out ScanObjective scan))
+                        scannerCanvas.SetScanner(scan);
                 }
             }
         }
@@ -112,9 +115,12 @@ public class ScannerEquipment : Equipment
         foreach(var n in scanningObject)
         {
             n.OnDeactiveScan();
+            
         }
 
         scanningObject.Clear();
+
+        scannerCanvas.SetScanner(null);
 
         isScanning = false;
     }

@@ -411,6 +411,16 @@ namespace HorrorJam.AI
             }    
         }
 
+        public void HideAI()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void ShowAI()
+        {
+            gameObject.SetActive(true);
+        }
+
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {
