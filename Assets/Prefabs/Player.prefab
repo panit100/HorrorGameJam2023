@@ -57,6 +57,7 @@ MonoBehaviour:
   endrot: {x: -11.456, y: -8.203, z: -3.929}
   MeshGroup: {fileID: 0}
   animationRoot: {fileID: 0}
+  Brightness: {fileID: 0}
 --- !u!1 &3698188140309934681
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96b820aa1a2d3f448d6942a4de1567f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentEquipment: 1
+  currentEquipment: 0
   equipment:
   - {fileID: 5331518341570259307}
   - {fileID: 33056205006150260}
