@@ -49,6 +49,14 @@ MonoBehaviour:
   batteryRefillAmount: 5
   scanRange: 10
   fovDeg: 45
+  scannerCanvas: {fileID: 0}
+  AnimDuration: 0.5
+  initpos: {x: 0.18, y: -0.48, z: 0.32}
+  endpos: {x: 0.04, y: -0.06, z: 0.08}
+  initrot: {x: 35.5, y: -56.5, z: -37.86}
+  endrot: {x: -11.456, y: -8.203, z: -3.929}
+  MeshGroup: {fileID: 0}
+  animationRoot: {fileID: 0}
 --- !u!1 &3698188140309934681
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96b820aa1a2d3f448d6942a4de1567f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentEquipment: 0
+  currentEquipment: 1
   equipment:
   - {fileID: 5331518341570259307}
   - {fileID: 33056205006150260}
@@ -296,7 +304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4415605994948908046
 Transform:
   m_ObjectHideFlags: 0
@@ -573,7 +581,7 @@ Transform:
   m_GameObject: {fileID: 8084677529463175217}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000044703484, y: 0.65, z: 0.41999745}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -711,11 +719,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e038c7526c2999c4680d8851bc5e7186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationRoot: {fileID: 0}
   cameraShotCanvas: {fileID: 0}
   imageDisplay: {fileID: 0}
   renderTexture: {fileID: 8400000, guid: 4907f85c02ba6314a9629a00d005917c, type: 2}
   screenshotCamera: {fileID: 0}
   displayImageTime: 3
+  MeshGroup: {fileID: 0}
+  Flash: {fileID: 0}
   onUse:
     m_PersistentCalls:
       m_Calls: []
+  AnimDuration: 0.75
+  initpos: {x: 0.09, y: -0.13, z: 0.14}
+  endpos: {x: 0.08, y: -0.04, z: 0.16}
+  initrot: {x: -68.75, y: 3.06, z: -12.12}
+  endrot: {x: 0, y: 0, z: 0}
