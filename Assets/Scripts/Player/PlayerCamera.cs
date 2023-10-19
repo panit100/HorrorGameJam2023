@@ -59,9 +59,4 @@ public class PlayerCamera : MonoBehaviour
     {
         RemoveInputListener();
     }
-
-    public void OnDie()
-    {
-        transform.DORotate(new Vector3(0,0,90f),3f);
-    }
 }

@@ -66,6 +66,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 break;
             case GameStage.Playing:
+                FindObjectOfType<PausePanel>().EnablePausePanel(false);
                 LockCursor(true);
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
@@ -86,6 +87,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
+
+                FindObjectOfType<PausePanel>().EnablePausePanel(true);
                 break;
             case GameStage.GameOver:
                 LockCursor(false);
@@ -183,11 +186,10 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    IEnumerator GoToSceneMainMenu()
+    public IEnumerator GoToSceneMainMenu()
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
-        GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
-        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, null);
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, () => {GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);});
     }
 
     void OnDestroy() 
