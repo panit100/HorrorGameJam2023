@@ -62,6 +62,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 break;
             case GameStage.Playing:
+                isPause = false;
                 if(FindObjectOfType<PausePanel>() != null)
                     FindObjectOfType<PausePanel>().EnablePausePanel(false);
                 LockCursor(true);
@@ -94,8 +95,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(false);
 
-                //TODO: Play Die Cutscene
-                //TODO: Load MainMenu after cutscene
+                PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
                 break;
             case GameStage.Cutscene:
                 LockCursor(true);
@@ -103,7 +103,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleUIControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
 
-                PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
+                
                 break;
         }
     }
@@ -118,7 +118,6 @@ public class GameManager : Singleton<GameManager>
 
     public void OnDie()
     {
-        isPause = true;
         OnChangeGameStage(GameStage.GameOver);
     }
 
