@@ -87,7 +87,10 @@ public class ScannerEquipment : Equipment
     void OnScan()
     {
         isScanning = true;
-        
+
+        if(objectInRange == null)
+            return;
+
         foreach(var n in objectInRange)
         {
             if(n.GetComponent<Scanable>() != null)
