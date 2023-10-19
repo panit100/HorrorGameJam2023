@@ -30,6 +30,7 @@ public class GameManager : Singleton<GameManager>
     {
         #if UNITY_EDITOR
             LockCursor(true);
+            OnStartGame();
         #endif
 
         #if !UNITY_EDITOR
