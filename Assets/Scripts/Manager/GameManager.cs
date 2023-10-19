@@ -66,6 +66,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 break;
             case GameStage.Playing:
+                FindObjectOfType<PausePanel>().EnablePausePanel(false);
                 LockCursor(true);
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
@@ -86,6 +87,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
+
+                FindObjectOfType<PausePanel>().EnablePausePanel(true);
                 break;
             case GameStage.GameOver:
                 LockCursor(false);
@@ -101,6 +104,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleUIControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
+
+                PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
                 break;
         }
     }
@@ -115,11 +120,10 @@ public class GameManager : Singleton<GameManager>
 
     public void OnDie()
     {
-        //TODO: Run Cutscene when die
         isPause = true;
         OnChangeGameStage(GameStage.GameOver);
-        PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),3f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
     }
+
     //TODO: Start Game Cutscene
     public void OnStartGame()
     {
@@ -160,6 +164,7 @@ public class GameManager : Singleton<GameManager>
         //TODO: Show skip button
     }   
 
+    [Button]
     public void OnSkipCutScene()
     {
         //TODO: Skip Cutscene
@@ -181,11 +186,10 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    IEnumerator GoToSceneMainMenu()
+    public IEnumerator GoToSceneMainMenu()
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
-        GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
-        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, null);
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, () => {GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);});
     }
 
     void OnDestroy() 

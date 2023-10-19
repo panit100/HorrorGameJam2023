@@ -1,42 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PausePanel : MonoBehaviour
 {
+    // [SerializeField] CanvasGroup pausePanel;
+    // [SerializeField] SettingPanel settingPanel;
+    
     [SerializeField] Button resumeButton;
-    [SerializeField] Button settingButton;
-    [SerializeField] GameObject settingPanel;
+    // [SerializeField] Button settingButton;
     [SerializeField] Button quitButton;
+
+    CanvasGroup canvasGroup;
 
     private void Awake()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
+
         resumeButton.onClick.AddListener(OnClickResumeButton);
-        settingButton.onClick.AddListener(OnClickSettingButton);
+        // settingButton.onClick.AddListener(OnClickSettingButton);
         quitButton.onClick.AddListener(OnClickQuitButton);
-        gameObject.SetActive(false);
+        EnablePausePanel(false);
     }
 
     void OnClickResumeButton()
     {
-        gameObject.SetActive(false);
-        Time.timeScale = 1;
+        GameManager.Instance.OnPause();
     }
 
-    void OnClickSettingButton()
-    {
-        settingPanel.SetActive(true);
-    }
+    // void OnClickSettingButton()
+    // {
+    //     pausePanel.alpha = 0;
+    //     settingPanel.alpha = 1;
+    // }
 
     void OnClickQuitButton()
     {
-        SceneController.Instance.OnLoadSceneAsync("Scene_MainMenu");
+        StartCoroutine(GameManager.Instance.GoToSceneMainMenu());
     }
 
-    public void OnClickPauseButton()
+    public void EnablePausePanel(bool enable)
     {
-        gameObject.SetActive(true);
-        Time.timeScale = 0;
+        if(enable)
+            canvasGroup.alpha = 1;
+        else
+            canvasGroup.alpha = 0;
     }
 }
