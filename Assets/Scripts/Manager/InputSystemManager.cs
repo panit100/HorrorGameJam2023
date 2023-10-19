@@ -31,7 +31,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
     bool globalInputEnable = false;
     bool playerControlEnable = true;   
     bool uiControlMapEnable = false;
-    bool inGameMapEnable = false;
+    bool inGameMapEnable = true;
 
     protected override void InitAfterAwake()
     {
@@ -111,11 +111,10 @@ public class InputSystemManager : Singleton<InputSystemManager>
         onPause?.Invoke();
     }
 
-    private void OnUseArmConsole(InputValue value)
+    private void OnUsePipBoy(InputValue value)
     {
         //TODO: LockCursor(false), InputSystemManager.Instance.TogglePlayerControl(false); when open armconsole and LockCursor(true) , InputSystemManager.Instance.TogglePlayerControl(true); when close armconsole
         //TODO: if press Q , Check is pipboy using. if it didn't use then use it, but if it use then hide.
-        
         onUseArmConsole?.Invoke();
     }
 

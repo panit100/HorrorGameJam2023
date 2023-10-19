@@ -8,6 +8,7 @@ public enum GameStage
 {
     MainMenu,
     Playing,
+    OnPipboy,
     Pause,
     Cutscene,
     GameOver,
@@ -60,6 +61,13 @@ public class GameManager : Singleton<GameManager>
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
                 InputSystemManager.Instance.ToggleUIControl(false);
+                InputSystemManager.Instance.ToggleInGameControl(true);
+                break;
+            case GameStage.OnPipboy:
+                LockCursor(false);
+                
+                InputSystemManager.Instance.TogglePlayerControl(false);
+                InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 break;
             case GameStage.Pause:
