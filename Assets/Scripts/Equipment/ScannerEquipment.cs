@@ -29,9 +29,12 @@ public class ScannerEquipment : Equipment
     float fovRad => fovDeg * Mathf.Deg2Rad;
     float angThresh => Mathf.Cos(fovRad / 2);
 
+    [SerializeField] ScannerCanvas scannerCanvas;
+
     List<Scanable> scanningObject = new List<Scanable>();
 
     bool isScanning = false;
+    Collider[] objectInRange;
 
     void Start()
     {
@@ -50,6 +53,8 @@ public class ScannerEquipment : Equipment
 
     void Update()
     {
+        objectInRange = GetObjectInRange();
+
         if(isScanning && batteryAmout <= 0)
             OnUnscan();
 
@@ -57,15 +62,36 @@ public class ScannerEquipment : Equipment
             ConsumeBattery();
         else
             RefillBattery();
+
+        if(scannerCanvas != null)
+        {
+            scannerCanvas.UpdateBattery(batteryAmout);
+
+            if(!isScanning)
+            {
+                if(isScanableObjectInRange()) 
+                    scannerCanvas.UpdateText("Detect");
+                else
+                    scannerCanvas.UpdateText("Not Found");
+            }
+            else
+            {
+                scannerCanvas.UpdateText("Scanning");
+            }
+            
+        }
+
+
     }
 
     void OnScan()
     {
         isScanning = true;
-        
-        Collider[] scanObject = Physics.OverlapSphere(transform.position,scanRange);
 
-        foreach(var n in scanObject)
+        if(objectInRange == null)
+            return;
+
+        foreach(var n in objectInRange)
         {
             if(n.GetComponent<Scanable>() != null)
             {
@@ -73,6 +99,9 @@ public class ScannerEquipment : Equipment
                 {
                     n.GetComponent<Scanable>().OnActiveScan();
                     scanningObject.Add(n.GetComponent<Scanable>());
+
+                    if(n.TryGetComponent<ScanObjective>(out ScanObjective scan))
+                        scannerCanvas.SetScanner(scan);
                 }
             }
         }
@@ -86,11 +115,32 @@ public class ScannerEquipment : Equipment
         foreach(var n in scanningObject)
         {
             n.OnDeactiveScan();
+            
         }
 
         scanningObject.Clear();
 
+        scannerCanvas.SetScanner(null);
+
         isScanning = false;
+    }
+
+    Collider[] GetObjectInRange()
+    {
+        return Physics.OverlapSphere(transform.position,scanRange);
+    }
+
+    bool isScanableObjectInRange()
+    {
+        foreach(var n in objectInRange)
+        {
+            if(n.GetComponent<Scanable>() != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool CylindricalSectorContains(Vector3 position)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,12 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
+        #if UNITY_EDITOR
+            LockCursor(true);
+            TimeManager.Instance.SetCurrentTime();
+            OnChangeGameStage(GameStage.Playing);
+        #endif
+
         #if !UNITY_EDITOR
             LoadCoreScene();
         #endif
@@ -36,11 +43,13 @@ public class GameManager : Singleton<GameManager>
     void AddInputListener()
     {
         InputSystemManager.Instance.onPause += OnPause;
+        InputSystemManager.Instance.onPause += ShowSkipCutsceneUI;
     }
 
     void RemoveInputListener()
     {
         InputSystemManager.Instance.onPause -= OnPause;
+        InputSystemManager.Instance.onPause -= ShowSkipCutsceneUI;
     }
 
     public void OnChangeGameStage(GameStage _gameStage)
@@ -80,6 +89,10 @@ public class GameManager : Singleton<GameManager>
                 //TODO: Load MainMenu after cutscene
                 break;
             case GameStage.Cutscene:
+                LockCursor(true);
+                InputSystemManager.Instance.TogglePlayerControl(false);
+                InputSystemManager.Instance.ToggleUIControl(false);
+                InputSystemManager.Instance.ToggleInGameControl(true);
                 break;
         }
     }
@@ -97,6 +110,7 @@ public class GameManager : Singleton<GameManager>
         //TODO: Run Cutscene when die
         isPause = true;
         OnChangeGameStage(GameStage.GameOver);
+        PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),3f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
     }
     //TODO: Start Game Cutscene
     public void OnStartGame()
@@ -110,6 +124,8 @@ public class GameManager : Singleton<GameManager>
         InputSystemManager.Instance.TogglePlayerControl(false);
         InputSystemManager.Instance.ToggleUIControl(false);
         InputSystemManager.Instance.ToggleInGameControl(true);
+
+        DoorManager.Instance.OnOpenAllDoor();
         
         //TODO: When end cutscene change stage to Playing
     }
@@ -127,6 +143,22 @@ public class GameManager : Singleton<GameManager>
         InputSystemManager.Instance.ToggleInGameControl(false);
     }
 
+    void ShowSkipCutsceneUI()
+    {
+        //TODO: Skip Cutscene
+        if(gameStage != GameStage.Cutscene)
+            return;
+        
+        //TODO: Show skip button
+    }   
+
+    public void OnSkipCutScene()
+    {
+        //TODO: Skip Cutscene
+
+        OnChangeGameStage(GameStage.Playing);
+    }
+
     void LockCursor(bool toggle)
     {
         if(toggle)
@@ -139,12 +171,6 @@ public class GameManager : Singleton<GameManager>
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-    }
-
-    void LoadCoreScene()
-    {
-        SceneManager.LoadScene(SceneController.Instance.SCENE_CORE, LoadSceneMode.Additive);
-        StartCoroutine(GoToSceneMainMenu());
     }
 
     IEnumerator GoToSceneMainMenu()
