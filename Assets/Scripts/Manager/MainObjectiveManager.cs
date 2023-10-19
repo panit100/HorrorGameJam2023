@@ -63,7 +63,6 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
         foreach (var data in mainObjectiveDatas)
         {
             mainObjectiveDataDictionary.Add(data.ObjectiveCode, data);
-            print(mainObjectiveDataDictionary[data.ObjectiveCode].ObjectiveName);
         }
     }
 
