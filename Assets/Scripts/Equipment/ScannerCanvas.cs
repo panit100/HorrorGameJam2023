@@ -11,6 +11,7 @@ public class ScannerCanvas : MonoBehaviour
     [SerializeField] TMP_Text scanText;
     [SerializeField] ProceduralImage batteryImage;
     [SerializeField] ProceduralImage scanImage;
+    [SerializeField] private Image Colorimg;
 
     ScanObjective scanObjective;
 

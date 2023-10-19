@@ -18,7 +18,7 @@ public class PlayerEquipment : MonoBehaviour
     void Start()
     {
         AddInputListener();
-        SwitchEquipment(1);
+        SwitchEquipment(0);
     }
 
     void AddInputListener()
@@ -26,6 +26,7 @@ public class PlayerEquipment : MonoBehaviour
         InputSystemManager.Instance.onUseEquipment += OnUseEquipment;
         InputSystemManager.Instance.onUseScanner += SwitchEquipment;
         InputSystemManager.Instance.onUseCamera += SwitchEquipment;
+        InputSystemManager.Instance.onUseArmConsole += OnUseArm;
     }
 
     void RemoveInputListener()
@@ -33,7 +34,16 @@ public class PlayerEquipment : MonoBehaviour
         InputSystemManager.Instance.onUseEquipment -= OnUseEquipment;
         InputSystemManager.Instance.onUseScanner -= SwitchEquipment;
         InputSystemManager.Instance.onUseCamera -= SwitchEquipment;
+        InputSystemManager.Instance.onUseArmConsole -= OnUseArm;
         
+    }
+
+    void OnUseArm()
+    {
+        foreach (var VARIABLE in equipment)
+        {
+            VARIABLE.PutAnim();
+        }
     }
 
     void OnUseEquipment()

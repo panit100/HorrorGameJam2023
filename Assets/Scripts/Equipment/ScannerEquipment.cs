@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -29,7 +30,7 @@ public class ScannerEquipment : Equipment
     float fovRad => fovDeg * Mathf.Deg2Rad;
     float angThresh => Mathf.Cos(fovRad / 2);
 
-    [SerializeField] ScannerCanvasV2 scannerCanvas;
+    [SerializeField] ScannerCanvas scannerCanvas;
 
     List<Scanable> scanningObject = new List<Scanable>();
     
@@ -41,6 +42,7 @@ public class ScannerEquipment : Equipment
     [SerializeField]private Vector3 endrot;
     [SerializeField] private GameObject MeshGroup;
     [SerializeField] private GameObject animationRoot;
+    [SerializeField] private Image Brightness;
     private Tween Onhold;
 
     bool isScanning = false;
@@ -67,7 +69,8 @@ public class ScannerEquipment : Equipment
         MeshGroup.SetActive(true);
         Onhold.Kill();
         animationRoot.transform.localPosition = initpos;
-        Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo);
+        Brightness.transform.localScale = new Vector3(1,1,1);
+        Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo).OnComplete(()=> Brightness.transform.DOScale(new Vector3(Brightness.transform.localScale.x,0, Brightness.transform.localScale.z),AnimDuration*0.5f).SetEase(Ease.OutExpo));
         animationRoot.transform.localRotation = Quaternion.Euler(initrot);
         animationRoot.transform.DOLocalRotate(endrot,AnimDuration).SetEase(Ease.OutExpo);
         MeshGroup.SetActive(true);
