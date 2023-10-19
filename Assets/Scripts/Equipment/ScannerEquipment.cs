@@ -118,7 +118,7 @@ public class ScannerEquipment : Equipment
 
     Collider[] GetObjectInRange()
     {
-        return Physics.OverlapSphere(PlayerManager.Instance.transform.position,scanRange);
+        return Physics.OverlapSphere(transform.position,scanRange);
     }
 
     bool isScanableObjectInRange()
@@ -185,19 +185,19 @@ public class ScannerEquipment : Equipment
 #if UNITY_EDITOR
     void OnDrawGizmos() 
     {
-        // Gizmos.matrix = Handles.matrix = transform.localToWorldMatrix;
-        // Gizmos.color = Handles.color = Color.red;
+        Gizmos.matrix = Handles.matrix = transform.localToWorldMatrix;
+        Gizmos.color = Handles.color = Color.red;
 
-        // float p = angThresh;
-        // float x = Mathf.Sqrt(1 - p * p);
+        float p = angThresh;
+        float x = Mathf.Sqrt(1 - p * p);
 
-        // Vector3 vLeft = new Vector3(-x,0,p) * scanRange;
-        // Vector3 vRight = new Vector3(x,0,p) * scanRange;
+        Vector3 vLeft = new Vector3(-x,0,p) * scanRange;
+        Vector3 vRight = new Vector3(x,0,p) * scanRange;
         
-        // Handles.DrawWireArc(transform.InverseTransformVector(PlayerManager.Instance.transform.position),Vector3.up,vLeft,fovDeg,scanRange);
+        Handles.DrawWireArc(default,Vector3.up,vLeft,fovDeg,scanRange);
 
-        // Gizmos.DrawLine(transform.InverseTransformVector(PlayerManager.Instance.transform.position),vLeft);
-        // Gizmos.DrawLine(transform.InverseTransformVector(PlayerManager.Instance.transform.position),vRight);
+        Gizmos.DrawLine(default,vLeft);
+        Gizmos.DrawLine(default,vRight);
     }   
 #endif
 }
