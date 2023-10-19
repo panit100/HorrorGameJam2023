@@ -5,13 +5,16 @@ using UnityEngine;
 using DG.Tweening;
 using DG.Tweening.Plugins.Options;
 using Sirenix.OdinInspector;
+using UnityEngine.Events;
 
 public class PipboyMaterialController : Singleton<PipboyMaterialController>
 {
     public MeshRenderer Pipboymesh;
     public GameObject MeshGroup;
     public CanvasGroup group;
-    
+
+    public UnityAction allEqupment;
+
     [SerializeField] Ease ScreenEase;
     [SerializeField] float fadeinduration = 1f;
     [SerializeField] private Vector3 startpos;
@@ -45,11 +48,12 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
          TempScreenmat = Pipboymesh.materials[0];
          TempScreenmat = Instantiate(TempScreenmat);
          Pipboymesh.materials[0] = TempScreenmat;
-         sparkleprop_temp = Pipboymesh.materials[0].GetVector("_SparkleTCI");
+        
      }
 
      private void Start()
      {
+         sparkleprop_temp = Pipboymesh.materials[0].GetVector("_SparkleTCI");
          AddInputListener();
      }
 
@@ -120,15 +124,15 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
      public void PanelTransition()
      { 
          _fadein.Kill();
-         _fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 0, 0 )
-             .SetEase(ScreenEase).OnStart(resetdefaultmat);
+         _fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 0, 0 ).SetEase(ScreenEase).OnStart(resetdefaultmat);
      }
 
      private void resetdefaultmat()
-     {
+     { 
+         Debug.Log("working");
          Pipboymesh.materials[0] = TempScreenmat;
         sparkleprop = sparkleprop_temp;
-        DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration).SetEase(ScreenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
+        DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration*2f).SetEase(ScreenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
      }
      private void SparkleSequence()
      {

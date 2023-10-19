@@ -49,6 +49,7 @@ MonoBehaviour:
   batteryRefillAmount: 5
   scanRange: 10
   fovDeg: 45
+  scannerCanvas: {fileID: 0}
 --- !u!1 &3698188140309934681
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +717,12 @@ MonoBehaviour:
   renderTexture: {fileID: 8400000, guid: 4907f85c02ba6314a9629a00d005917c, type: 2}
   screenshotCamera: {fileID: 0}
   displayImageTime: 3
+  MeshGroup: {fileID: 0}
   onUse:
     m_PersistentCalls:
       m_Calls: []
+  AnimDuration: 0.75
+  initpos: {x: 0.09, y: -0.13, z: 0.14}
+  endpos: {x: 0.08, y: -0.04, z: 0.16}
+  initrot: {x: -68.75, y: 3.06, z: -12.12}
+  endrot: {x: 0, y: 0, z: 0}

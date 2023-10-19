@@ -32,6 +32,16 @@ public class ScannerEquipment : Equipment
     [SerializeField] ScannerCanvas scannerCanvas;
 
     List<Scanable> scanningObject = new List<Scanable>();
+    
+    [Header("For animation")] 
+    [SerializeField]private float AnimDuration;
+    [SerializeField]private Vector3 initpos;
+    [SerializeField]private Vector3 endpos;
+    [SerializeField]private Vector3 initrot;
+    [SerializeField]private Vector3 endrot;
+    [SerializeField] private GameObject MeshGroup;
+    [SerializeField] private GameObject animationRoot;
+    private Tween Onhold;
 
     bool isScanning = false;
     Collider[] objectInRange;
@@ -49,6 +59,27 @@ public class ScannerEquipment : Equipment
             OnScan();
         else
             OnUnscan();
+    }
+    public override void HoldAnim()
+    {
+        base.HoldAnim();
+        if(!Application.isPlaying)return;   
+        MeshGroup.SetActive(true);
+        Onhold.Kill();
+        animationRoot.transform.localPosition = initpos;
+        Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo);
+        animationRoot.transform.localRotation = Quaternion.Euler(initrot);
+        animationRoot.transform.DOLocalRotate(endrot,AnimDuration).SetEase(Ease.OutExpo);
+        MeshGroup.SetActive(true);
+        
+    }
+    
+    public override void PutAnim()
+    {
+        base.HoldAnim();
+        if(!Application.isPlaying)return;   
+        MeshGroup.SetActive(false);
+        
     }
 
     void Update()
