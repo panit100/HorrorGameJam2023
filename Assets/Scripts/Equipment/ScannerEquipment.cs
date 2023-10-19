@@ -29,9 +29,12 @@ public class ScannerEquipment : Equipment
     float fovRad => fovDeg * Mathf.Deg2Rad;
     float angThresh => Mathf.Cos(fovRad / 2);
 
+    [SerializeField] ScannerCanvas scannerCanvas;
+
     List<Scanable> scanningObject = new List<Scanable>();
 
     bool isScanning = false;
+    Collider[] objectInRange;
 
     void Start()
     {
@@ -50,6 +53,8 @@ public class ScannerEquipment : Equipment
 
     void Update()
     {
+        objectInRange = GetObjectInRange();
+
         if(isScanning && batteryAmout <= 0)
             OnUnscan();
 
@@ -57,15 +62,33 @@ public class ScannerEquipment : Equipment
             ConsumeBattery();
         else
             RefillBattery();
+
+        if(scannerCanvas != null)
+        {
+            scannerCanvas.UpdateBattery(batteryAmout);
+
+            if(!isScanning)
+            {
+                if(isScanableObjectInRange()) 
+                    scannerCanvas.UpdateText("Detect");
+                else
+                    scannerCanvas.UpdateText("Not Found");
+            }
+            else
+            {
+                scannerCanvas.UpdateText("Scanning");
+            }
+            
+        }
+
+
     }
 
     void OnScan()
     {
         isScanning = true;
         
-        Collider[] scanObject = Physics.OverlapSphere(transform.position,scanRange);
-
-        foreach(var n in scanObject)
+        foreach(var n in objectInRange)
         {
             if(n.GetComponent<Scanable>() != null)
             {
@@ -91,6 +114,24 @@ public class ScannerEquipment : Equipment
         scanningObject.Clear();
 
         isScanning = false;
+    }
+
+    Collider[] GetObjectInRange()
+    {
+        return Physics.OverlapSphere(PlayerManager.Instance.transform.position,scanRange);
+    }
+
+    bool isScanableObjectInRange()
+    {
+        foreach(var n in objectInRange)
+        {
+            if(n.GetComponent<Scanable>() != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public bool CylindricalSectorContains(Vector3 position)
@@ -144,19 +185,19 @@ public class ScannerEquipment : Equipment
 #if UNITY_EDITOR
     void OnDrawGizmos() 
     {
-        Gizmos.matrix = Handles.matrix = transform.localToWorldMatrix;
-        Gizmos.color = Handles.color = Color.red;
+        // Gizmos.matrix = Handles.matrix = transform.localToWorldMatrix;
+        // Gizmos.color = Handles.color = Color.red;
 
-        float p = angThresh;
-        float x = Mathf.Sqrt(1 - p * p);
+        // float p = angThresh;
+        // float x = Mathf.Sqrt(1 - p * p);
 
-        Vector3 vLeft = new Vector3(-x,0,p) * scanRange;
-        Vector3 vRight = new Vector3(x,0,p) * scanRange;
+        // Vector3 vLeft = new Vector3(-x,0,p) * scanRange;
+        // Vector3 vRight = new Vector3(x,0,p) * scanRange;
         
-        Handles.DrawWireArc(default,Vector3.up,vLeft,fovDeg,scanRange);
+        // Handles.DrawWireArc(transform.InverseTransformVector(PlayerManager.Instance.transform.position),Vector3.up,vLeft,fovDeg,scanRange);
 
-        Gizmos.DrawLine(default,vLeft);
-        Gizmos.DrawLine(default,vRight);
+        // Gizmos.DrawLine(transform.InverseTransformVector(PlayerManager.Instance.transform.position),vLeft);
+        // Gizmos.DrawLine(transform.InverseTransformVector(PlayerManager.Instance.transform.position),vRight);
     }   
 #endif
 }
