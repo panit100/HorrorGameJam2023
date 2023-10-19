@@ -101,6 +101,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleUIControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
+
+                PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
                 break;
         }
     }
@@ -115,11 +117,10 @@ public class GameManager : Singleton<GameManager>
 
     public void OnDie()
     {
-        //TODO: Run Cutscene when die
         isPause = true;
         OnChangeGameStage(GameStage.GameOver);
-        PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),3f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
     }
+
     //TODO: Start Game Cutscene
     public void OnStartGame()
     {
@@ -160,6 +161,7 @@ public class GameManager : Singleton<GameManager>
         //TODO: Show skip button
     }   
 
+    [Button]
     public void OnSkipCutScene()
     {
         //TODO: Skip Cutscene

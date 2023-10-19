@@ -31,33 +31,51 @@ public class ScannerCanvasV2 : MonoBehaviour
 
     void Update()
     {
-        if(scanObjective != null)
+        if (scanObjective != null)
+        {
             UpdateScanProgress(scanObjective.GetComponent<Scanable>().scanProgress);
+            if (scanObjective.GetComponent<Scanable>().scanProgress >= 100)
+            {
+                SwitchImage(ScanState.Complete);
+            }
+        }
+          
         else
+        {
             UpdateScanProgress(0f);
+        }
+          
     }
 
     public void UpdateText(string text)
     {
+        SwitchImage(ScanState.Scanning);
         scanText.text = text;
     }
 
-    // public void UpdateBattery(float amount)
-    // {
-    //    
-    //     //  batteryImage.fillAmount = Mathf.Clamp(amount / 100f,0f,1f);
-    //     scanText.text = Mathf.Clamp(amount / 100f, 0f,1f).ToString();
-    // }
-    public void SwitchImage()
+    public void UpdateBattery(float amount)
     {
-        switch (state)
+        //  batteryImage.fillAmount = Mathf.Clamp(amount / 100f,0f,1f);
+    }
+    public void SwitchImage(ScanState state)
+    {
+        switch(state)
         {
             case ScanState.Complete:
                 Placeholder.sprite = Done;
-            case ScanState.Error :
-                Placeholder.sprite = 
                 break;
-            
+            case ScanState.Error :
+                Placeholder.sprite = Error;
+                break;
+            case ScanState.Drain:
+                Placeholder.sprite = batteryImage;
+                break;
+            case ScanState.Ready:
+                Placeholder.sprite = Ready;
+                break;
+            case ScanState.Scanning :
+                Placeholder.sprite = scanImage;
+                break;
         }
     }
 
