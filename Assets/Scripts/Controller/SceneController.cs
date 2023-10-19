@@ -33,7 +33,7 @@ public class SceneController : Singleton<SceneController>
     {
         beforeSwitchScene?.Invoke();
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
 
         var asyncOparation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
@@ -50,10 +50,10 @@ public class SceneController : Singleton<SceneController>
                 asyncOparation.allowSceneActivation = true;
             }
 
-            yield return null;
+            yield return new WaitForEndOfFrame();
         }
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
 
         var loadedScene = SceneManager.GetSceneByName(sceneName);
 
@@ -67,28 +67,15 @@ public class SceneController : Singleton<SceneController>
 
         loadedSceneBefore = loadedScene;
 
-        yield return null;
+        yield return new WaitForEndOfFrame();
 
         afterSwitchScene?.Invoke();
     }
 
     void LoadCoreScene()
     {
-        SceneManager.LoadScene(SceneController.Instance.SCENE_CORE, LoadSceneMode.Additive);
-        StartCoroutine(GoToSceneMainMenu());
+        StartCoroutine(GameManager.Instance.GoToSceneMainMenu());
     }
 
-    public IEnumerator GoToSceneMainMenu()
-    {
-        yield return new WaitUntil(() => SceneController.Instance != null);
-        GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
-        OnLoadSceneAsync(SCENE_MAINMENU, null, null);
-    }
-
-    public IEnumerator GoToSceneGame()
-    {
-        yield return new WaitUntil(() => SceneController.Instance != null);
-        GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
-        OnLoadSceneAsync(SCENE_MAIN, null, () => {GameManager.Instance.OnStartGame();});
-    }
+    
 }
