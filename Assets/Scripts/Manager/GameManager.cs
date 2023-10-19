@@ -67,7 +67,7 @@ public class GameManager : Singleton<GameManager>
                 LockCursor(true);
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
-                InputSystemManager.Instance.ToggleUIControl(false);
+                InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 break;
             case GameStage.OnPipboy:
@@ -138,6 +138,7 @@ public class GameManager : Singleton<GameManager>
         DoorManager.Instance.OnOpenAllDoor();
         
         //TODO: When end cutscene change stage to Playing
+        OnSkipCutScene();
     }
 
 

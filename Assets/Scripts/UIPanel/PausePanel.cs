@@ -44,8 +44,14 @@ public class PausePanel : MonoBehaviour
     public void EnablePausePanel(bool enable)
     {
         if(enable)
+        {
             canvasGroup.alpha = 1;
+            canvasGroup.blocksRaycasts =true;
+        }
         else
+        {
             canvasGroup.alpha = 0;
+            canvasGroup.blocksRaycasts =false;
+        }
     }
 }

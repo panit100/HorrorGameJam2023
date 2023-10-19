@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using HorrorJam.Audio;
 
 public class MassageText : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class MassageText : MonoBehaviour
 
     public void SetMassageText(string text)
     {
+        // AudioManager.Instance.PlayOneShot();
         massageText.text = text;
     }
 }
