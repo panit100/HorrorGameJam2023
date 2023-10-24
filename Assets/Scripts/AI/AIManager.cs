@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using DG.Tweening;
+using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
@@ -13,7 +16,8 @@ namespace HorrorJam.AI
         Transform playerTransform;
 
         [SerializeField] NavMeshSurface surface;
-        Enemy[] enemies;
+        [SerializeField] SpawnEnemyConfig spawnEnemyConfig; //TODO: Change it to array when a game have another enemy
+        Enemy enemy;
         protected override void InitAfterAwake()
         {
             
@@ -22,7 +26,6 @@ namespace HorrorJam.AI
         void Start()
         {
             playerTransform = PlayerManager.Instance.transform;
-            enemies = GameObject.FindObjectsOfType<Enemy>();
         }
 
         void Update()
@@ -42,16 +45,50 @@ namespace HorrorJam.AI
         public void ShowAllEnemy()
         {
             //TODO: Run when cutscene end
-            foreach(var n in enemies)
-                n.ShowAI();
+                enemy.ShowAI();
         }
 
         [Button]
         public void HideAllEnemy()
         {
             //TODO: Run on game start
-            foreach(var n in enemies)
-                n.HideAI();
+                enemy.HideAI();
+        }
+
+        [Button]
+        public void SpawnEnemy()
+        {
+            Enemy _enemy = Instantiate(spawnEnemyConfig.enemyPrefab,spawnEnemyConfig.spawnPosition,Quaternion.identity);
+            _enemy.SetCurrentWaypointContainer(spawnEnemyConfig.waypointContainer);
+            enemy = _enemy;
+        }
+        
+        [Button]
+        public void RemoveEnemy()
+        {
+            Destroy(enemy.gameObject);
+        }
+
+        [Button]
+        public void EnterStopEnemy()
+        {
+            if(enemy != null)
+                enemy.EnterStop();
+        }
+
+        [Button]
+        public void ExitStopEnemy()
+        {
+            if(enemy != null)
+                enemy.ExitStop();
         }
     }
+}
+
+[Serializable]
+public class SpawnEnemyConfig
+{
+    public Enemy enemyPrefab;
+    public Vector3 spawnPosition;
+    public WaypointContainer waypointContainer;
 }

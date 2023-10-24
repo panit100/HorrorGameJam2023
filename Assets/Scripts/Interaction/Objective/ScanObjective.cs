@@ -3,18 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Scanable))]
-public class ScanObjective : Objective, InteractObject
+public class ScanObjective : Objective
 {
     Scanable scanable;
 
     private void Start() {
         if(TryGetComponent<Scanable>(out Scanable _scanable))
+        {
             scanable = _scanable;
+            scanable.onScanComplete += OnScanFinish;
+        }
         else
+        {
             scanable = null;
+        }
     }   
 
-    public void OnInteract()
+    public void OnScanFinish()
     {
         if(!scanable.AlreadyScan)
             return;

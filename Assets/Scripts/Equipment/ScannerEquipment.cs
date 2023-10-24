@@ -48,8 +48,12 @@ public class ScannerEquipment : Equipment
     bool isScanning = false;
     Collider[] objectInRange;
 
+     AudioSource scanAudio;
+    
     void Start()
     {
+        scanAudio = GetComponent<AudioSource>();
+
         equipmentType = EquipmentType.Scanner;
     }
 
@@ -58,9 +62,15 @@ public class ScannerEquipment : Equipment
         base.OnUse();
 
         if(isPress && batteryAmout > 0)
+        {
             OnScan();
+            scanAudio.Play();
+        }
         else
+        {
             OnUnscan();
+            scanAudio.Pause();
+        }    
     }
     public override void HoldAnim()
     {
@@ -174,6 +184,20 @@ public class ScannerEquipment : Equipment
             if(n.GetComponent<Scanable>() != null)
             {
                 return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool isScanableObjectInScanRange() //TODO: เอาไปใช้บอกว่า object อยู่ในระยะการ scan
+    {
+        foreach(var n in objectInRange)
+        {
+            if(n.GetComponent<Scanable>() != null)
+            {
+                if(CylindricalSectorContains(n.transform.position))
+                    return true;
             }
         }
 

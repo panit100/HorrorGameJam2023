@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -82,6 +83,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 
+                
                 if(FindObjectOfType<PausePanel>() != null)
                     FindObjectOfType<PausePanel>().EnablePausePanel(true);
                 break;
@@ -106,9 +108,15 @@ public class GameManager : Singleton<GameManager>
     public void OnPause()
     {
         if(gameStage == GameStage.Playing)
+        {
             OnChangeGameStage(GameStage.Pause);
+            AIManager.Instance.EnterStopEnemy();
+        }
         else if(gameStage == GameStage.Pause)
+        {
             OnChangeGameStage(GameStage.Playing);
+            AIManager.Instance.ExitStopEnemy();
+        }
     }
 
     [Button]
@@ -123,28 +131,21 @@ public class GameManager : Singleton<GameManager>
     {
         TimeManager.Instance.SetCurrentTime();
 
-        //TODO: Run Cutscene when startGame
-
-        //Lock Keyboard and Mouse
         LockCursor(true);
         InputSystemManager.Instance.TogglePlayerControl(false);
         InputSystemManager.Instance.ToggleInGameControl(true);
 
-        //TODO: When end cutscene change stage to Playing
-        OnSkipCutScene();
         MainObjectiveManager.Instance.SetupObjective();
     }
 
-    //TODO: End Game Cutscene
     [Button]
     public void OnEndGame()
     {
-        //TODO: Run Cutscene when endGame
-
-        //Lock Keyboard and Mouse
         LockCursor(true);
         InputSystemManager.Instance.TogglePlayerControl(false);
         InputSystemManager.Instance.ToggleInGameControl(false);
+
+        //TODO: Load End game Cutscene scene
     }
 
     void ShowSkipCutsceneUI()
@@ -160,8 +161,7 @@ public class GameManager : Singleton<GameManager>
     public void OnSkipCutScene()
     {
         //TODO: Skip Cutscene
-
-        OnChangeGameStage(GameStage.Playing);
+        //TODO: load scene game
     }
 
     void LockCursor(bool toggle)
