@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneController : Singleton<SceneController>
 {
     public string SCENE_MAINMENU { get { return "Scene_MainMenu"; } }
+    public string SCENE_CUTSCENE {get { return "Scene_Cutscene"; } }
     public string SCENE_MAIN { get { return "Scene_Main"; } }
     public string SCENE_CORE { get { return "Scene_Core"; } }
 

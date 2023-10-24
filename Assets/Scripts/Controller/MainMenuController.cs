@@ -34,6 +34,11 @@ public class MainMenuController : MonoBehaviour
         StartCoroutine(GameManager.Instance.GoToSceneGame());
     }
 
+    public void OnStartCutscene()
+    {
+        StartCoroutine(GameManager.Instance.GoToCutscene("As_intro"));
+    }
+
     public void OnBack()
     {
         mainMenuStage = MainMenuStage.MainMenu;
