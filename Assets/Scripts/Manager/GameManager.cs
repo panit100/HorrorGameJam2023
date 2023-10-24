@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -143,6 +144,12 @@ public class GameManager : Singleton<GameManager>
         MainObjectiveManager.Instance.SetupObjective();
     }
 
+    public void OnStartCutscene(String CutsceneID)
+    {
+        CutsceneManager.Instance.initCutscene();
+        CutsceneManager.Instance.Playcutscene(CutsceneID);
+    }
+
     //TODO: End Game Cutscene
     [Button]
     public void OnEndGame()
@@ -202,5 +209,12 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
         SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAIN, null, () => {OnStartGame();});
+    }
+
+    public IEnumerator GoToCutscene(string cutsceneID)
+    {
+        yield return new WaitUntil(() => SceneController.Instance != null);
+        GameManager.Instance.OnChangeGameStage(GameStage.Cutscene);
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_CUTSCENE, null, () => {OnStartCutscene(cutsceneID);});
     }
 }
