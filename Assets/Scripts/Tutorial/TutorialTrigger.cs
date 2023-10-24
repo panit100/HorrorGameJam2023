@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using HorrorJam.Audio;
 
 public class TutorialTrigger : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class TutorialTrigger : MonoBehaviour
         Time.timeScale = 1;
         tutorialCanvas.SetActive(false);
         GameManager.Instance.LockCursor(true);
+        AudioManager.Instance.PlayOneShot("clickUI");
         this.gameObject.SetActive(false);
     }
 }
