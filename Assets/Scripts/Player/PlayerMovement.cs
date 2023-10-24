@@ -7,9 +7,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float playerBaseSpeed;
 
     Vector3 direction;
+    Rigidbody rb;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         AddInputListener();
     }
 
@@ -30,7 +32,8 @@ public class PlayerMovement : MonoBehaviour
     
     private void Move()
     {
-        transform.Translate(direction * playerBaseSpeed * Time.deltaTime);
+        //transform.Translate(direction * playerBaseSpeed * Time.deltaTime);
+        rb.velocity = direction * playerBaseSpeed;
     }
 
     public void OnMove(Vector2 value)

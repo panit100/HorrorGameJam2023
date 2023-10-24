@@ -63,6 +63,7 @@ public class MainMenuController : MonoBehaviour
     {
         if(mainMenuStage != MainMenuStage.MainMenu)
             return;
+        Application.Quit();
     }
 
     void EnableMainMenu(bool enable)
