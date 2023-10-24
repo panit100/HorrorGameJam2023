@@ -421,6 +421,11 @@ namespace HorrorJam.AI
             gameObject.SetActive(true);
         }
 
+        public void SetCurrentWaypointContainer(WaypointContainer waypointContainer)
+        {
+            currentWaypointContainer = waypointContainer;
+        }
+
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {

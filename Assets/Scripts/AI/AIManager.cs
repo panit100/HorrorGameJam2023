@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using DG.Tweening;
+using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
@@ -13,6 +16,7 @@ namespace HorrorJam.AI
         Transform playerTransform;
 
         [SerializeField] NavMeshSurface surface;
+        [SerializeField] SpawnEnemyConfig spawnEnemyConfig; //TODO: Change it to array when a game have another enemy
         Enemy[] enemies;
         protected override void InitAfterAwake()
         {
@@ -53,5 +57,20 @@ namespace HorrorJam.AI
             foreach(var n in enemies)
                 n.HideAI();
         }
+
+        [Button]
+        public void SpawnEnemy()
+        {
+            Enemy enemy = Instantiate(spawnEnemyConfig.enemyPrefab,spawnEnemyConfig.spawnPosition,Quaternion.identity);
+            enemy.SetCurrentWaypointContainer(spawnEnemyConfig.waypointContainer);
+        }
     }
+}
+
+[Serializable]
+public class SpawnEnemyConfig
+{
+    public Enemy enemyPrefab;
+    public Vector3 spawnPosition;
+    public WaypointContainer waypointContainer;
 }
