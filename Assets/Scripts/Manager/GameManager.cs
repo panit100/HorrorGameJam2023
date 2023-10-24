@@ -164,7 +164,7 @@ public class GameManager : Singleton<GameManager>
         //TODO: load scene game
     }
 
-    void LockCursor(bool toggle)
+    public void LockCursor(bool toggle)
     {
         if(toggle)
         {
