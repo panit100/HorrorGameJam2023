@@ -134,8 +134,6 @@ public class GameManager : Singleton<GameManager>
         InputSystemManager.Instance.ToggleUIControl(false);
         InputSystemManager.Instance.ToggleInGameControl(true);
 
-        DoorManager.Instance.OnOpenAllDoor();
-        
         //TODO: When end cutscene change stage to Playing
         OnSkipCutScene();
         MainObjectiveManager.Instance.SetupObjective();

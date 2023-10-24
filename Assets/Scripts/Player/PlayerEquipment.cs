@@ -49,9 +49,6 @@ public class PlayerEquipment : MonoBehaviour
     void OnUseEquipment()
     {
         equipment.Find(n => n.equipmentType == currentEquipment).OnUse();
-        
-       
-        //TODO สร้างตัวแปร 2 ตัวไว้เก็บ gameobject โมเดล เเล้วเช็ค if currentEquipment เเล้วปิดโมเดลอันที่ไม่ใช้
     }
 
     void OnDestroy() 
@@ -67,8 +64,11 @@ public class PlayerEquipment : MonoBehaviour
 
     void SwitchEquipment(int index)
     {
-      
+        if(currentEquipment == equipment[index].equipmentType)
+            return;
+
         currentEquipment = equipment[index].equipmentType;
+        
         foreach (var VARIABLE in equipment)
         {
             if (VARIABLE.equipmentType != currentEquipment)
