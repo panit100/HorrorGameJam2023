@@ -68,6 +68,20 @@ namespace HorrorJam.AI
         {
             Destroy(enemy.gameObject);
         }
+
+        [Button]
+        public void EnterStopEnemy()
+        {
+            if(enemy != null)
+                enemy.EnterStop();
+        }
+
+        [Button]
+        public void ExitStopEnemy()
+        {
+            if(enemy != null)
+                enemy.ExitStop();
+        }
     }
 }
 

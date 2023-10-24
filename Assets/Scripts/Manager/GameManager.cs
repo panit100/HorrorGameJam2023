@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -82,6 +83,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 
+                
                 if(FindObjectOfType<PausePanel>() != null)
                     FindObjectOfType<PausePanel>().EnablePausePanel(true);
                 break;
@@ -106,9 +108,15 @@ public class GameManager : Singleton<GameManager>
     public void OnPause()
     {
         if(gameStage == GameStage.Playing)
+        {
             OnChangeGameStage(GameStage.Pause);
+            AIManager.Instance.EnterStopEnemy();
+        }
         else if(gameStage == GameStage.Pause)
+        {
             OnChangeGameStage(GameStage.Playing);
+            AIManager.Instance.ExitStopEnemy();
+        }
     }
 
     [Button]

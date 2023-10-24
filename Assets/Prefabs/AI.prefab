@@ -249,6 +249,10 @@ MonoBehaviour:
     speed: 0.25
     transitionEase: 17
     transitionDuration: 0.1
+  stopSpeed:
+    speed: 0
+    transitionEase: 0
+    transitionDuration: 0
   currentWaypointContainer: {fileID: 0}
   currentWaypoint: {fileID: 0}
   agent: {fileID: 5753278164641036728}

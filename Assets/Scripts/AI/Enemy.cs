@@ -14,13 +14,6 @@ using UnityEngine.XR;
 
 namespace HorrorJam.AI
 {
-    public enum EnemyStage
-    {
-        Explore,
-        Chase,
-        Slowed,
-    }
-
     public class Enemy : MonoBehaviour
     {
         [TitleGroup("Movement")]
@@ -30,6 +23,8 @@ namespace HorrorJam.AI
         [Indent,SerializeField] SpeedSetting chaseSpeed;
         [Indent,SerializeField] SpeedSetting slowedDownSpeed;
         [Indent,SerializeField] SpeedSetting superSlowedDownSpeed;
+        [Indent,SerializeField] SpeedSetting stopSpeed;
+        
         
         [Header("Destination")]
         [Indent,SerializeField] WaypointContainer currentWaypointContainer;
@@ -80,8 +75,8 @@ namespace HorrorJam.AI
         [Header("Scan Info")]
         [SerializeField] SpriteRenderer sprite;
         Scanable scanable;
-        EnemyStage enemyStage = EnemyStage.Explore;
 
+        SpeedSetting speedBeforeStop;
         void Awake() 
         {
             scanable = GetComponentInChildren<Scanable>();
@@ -97,6 +92,7 @@ namespace HorrorJam.AI
             lastKnownPlayerPosition = transform.position;
             OnFinishWaypoint += NotifyOnFinishWaypoint;
             ChangeSpeedSetting(exploreSpeed);
+            speedBeforeStop = exploreSpeed;
             MakeVisibleEnemy(scanable.scanProgress);
         }
 
@@ -191,6 +187,7 @@ namespace HorrorJam.AI
             isPursuingLostPlayer = false;
             SetStun(standStillDurationAfterPursue);
             ChangeSpeedSetting(exploreSpeed);
+            speedBeforeStop = exploreSpeed;
 
             if (isRespawnAfterPursue)
             {
@@ -335,6 +332,7 @@ namespace HorrorJam.AI
             CancelRespawning();
             OnDetectPlayer?.Invoke();
             ChangeSpeedSetting(chaseSpeed);
+            speedBeforeStop = chaseSpeed;
             isDetectedPlayer = true;
         }
         
@@ -363,6 +361,7 @@ namespace HorrorJam.AI
                 return;
 
             ChangeSpeedSetting(slowedDownSpeed);
+            speedBeforeStop = slowedDownSpeed;
             isSlowedDown = true;
         }
 
@@ -372,7 +371,16 @@ namespace HorrorJam.AI
             if (!isSlowedDown)
                 return;
 
-            ChangeSpeedSetting(isDetectedPlayer? chaseSpeed : exploreSpeed);
+            if(isDetectedPlayer)
+            {
+                ChangeSpeedSetting(chaseSpeed);
+                speedBeforeStop = chaseSpeed;
+            }
+            else
+            {
+                ChangeSpeedSetting(exploreSpeed);
+                speedBeforeStop = exploreSpeed;
+            }
             isSlowedDown = false;
         }
 
@@ -380,7 +388,22 @@ namespace HorrorJam.AI
         public void EnterSuperSlowDown()
         {
             if (isSlowedDown)
+            {
                 ChangeSpeedSetting(superSlowedDownSpeed);
+                speedBeforeStop = superSlowedDownSpeed;
+            }
+        }
+
+        [Button]
+        public void EnterStop()
+        {
+            ChangeSpeedSetting(stopSpeed);
+        }
+
+        [Button]
+        public void ExitStop()
+        {
+            ChangeSpeedSetting(speedBeforeStop);
         }
 
         public void OnBeingScanned()
