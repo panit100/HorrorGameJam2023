@@ -19,6 +19,7 @@ public class Scanable : MonoBehaviour
     public UnityAction onActiveScan;
     public UnityAction onDeactiveScan;
     public UnityAction onScanComplete;
+    public UnityAction onDeactiveScanComplete;
     
 
     public void OnActiveScan()
@@ -47,7 +48,7 @@ public class Scanable : MonoBehaviour
     public void OnDeactiveScanWithDuration(float duration)
     {
         scanTween.Kill();
-        scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,0f,duration).SetEase(scanEase);
+        scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,0f,duration).SetEase(scanEase).OnComplete(OnDeactiveScanComplete);
         onDeactiveScan?.Invoke();
     }
 
@@ -57,6 +58,11 @@ public class Scanable : MonoBehaviour
 
         if(alreadyScan)
             onScanComplete?.Invoke();
+    }
+
+    void OnDeactiveScanComplete()
+    {
+        onDeactiveScanComplete?.Invoke();
     }
 
     public void ResetProgress()
