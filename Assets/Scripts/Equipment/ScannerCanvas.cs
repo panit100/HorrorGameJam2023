@@ -11,7 +11,10 @@ public class ScannerCanvas : MonoBehaviour
     [SerializeField] TMP_Text scanText;
     [SerializeField] ProceduralImage batteryImage;
     [SerializeField] ProceduralImage scanImage;
-    [SerializeField] private Image Colorimg;
+    [SerializeField] private Image scanScreenImage;
+    [SerializeField] private Sprite spriteNotDetect;
+    [SerializeField] private Sprite spriteDetect;
+    [SerializeField] private Sprite spriteScanning;
 
     ScanObjective scanObjective;
 
@@ -25,7 +28,19 @@ public class ScannerCanvas : MonoBehaviour
 
     public void UpdateText(string text)
     {
-        scanText.text = text;
+        // scanText.text = text;
+        if(text == "Detect")
+        {
+            scanScreenImage.sprite = spriteDetect;
+        }
+        else if(text == "Not Found")
+        {
+            scanScreenImage.sprite = spriteNotDetect;
+        }
+        else if(text == "Scanning")
+        {
+            scanScreenImage.sprite = spriteScanning;
+        }
     }
 
     public void UpdateBattery(float amount)

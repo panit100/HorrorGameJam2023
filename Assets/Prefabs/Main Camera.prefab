@@ -395,7 +395,10 @@ MonoBehaviour:
   scanText: {fileID: 5880407718936680473}
   batteryImage: {fileID: 7271402367995261637}
   scanImage: {fileID: 1491487733786330449}
-  Colorimg: {fileID: 5519091929750918508}
+  scanScreenImage: {fileID: 5519091929750918508}
+  spriteNotDetect: {fileID: 21300000, guid: 48ebee7275636d1438ac2d8dcdc54c6e, type: 3}
+  spriteDetect: {fileID: 21300000, guid: ecdd77edcae2b384bb3e4d69b3017fff, type: 3}
+  spriteScanning: {fileID: 21300000, guid: 68935b421a2ef0f4aa69d404d580bdc5, type: 3}
 --- !u!1 &3339454994126285698
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,14 +457,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5697087, g: 0.9622642, b: 0.06808472, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ecdd77edcae2b384bb3e4d69b3017fff, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -620,8 +623,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -697,7 +700,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4534287465168208888
 RectTransform:
   m_ObjectHideFlags: 0
@@ -968,16 +971,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7256958742870980851}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7065408, y: 1.574272, z: 1.6731974}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3301158092108925487}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -340, y: -86}
+  m_AnchoredPosition: {x: -2, y: -255}
   m_SizeDelta: {x: 100, y: 452.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &771693423311114321
@@ -1127,6 +1130,10 @@ PrefabInstance:
     - target: {fileID: 943210144876416946, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 943210144876416946, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -521.41034
       objectReference: {fileID: 0}
     - target: {fileID: 1089659620691352701, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
       propertyPath: m_Enabled
