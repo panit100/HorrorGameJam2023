@@ -32,7 +32,7 @@ public class PlayerCamera : MonoBehaviour
         InputSystemManager.Instance.onMouseLook -= OnMouseLook;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         CameraRotate();
     }
