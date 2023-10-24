@@ -31,7 +31,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
     bool globalInputEnable = false;
     bool playerControlEnable = false;   
     bool uiControlMapEnable = true;
-    bool inGameMapEnable = true;
+    bool inGameMapEnable = false;
 
     protected override void InitAfterAwake()
     {

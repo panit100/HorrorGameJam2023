@@ -59,15 +59,10 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
 
      void togglepipboy()
      {
-         Debug.Log("Press Q");
-         if (!isUsingPipboy && !FadeInDone)
-         {
-             StartPipboy();
-         }
-         else
-         {
-             QuitPipboy();
-         }
+        if (!isUsingPipboy && !FadeInDone)
+            StartPipboy();
+        else
+            QuitPipboy();
      }
      
      [Button]

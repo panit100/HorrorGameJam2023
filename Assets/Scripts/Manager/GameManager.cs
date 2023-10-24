@@ -58,7 +58,6 @@ public class GameManager : Singleton<GameManager>
             case GameStage.MainMenu:
                 LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 break;
             case GameStage.Playing:
@@ -68,14 +67,12 @@ public class GameManager : Singleton<GameManager>
                 LockCursor(true);
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
-                InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 break;
             case GameStage.OnPipboy:
                 LockCursor(false);
                 
                 InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 break;
             case GameStage.Pause:
@@ -83,7 +80,6 @@ public class GameManager : Singleton<GameManager>
                 LockCursor(false);
 
                 InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 
                 if(FindObjectOfType<PausePanel>() != null)
@@ -92,7 +88,6 @@ public class GameManager : Singleton<GameManager>
             case GameStage.GameOver:
                 LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleUIControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(false);
 
                 PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
@@ -100,7 +95,6 @@ public class GameManager : Singleton<GameManager>
             case GameStage.Cutscene:
                 LockCursor(true);
                 InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleUIControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
 
                 
@@ -108,6 +102,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    [Button]
     public void OnPause()
     {
         if(gameStage == GameStage.Playing)
@@ -116,12 +111,14 @@ public class GameManager : Singleton<GameManager>
             OnChangeGameStage(GameStage.Playing);
     }
 
+    [Button]
     public void OnDie()
     {
         OnChangeGameStage(GameStage.GameOver);
     }
 
     //TODO: Start Game Cutscene
+    [Button]
     public void OnStartGame()
     {
         TimeManager.Instance.SetCurrentTime();
@@ -131,7 +128,6 @@ public class GameManager : Singleton<GameManager>
         //Lock Keyboard and Mouse
         LockCursor(true);
         InputSystemManager.Instance.TogglePlayerControl(false);
-        InputSystemManager.Instance.ToggleUIControl(false);
         InputSystemManager.Instance.ToggleInGameControl(true);
 
         //TODO: When end cutscene change stage to Playing
@@ -139,8 +135,8 @@ public class GameManager : Singleton<GameManager>
         MainObjectiveManager.Instance.SetupObjective();
     }
 
-
     //TODO: End Game Cutscene
+    [Button]
     public void OnEndGame()
     {
         //TODO: Run Cutscene when endGame
@@ -148,7 +144,6 @@ public class GameManager : Singleton<GameManager>
         //Lock Keyboard and Mouse
         LockCursor(true);
         InputSystemManager.Instance.TogglePlayerControl(false);
-        InputSystemManager.Instance.ToggleUIControl(false);
         InputSystemManager.Instance.ToggleInGameControl(false);
     }
 

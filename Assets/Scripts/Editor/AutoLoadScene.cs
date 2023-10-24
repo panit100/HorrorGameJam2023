@@ -19,7 +19,7 @@ public class AutoLoadScene
 
         if (scene.name != "Scene_Core")
         {
-            EditorSceneManager.OpenScene("Assets/Scenes/Scene_Core.unity", OpenSceneMode.Additive);
+            EditorSceneManager.OpenScene("Assets/Scenes/MainScene/Scene_Core.unity", OpenSceneMode.Additive);
         }
     }
 }
