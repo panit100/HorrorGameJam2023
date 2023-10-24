@@ -85,6 +85,7 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
         this.transform.localRotation = Quaternion.Euler(new Vector3(0,-90,-90));
         transform.DOLocalRotate(
             new Vector3(0, -90, 0f), fadeinduration).SetEase(ScreenEase);
+
      
      }
     
@@ -107,6 +108,7 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
 
      private void fadeInAlpha()
      {
+        MassageManager.Instance.HideNotificationText();
          Tween fadein ;
          fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 1, fadeinduration*0.35f).SetEase(ScreenEase);
      }

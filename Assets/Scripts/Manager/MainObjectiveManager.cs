@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Sirenix.OdinInspector;
+using System;
 
 public enum ObjectiveType
 {
@@ -95,6 +96,11 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
     string SetNextObjective(string NextObjectiveCode)
     {
+        if(NextObjectiveCode == "")
+        {
+            //TODO: ทำไรก็ว่าไป
+        }
+
         currentMainObjectiveCode = mainObjectiveDataDictionary[currentMainObjectiveCode].NextObjectiveCode;
         return currentMainObjectiveCode;
     }

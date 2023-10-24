@@ -5,6 +5,11 @@ using UnityEngine;
 public class TriggerObjective : Objective
 {
 
+    void Start()
+    {
+        GetComponent<MeshRenderer>().enabled = false;
+    }
+
     void OnTriggerEnter(Collider other) 
     {
         if(!other.CompareTag("Player"))
@@ -13,6 +18,7 @@ public class TriggerObjective : Objective
         if(CheckObjective())
         {
             MainObjectiveManager.Instance.UpdateProgress(objectiveCode);
+            gameObject.SetActive(false);
         }
 
     }
