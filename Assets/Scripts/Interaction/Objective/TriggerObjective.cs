@@ -13,6 +13,7 @@ public class TriggerObjective : Objective
         if(CheckObjective())
         {
             MainObjectiveManager.Instance.UpdateProgress(objectiveCode);
+            gameObject.SetActive(false);
         }
 
     }

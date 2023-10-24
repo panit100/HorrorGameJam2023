@@ -1413,6 +1413,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI
       objectReference: {fileID: 0}
+    - target: {fileID: 5328402455725273465, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5753278164641036728, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: m_Height
       value: 5
@@ -7174,6 +7178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   surface: {fileID: 1737115831}
+  spawnEnemyConfig:
+    enemyPrefab: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
+    spawnPosition: {x: -3.6, y: -1.13, z: -27.4}
+    waypointContainer: {fileID: 1051335839}
 --- !u!43 &1830673278
 Mesh:
   m_ObjectHideFlags: 0
