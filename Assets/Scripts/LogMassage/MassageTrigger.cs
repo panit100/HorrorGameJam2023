@@ -20,7 +20,7 @@ public class MassageTrigger : MonoBehaviour
 
     Sequence Schedule(float delay, TweenCallback callback, string id)
     {
-        // DOTween.Kill(id);  //TODO: Error not found id
+        DOTween.Kill(id);  //TODO: Error not found id
         return DOTween.Sequence()
             .AppendInterval(delay)
             .AppendCallback(callback)
@@ -30,13 +30,13 @@ public class MassageTrigger : MonoBehaviour
     void SendLogToPipBoy()
     {
         MassageManager.Instance.AddLogData(massageCode);
-        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other) 
     {
         if(other.CompareTag("Player"))
         {
+            gameObject.SetActive(false);
             Schedule(massageDelay,SendLogToPipBoy,MassageId);
         }
     }
