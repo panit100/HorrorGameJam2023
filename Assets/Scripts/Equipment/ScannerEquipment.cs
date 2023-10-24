@@ -180,6 +180,20 @@ public class ScannerEquipment : Equipment
         return false;
     }
 
+    bool isScanableObjectInScanRange() //TODO: เอาไปใช้บอกว่า object อยู่ในระยะการ scan
+    {
+        foreach(var n in objectInRange)
+        {
+            if(n.GetComponent<Scanable>() != null)
+            {
+                if(CylindricalSectorContains(n.transform.position))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
     public bool CylindricalSectorContains(Vector3 position)
     {
         //Inverse transform world to local
