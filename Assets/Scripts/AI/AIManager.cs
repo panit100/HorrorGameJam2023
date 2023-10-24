@@ -17,7 +17,7 @@ namespace HorrorJam.AI
 
         [SerializeField] NavMeshSurface surface;
         [SerializeField] SpawnEnemyConfig spawnEnemyConfig; //TODO: Change it to array when a game have another enemy
-        Enemy[] enemies;
+        Enemy enemy;
         protected override void InitAfterAwake()
         {
             
@@ -26,7 +26,6 @@ namespace HorrorJam.AI
         void Start()
         {
             playerTransform = PlayerManager.Instance.transform;
-            enemies = GameObject.FindObjectsOfType<Enemy>();
         }
 
         void Update()
@@ -46,23 +45,28 @@ namespace HorrorJam.AI
         public void ShowAllEnemy()
         {
             //TODO: Run when cutscene end
-            foreach(var n in enemies)
-                n.ShowAI();
+                enemy.ShowAI();
         }
 
         [Button]
         public void HideAllEnemy()
         {
             //TODO: Run on game start
-            foreach(var n in enemies)
-                n.HideAI();
+                enemy.HideAI();
         }
 
         [Button]
         public void SpawnEnemy()
         {
-            Enemy enemy = Instantiate(spawnEnemyConfig.enemyPrefab,spawnEnemyConfig.spawnPosition,Quaternion.identity);
-            enemy.SetCurrentWaypointContainer(spawnEnemyConfig.waypointContainer);
+            Enemy _enemy = Instantiate(spawnEnemyConfig.enemyPrefab,spawnEnemyConfig.spawnPosition,Quaternion.identity);
+            _enemy.SetCurrentWaypointContainer(spawnEnemyConfig.waypointContainer);
+            enemy = _enemy;
+        }
+        
+        [Button]
+        public void RemoveEnemy()
+        {
+            Destroy(enemy.gameObject);
         }
     }
 }
