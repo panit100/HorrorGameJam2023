@@ -1181,6 +1181,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.41999745
       objectReference: {fileID: 0}
+    - target: {fileID: 2055979014260226114, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055979014260226114, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4022363770924572886, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
       propertyPath: m_Name
       value: Player
@@ -7541,7 +7549,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5087678630006482919, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 312.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5087678630006482919, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
       propertyPath: m_AnchoredPosition.y

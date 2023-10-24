@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using HorrorJam.Audio;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,7 +21,6 @@ public class Scanable : MonoBehaviour
     public UnityAction onDeactiveScan;
     public UnityAction onScanComplete;
     public UnityAction onDeactiveScanComplete;
-    
 
     public void OnActiveScan()
     {
@@ -57,7 +57,10 @@ public class Scanable : MonoBehaviour
         alreadyScan = true;
 
         if(alreadyScan)
+        {
+            AudioManager.Instance.PlayOneShot("scanComplete");
             onScanComplete?.Invoke();
+        }
     }
 
     void OnDeactiveScanComplete()
