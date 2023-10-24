@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         //transform.Translate(direction * playerBaseSpeed * Time.deltaTime);
-        rb.velocity = direction * playerBaseSpeed;
+        rb.velocity = transform.TransformDirection(direction) * playerBaseSpeed;
     }
 
     public void OnMove(Vector2 value)
