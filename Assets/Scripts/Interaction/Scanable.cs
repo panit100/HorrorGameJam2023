@@ -28,7 +28,7 @@ public class Scanable : MonoBehaviour
         if(alreadyScan)
             return;
 
-        if(GetComponent<Objective>() != null && !GetComponent<Objective>().CheckObjective())
+        if(!isObjective())
             return;
         
         scanTween.Kill();
@@ -74,6 +74,14 @@ public class Scanable : MonoBehaviour
     {
         alreadyScan = false;
         scanProgress = 0;
+    }
+
+    public bool isObjective()
+    {
+        if(GetComponent<Objective>() != null && GetComponent<Objective>().CheckObjective())
+            return true;
+        else
+            return false;
     }
 
 #if UNITY_EDITOR
