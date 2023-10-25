@@ -61,6 +61,8 @@ public class GameManager : Singleton<GameManager>
                 LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(false);
+                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleCutsceneControl(false);
                 break;
             case GameStage.Playing:
                 isPause = false;
@@ -70,12 +72,16 @@ public class GameManager : Singleton<GameManager>
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
+                InputSystemManager.Instance.TogglePipboyControl(true);
+                InputSystemManager.Instance.ToggleCutsceneControl(false);
                 break;
             case GameStage.OnPipboy:
                 LockCursor(false);
                 
                 InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleInGameControl(true);
+                InputSystemManager.Instance.ToggleInGameControl(false);
+                InputSystemManager.Instance.TogglePipboyControl(true);
+                InputSystemManager.Instance.ToggleCutsceneControl(false);
                 break;
             case GameStage.Pause:
                 isPause = true;
@@ -83,7 +89,8 @@ public class GameManager : Singleton<GameManager>
 
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
-                
+                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleCutsceneControl(false);
                 
                 if(FindObjectOfType<PausePanel>() != null)
                     FindObjectOfType<PausePanel>().EnablePausePanel(true);
@@ -92,14 +99,17 @@ public class GameManager : Singleton<GameManager>
                 LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(false);
+                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleCutsceneControl(false);
 
                 PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
                 break;
             case GameStage.Cutscene:
                 LockCursor(true);
                 InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleInGameControl(true);
-
+                InputSystemManager.Instance.ToggleInGameControl(false);
+                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleCutsceneControl(true);
                 
                 break;
         }

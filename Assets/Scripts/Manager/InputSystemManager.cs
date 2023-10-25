@@ -9,6 +9,8 @@ public class InputSystemManager : Singleton<InputSystemManager>
     const string PLAYER_ACTIONMAP = "Player";
     const string UI_ACTIONMAP = "UI";
     const string INGAME_ACTIONMAP = "InGame";
+    const string PIPBOY_ACTIONMAP = "Pipboy";
+    const string CUTSCENE_ACTIONMAP = "Cutscene";
 
     [SerializeField] InputActionAsset playerInputAction;
 
@@ -28,17 +30,24 @@ public class InputSystemManager : Singleton<InputSystemManager>
     InputActionMap playerControlMap;
     InputActionMap uiControlMap;
     InputActionMap inGameControlMap;
+    InputActionMap pipboyControlMap;
+    InputActionMap cutsceneControlMap;
+    
 
     bool globalInputEnable = false;
     bool playerControlEnable = false;   
     bool uiControlMapEnable = true;
     bool inGameMapEnable = false;
+    bool pipboyMapEnable = false;
+    bool cutsceneMapEnable = false;
 
     protected override void InitAfterAwake()
     {
         playerControlMap = playerInputAction.FindActionMap(PLAYER_ACTIONMAP);
         uiControlMap = playerInputAction.FindActionMap(UI_ACTIONMAP);
         inGameControlMap = playerInputAction.FindActionMap(INGAME_ACTIONMAP);
+        pipboyControlMap = playerInputAction.FindActionMap(PIPBOY_ACTIONMAP);
+        cutsceneControlMap = playerInputAction.FindActionMap(CUTSCENE_ACTIONMAP);
     }
 
     void Start() 
@@ -72,6 +81,18 @@ public class InputSystemManager : Singleton<InputSystemManager>
         UpdateInputState();
     }
 
+    public void TogglePipboyControl(bool toggle)
+    {
+        pipboyMapEnable = toggle;
+        UpdateInputState();
+    }
+
+    public void ToggleCutsceneControl(bool toggle)
+    {
+        cutsceneMapEnable = toggle;
+        UpdateInputState();
+    }
+
     void UpdateInputState()
     {
         if(globalInputEnable && playerControlEnable) playerControlMap.Enable();
@@ -82,6 +103,12 @@ public class InputSystemManager : Singleton<InputSystemManager>
 
         if(globalInputEnable && inGameMapEnable) inGameControlMap.Enable();
         else inGameControlMap.Disable();
+
+        if(globalInputEnable && pipboyMapEnable) pipboyControlMap.Enable();
+        else pipboyControlMap.Disable();
+
+        if(globalInputEnable && cutsceneMapEnable) cutsceneControlMap.Enable();
+        else cutsceneControlMap.Disable();
     }
 
 #endregion

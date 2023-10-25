@@ -745,24 +745,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "UsePipBoy",
-                    "type": "Button",
-                    "id": "7ce671ba-3397-40a2-84a9-99d5bed218ef",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SkipCutscene",
-                    "type": "Button",
-                    "id": "0aaf616a-0699-41f9-86ec-c1f8b56f91ba",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -776,10 +758,27 @@
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "Pipboy",
+            "id": "52bd639f-4c64-404e-9458-636c181c92c7",
+            "actions": [
+                {
+                    "name": "UsePipBoy",
+                    "type": "Button",
+                    "id": "5dfb9156-5556-4c33-86e2-05d2bf4b9faa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "c2e49a78-d0be-4c99-9aa9-193fedfaea30",
+                    "id": "b7b9acf9-e58a-480a-8ef6-0f2a5388ec93",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
@@ -787,10 +786,27 @@
                     "action": "UsePipBoy",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "Cutscene",
+            "id": "f850f2b9-6319-449a-93fb-7e1a8a168ed1",
+            "actions": [
+                {
+                    "name": "SkipCutscene",
+                    "type": "Button",
+                    "id": "1ec3342c-3667-4e19-81d2-7e8810c21561",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "e2c98e26-de2e-4c5f-b026-72989380166e",
+                    "id": "16f1eb42-ec3c-45ea-9c92-72eeb95d8934",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",

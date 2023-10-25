@@ -29,21 +29,4 @@ public class PlayerManager : Singleton<PlayerManager>
         playerEquipment = GetComponent<PlayerEquipment>();
         playerCamera = GetComponentInChildren<PlayerCamera>();
     }
-
-    public void OnChangeStage(PlayerState _state)
-    {
-        playerState = _state;
-
-        switch(playerState)
-        {
-            case PlayerState.Move:
-                InputSystemManager.Instance.TogglePlayerControl(true);
-                InputSystemManager.Instance.ToggleUIControl(false);
-                break;
-            case PlayerState.PipBoy:
-                InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleUIControl(true);
-                break;
-        }
-    }
 }
