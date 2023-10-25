@@ -15,6 +15,7 @@ public enum GameStage
     Pause,
     Cutscene,
     GameOver,
+    Tutorial
 }
 
 public class GameManager : Singleton<GameManager>
@@ -110,8 +111,15 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 InputSystemManager.Instance.TogglePipboyControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(true);
-                
                 break;
+            case GameStage.Tutorial:
+                LockCursor(false);
+                InputSystemManager.Instance.TogglePlayerControl(false);
+                InputSystemManager.Instance.ToggleInGameControl(false);
+                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleCutsceneControl(false);
+                break;
+
         }
     }
 
