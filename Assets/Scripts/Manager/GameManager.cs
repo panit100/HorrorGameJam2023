@@ -131,11 +131,7 @@ public class GameManager : Singleton<GameManager>
     public void OnStartGame()
     {
         TimeManager.Instance.SetCurrentTime();
-
-        LockCursor(true);
-        InputSystemManager.Instance.TogglePlayerControl(false);
-        InputSystemManager.Instance.ToggleInGameControl(true);
-
+        GameManager.Instance.OnChangeGameStage(GameStage.Playing);
         MainObjectiveManager.Instance.SetupObjective();
     }
 
