@@ -118,7 +118,7 @@ public class ScannerEquipment : Equipment
 
             if(!isScanning)
             {
-                if(isScanableObjectInRange()) 
+                if(isScanableObjectInScanRange()) 
                     scannerCanvas.UpdateText("Detect");
                 else
                     scannerCanvas.UpdateText("Not Found");
