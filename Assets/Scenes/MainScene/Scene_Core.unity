@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -285,6 +285,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ea534bc0949c9984d9374bca43a31833, type: 3}
   - id: clickUI
     clip: {fileID: 8300000, guid: 06eefee683a8bec449662860629622ef, type: 3}
+  - id: cameraShutter
+    clip: {fileID: 8300000, guid: 6c21ff99d7ef1584bbcea12abb6e1da0, type: 3}
   soundEffectVolume: 0.75
   bgmVolume: 0.5
 --- !u!4 &1076138989
@@ -424,54 +426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a62caaef77cb1b54b9d30264c278465c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1465695707
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1465695709}
-  - component: {fileID: 1465695708}
-  m_Layer: 0
-  m_Name: CutsceneManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1465695708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465695707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0143fbe418f28854c809bf15c0d004cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Cutscene:
-  - {fileID: 32900000, guid: 8b734211dbaaf024b997a49e7e0b99f8, type: 3}
-  - {fileID: 32900000, guid: 025d4a1e4bfd2854083db045e7d305d6, type: 3}
-  VdoPlayer: {fileID: 0}
---- !u!4 &1465695709
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1465695707}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.2586184, y: -14.58328, z: -11.448963}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1528505662
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,4 +530,3 @@ SceneRoots:
   - {fileID: 1528505663}
   - {fileID: 1076138989}
   - {fileID: 1402211790}
-  - {fileID: 1465695709}
