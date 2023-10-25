@@ -127,7 +127,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: massageDelay
-      value: 10
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnOpenAllDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DoorManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1294434871545772554, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_Icon
@@ -462,7 +486,7 @@ PrefabInstance:
       objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1294434871545772554, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_Name
-      value: Open All Door-2
+      value: Open Lab Area-2
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalScale.x
@@ -825,7 +849,7 @@ PrefabInstance:
       objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1294434871545772554, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_Name
-      value: Control Room Auto Door
+      value: Open Control Room Auto Door
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalScale.x
@@ -2082,7 +2106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -2090,6 +2114,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
@@ -2101,19 +2129,31 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnOpenAllDoor
+      value: CloseDoor
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OpenDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
       value: Play
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DoorManager, Assembly-CSharp
+      value: Door, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Door, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: UnityEngine.AudioSource, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
@@ -2124,13 +2164,17 @@ PrefabInstance:
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1294434871545772554, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_Icon
       value: 
       objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 1294434871545772554, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_Name
-      value: Open All Door-1
+      value: Open Lab Area-1
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalScale.x

@@ -47,6 +47,30 @@ PrefabInstance:
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 3244752893846162811}
+    - target: {fileID: 857473869475144529, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 857473869475144529, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 857473869475144529, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 857473869475144529, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ShowAI
+      objectReference: {fileID: 0}
+    - target: {fileID: 857473869475144529, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: HorrorJam.AI.Enemy, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 857473869475144529, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2198888247466305744, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -116,7 +140,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8522736788168158546, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8231681486243717252}
+    - target: {fileID: 8522736788168158546, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1102710851591132159}
+    - target: {fileID: 8522736788168158546, guid: 8c5a0ee7d03a63d41a9c82b8a7b254a1, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 3244752893846162811}
     m_RemovedComponents: []
@@ -197,6 +229,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a48dc6e25b3f14eaf909a035c08bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1102710851591132159 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2192917803404969753, guid: 24e11ea8091ae4c4a874031da440fdf2, type: 3}
+  m_PrefabInstance: {fileID: 1234921651357586662}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3a48dc6e25b3f14eaf909a035c08bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2044422492671667066 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 971772420595187612, guid: 24e11ea8091ae4c4a874031da440fdf2, type: 3}
@@ -213,6 +256,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7047978224688847842, guid: 24e11ea8091ae4c4a874031da440fdf2, type: 3}
   m_PrefabInstance: {fileID: 1234921651357586662}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8231681486243717252 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7142599058806076514, guid: 24e11ea8091ae4c4a874031da440fdf2, type: 3}
+  m_PrefabInstance: {fileID: 1234921651357586662}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3a48dc6e25b3f14eaf909a035c08bd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8412573940565917750 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7321768736803280080, guid: 24e11ea8091ae4c4a874031da440fdf2, type: 3}

@@ -285,8 +285,8 @@ Transform:
   m_GameObject: {fileID: 7238180896675263748}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 101.02, y: -1.13, z: -13.14}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 482579738343177169}
@@ -306,6 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 1109764809317579960}
+  fadeOutTime: 1.5
 --- !u!65 &7029206761839880465
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -325,5 +326,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.3273926, y: 5.3581843, z: 0.966393}
+  m_Size: {x: 6.3273926, y: 5.3581843, z: 2.8}
   m_Center: {x: 0.010536194, y: 2.707454, z: 0}
