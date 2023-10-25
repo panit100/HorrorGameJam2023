@@ -55,6 +55,8 @@ public class ScannerEquipment : Equipment
         scanAudio = GetComponent<AudioSource>();
 
         equipmentType = EquipmentType.Scanner;
+        
+        HoldAnim();
     }
 
     public override void OnUse()
