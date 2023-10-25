@@ -18,6 +18,7 @@ namespace HorrorJam.AI
     {
         [Header("Scan Info")]
         [SerializeField] SpriteRenderer sprite;
+        [SerializeField] float fadeOutTime = 1.5f;
         Scanable scanable;
 
         void Awake() 
@@ -52,7 +53,7 @@ namespace HorrorJam.AI
 
         void FadeOut()
         {
-            scanable.OnDeactiveScanWithDuration(1.5f);
+            scanable.OnDeactiveScanWithDuration(fadeOutTime);
         }
 
         public void HideAI()
