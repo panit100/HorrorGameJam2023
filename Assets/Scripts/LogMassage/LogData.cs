@@ -33,9 +33,9 @@ public class LogData
 
     public string GetLogString()
     {   
-        string _sender = $"<color=white> {sender} </color>";
-        string _time = $"<color=white> {sendTime} </color>";
-        string _massage = $"<color=white> {massage} </color>";
+        string _sender = $"<color=#{senderColor}> {sender} </color>";
+        string _time = $"<color=#{timeColor}> {sendTime} </color>";
+        string _massage = $"<color=#{massageColor}> {massage} </color>";
         return $"{_sender} : {_time} : {_massage}";
     }
 }
