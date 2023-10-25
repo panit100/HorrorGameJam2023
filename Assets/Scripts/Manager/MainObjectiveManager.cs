@@ -19,6 +19,9 @@ public class MainObjectiveData{
     public string NextObjectiveCode;
     public string Sender;
     public string LogMessage;
+    public string SenderColor;
+    public string TimeColor;
+    public string MassageColor;
     
     public ObjectiveType GetObjectiveType()
     {

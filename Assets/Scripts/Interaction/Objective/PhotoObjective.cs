@@ -25,7 +25,10 @@ public class PhotoObjective : Objective
             return;
 
         if(CheckObjective())
+        {
             MainObjectiveManager.Instance.UpdateProgress(objectiveCode);
+            gameObject.SetActive(false);
+        }
     }
 
 
