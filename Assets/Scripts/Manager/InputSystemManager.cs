@@ -19,6 +19,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
     public UnityAction onUseEquipment;
     public UnityAction onPause;
     public UnityAction onUseArmConsole;
+    public UnityAction onSkipcutscene;
     public UnityAction<int> onUseScanner;
     public UnityAction<int> onUseCamera;
 
@@ -116,6 +117,11 @@ public class InputSystemManager : Singleton<InputSystemManager>
         //TODO: LockCursor(false), InputSystemManager.Instance.TogglePlayerControl(false); when open armconsole and LockCursor(true) , InputSystemManager.Instance.TogglePlayerControl(true); when close armconsole
         //TODO: if press Q , Check is pipboy using. if it didn't use then use it, but if it use then hide.
         onUseArmConsole?.Invoke();
+    }
+
+    private void OnSkipCutscene(InputValue value)
+    {
+        onSkipcutscene?.Invoke();
     }
 
     private void OnUseScanner(InputValue value)
