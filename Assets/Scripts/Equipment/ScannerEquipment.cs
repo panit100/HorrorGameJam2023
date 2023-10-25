@@ -199,7 +199,10 @@ public class ScannerEquipment : Equipment
             if(n.GetComponent<Scanable>() != null)
             {
                 if(CylindricalSectorContains(n.transform.position))
-                    return true;
+                {
+                    if(n.GetComponent<Scanable>().isObjective())
+                        return true;
+                }
             }
         }
 
