@@ -87,7 +87,7 @@ namespace HorrorJam.AI
             scanable.onActiveScan += EnterSlowDown;
             scanable.onScanComplete += EnterSuperSlowDown;
 
-            scanable.onDeactiveScan += ExitSlowDown;
+            // scanable.onDeactiveScan += ExitSlowDown;
 
             lastKnownPlayerPosition = transform.position;
             OnFinishWaypoint += NotifyOnFinishWaypoint;
@@ -387,11 +387,11 @@ namespace HorrorJam.AI
         [Button]
         public void EnterSuperSlowDown()
         {
-            if (isSlowedDown)
-            {
-                ChangeSpeedSetting(superSlowedDownSpeed);
-                speedBeforeStop = superSlowedDownSpeed;
-            }
+            ChangeSpeedSetting(superSlowedDownSpeed);
+            speedBeforeStop = superSlowedDownSpeed;
+
+            scanable.OnDeactiveScanWithDuration(respawnDelayAfterPursue);
+            Schedule(respawnDelayAfterPursue, () => {Destroy(this.gameObject);}, RespawnId);
         }
 
         [Button]

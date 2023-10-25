@@ -55,6 +55,8 @@ public class ScannerEquipment : Equipment
         scanAudio = GetComponent<AudioSource>();
 
         equipmentType = EquipmentType.Scanner;
+        
+        HoldAnim();
     }
 
     public override void OnUse()
@@ -116,7 +118,7 @@ public class ScannerEquipment : Equipment
 
             if(!isScanning)
             {
-                if(isScanableObjectInRange()) 
+                if(isScanableObjectInScanRange()) 
                     scannerCanvas.UpdateText("Detect");
                 else
                     scannerCanvas.UpdateText("Not Found");

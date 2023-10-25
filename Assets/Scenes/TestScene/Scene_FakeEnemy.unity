@@ -1410,6 +1410,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
+      propertyPath: respawnDelayAfterPursue
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
       propertyPath: currentWaypointContainer
       value: 
       objectReference: {fileID: 1051335839}
@@ -7753,7 +7757,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5087678630006482919, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 312.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5087678630006482919, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
       propertyPath: m_AnchoredPosition.y
