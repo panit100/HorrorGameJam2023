@@ -2053,10 +2053,29 @@ PrefabInstance:
       propertyPath: scannerCanvas
       value: 
       objectReference: {fileID: 129654472}
+    - target: {fileID: 6192875914712975751, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192875914712975751, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192875914712975751, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6192875914712975751, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -9.47
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8006380931047797827, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 909954308}
   m_SourcePrefab: {fileID: 100100000, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
 --- !u!1 &203187488 stripped
 GameObject:
@@ -7134,6 +7153,23 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &909954303 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8006380931047797827, guid: 2c38bf32ae3b76c46b933e33f31cae96, type: 3}
+  m_PrefabInstance: {fileID: 198914160}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &909954308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909954303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3878842c144b947ae77d2b60babeba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &926791761
 Mesh:
   m_ObjectHideFlags: 0
@@ -10153,6 +10189,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1233044644 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6842100431980089412, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
+  m_PrefabInstance: {fileID: 2003954301}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0a26d736c9c4134ba4ad3b4516317f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1235992392 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3120592953477276934, guid: 8aae4a95a37714446b852bffe405a003, type: 3}
@@ -13414,17 +13461,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 414291894}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1622597517 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7781514345980218716, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
-  m_PrefabInstance: {fileID: 2003954301}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0a26d736c9c4134ba4ad3b4516317f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1631465960
 GameObject:
   m_ObjectHideFlags: 0
@@ -14788,8 +14824,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: MassageLogData
-  massageTextTemplate: {fileID: 1622597517}
-  massageTextContanier: {fileID: 2111813137}
+  massageTextTemplate: {fileID: 1233044644}
+  massageTextContanier: {fileID: 2087330780}
   logDataDic: []
   uIMessageNotification: {fileID: 1791112816}
   M_SenderColor: {r: 1, g: 1, b: 1, a: 1}
@@ -16576,6 +16612,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 194318092333744529, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 467760329839246887, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
       propertyPath: cameraTransform
       value: 
@@ -16686,7 +16726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5087678630006482919, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 312.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5087678630006482919, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -16739,6 +16779,26 @@ PrefabInstance:
     - target: {fileID: 7882038486329299894, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
       propertyPath: m_CullingMask.m_Bits
       value: 1495
+      objectReference: {fileID: 0}
+    - target: {fileID: 8327833853655284479, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8327833853655284479, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8327833853655284479, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8327833853655284479, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 312.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8327833853655284479, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17447,9 +17507,9 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!224 &2111813137 stripped
+--- !u!224 &2087330780 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4015842253762567305, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
+  m_CorrespondingSourceObject: {fileID: 194318092333744529, guid: 3b9bd11106393fc47aa446a9fea5d4c1, type: 3}
   m_PrefabInstance: {fileID: 2003954301}
   m_PrefabAsset: {fileID: 0}
 --- !u!20 &2111813139 stripped
