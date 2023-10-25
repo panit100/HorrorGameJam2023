@@ -122,6 +122,7 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: -10}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &826827055476910922
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,9 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a48dc6e25b3f14eaf909a035c08bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movePos: {x: -15, y: 0, z: 0}
+  movePos: {x: -8, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &852398836665154976
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,6 +368,7 @@ MonoBehaviour:
   movePos: {x: -10, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &1153518719908704240
 GameObject:
   m_ObjectHideFlags: 0
@@ -488,6 +491,7 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: -14}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &1393619842968095832
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,6 +614,7 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: 10}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &1634700282302481260
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,6 +737,7 @@ MonoBehaviour:
   movePos: {x: -15, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &2101085766772420855
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,6 +860,7 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: -15}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &2648623283509556162
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,6 +983,7 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: 15}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &2809863236469398641
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,6 +1106,7 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: -15}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &3469692510777104595
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,6 +1229,7 @@ MonoBehaviour:
   movePos: {x: -10, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &3782629550042365679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,6 +1352,7 @@ MonoBehaviour:
   movePos: {x: -10, y: 0, z: -10}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &4430443695988793190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1515,6 +1526,7 @@ MonoBehaviour:
   movePos: {x: 10, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &5303444046700701905
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,9 +1646,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a48dc6e25b3f14eaf909a035c08bd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movePos: {x: 0, y: 0, z: -10}
+  movePos: {x: 16, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &6084920008442780047
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,6 +1772,7 @@ MonoBehaviour:
   movePos: {x: 20, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &6162143815933345286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,6 +1895,7 @@ MonoBehaviour:
   movePos: {x: 10, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &7615136044149330639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2003,6 +2018,7 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: -10}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &8083672404593574558
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,6 +2247,7 @@ MonoBehaviour:
   movePos: {x: 0, y: 0, z: -10}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &8772134154758026765
 GameObject:
   m_ObjectHideFlags: 0
@@ -2353,6 +2370,7 @@ MonoBehaviour:
   movePos: {x: 10, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0
 --- !u!1 &8881176382929662415
 GameObject:
   m_ObjectHideFlags: 0
@@ -2475,3 +2493,4 @@ MonoBehaviour:
   movePos: {x: -20, y: 0, z: 0}
   duration: 1
   ease: 0
+  isDoorOpen: 0

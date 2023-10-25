@@ -12,6 +12,7 @@ public class Door : MonoBehaviour
     [SerializeField] Vector3 movePos;
     [SerializeField] float duration = 1f;
     [SerializeField] Ease ease;
+    [SerializeField] bool isDoorOpen = false;
     // [SerializeField] bool scanBeforeInteract = false;
 
     Vector3 originPos;
@@ -50,6 +51,9 @@ public class Door : MonoBehaviour
         //     if(!scanable.AlreadyScan)
         //         return;
 
+        if(isDoorOpen == true) { return; }
+        isDoorOpen = true;
+
         DOTween.Kill(doorID);
         transform
             .DOMove(transform.position + movePos, duration)
@@ -66,6 +70,9 @@ public class Door : MonoBehaviour
 
     public void CloseDoor()
     {
+        if(isDoorOpen == false) { return; }
+        isDoorOpen = false;
+
         DOTween.Kill(doorID);
         transform
             .DOMove(originPos, duration)
