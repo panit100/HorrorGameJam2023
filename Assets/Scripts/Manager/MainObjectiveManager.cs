@@ -101,7 +101,8 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
     {
         if(NextObjectiveCode == "")
         {
-            //TODO: ทำไรก็ว่าไป
+            Debug.Log("Happy ending");
+            StartCoroutine(GameManager.Instance.GoToCutscene("As_ending"));
         }
 
         currentMainObjectiveCode = mainObjectiveDataDictionary[currentMainObjectiveCode].NextObjectiveCode;
