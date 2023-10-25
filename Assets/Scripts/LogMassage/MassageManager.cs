@@ -84,7 +84,9 @@ public class MassageManager : Singleton<MassageManager>
             massageText.SetMassageText(logData.GetLogString(O_SenderColor,O_TimeColor,O_MassageColor));
 
         massageText.gameObject.SetActive(true);
-        uIMessageNotification.PlayEnter();
+
+        if(PipboyMaterialController.Instance.IsUsingPipboy)
+            uIMessageNotification.PlayEnter();
     }
 
     public void HideNotificationText()
