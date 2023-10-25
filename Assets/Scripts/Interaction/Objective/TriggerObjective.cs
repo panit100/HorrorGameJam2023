@@ -5,8 +5,6 @@ using UnityEngine.Events;
 
 public class TriggerObjective : Objective
 {
-    [SerializeField] UnityEvent unityEvent;
-    
     void Start()
     {
         GetComponent<MeshRenderer>().enabled = false;

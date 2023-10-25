@@ -27,6 +27,7 @@ public class ScanObjective : Objective
         if(CheckObjective())
         {
             MainObjectiveManager.Instance.UpdateProgress(objectiveCode);
+            unityEvent?.Invoke();
             gameObject.SetActive(false);
         }
     }
