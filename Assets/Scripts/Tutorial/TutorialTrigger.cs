@@ -33,14 +33,14 @@ public class TutorialTrigger : MonoBehaviour
         tutorialCanvas.SetActive(true);
         tutorialText.text = text;
         tutorialButton.onClick.AddListener(DisableTutorialCanvas);
-        GameManager.Instance.LockCursor(false);
+        GameManager.Instance.OnChangeGameStage(GameStage.Tutorial);
         Time.timeScale = 0;
     }
     private void DisableTutorialCanvas()
     {
         Time.timeScale = 1;
+        GameManager.Instance.OnChangeGameStage(GameStage.Playing);
         tutorialCanvas.SetActive(false);
-        GameManager.Instance.LockCursor(true);
         AudioManager.Instance.PlayOneShot("clickUI");
         this.gameObject.SetActive(false);
     }
