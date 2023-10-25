@@ -25,11 +25,8 @@ public class LogData
         logType = _logType;
     }
 
-    public string GetLogString()
+    public string GetLogString(Color senderColor , Color timeColor, Color massageColor)
     {
-        if(logType == LogType.Massage)
-            return $"<style=SenderName>{sender}</style> : <style=SendTime>{sendTime}</style> : <style=SendMassageLog>{massage}</style>";
-        else
-            return $"<style=SenderName>{sender}</style> : <style=SendTime>{sendTime}</style> : <style=SendObjectiveLog>{massage}</style>";
+        return $"<color=#{ColorUtility.ToHtmlStringRGB(senderColor)}><b>{sender}</color></b> : <color=#{ColorUtility.ToHtmlStringRGB(timeColor)}>{sendTime}</color> : <color=#{ColorUtility.ToHtmlStringRGB(massageColor)}>{massage}</color>";
     }
 }
