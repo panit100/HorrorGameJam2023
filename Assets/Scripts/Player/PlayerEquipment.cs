@@ -78,4 +78,9 @@ public class PlayerEquipment : MonoBehaviour
         }
         equipment[index].HoldAnim();
     }
+
+    public void SwitchPipboyToEquipment()
+    {
+        equipment.Find(x => x.equipmentType == currentEquipment).HoldAnim();
+    }
 }

@@ -17,6 +17,16 @@ public class MassageManager : Singleton<MassageManager>
 
     [SerializeField] UIMessageNotification uIMessageNotification;
 
+    [Header("Massage Color")]
+    [SerializeField] Color M_SenderColor = Color.white;
+    [SerializeField] Color M_TimeColor = Color.white;
+    [SerializeField] Color M_MassageColor = Color.white;
+
+    [Header("Obejctive Color")]
+    [SerializeField] Color O_SenderColor = Color.white;
+    [SerializeField] Color O_TimeColor = Color.white;
+    [SerializeField] Color O_MassageColor = Color.white;
+
     protected override void InitAfterAwake()
     {
 
@@ -68,7 +78,11 @@ public class MassageManager : Singleton<MassageManager>
     void DisplayLogData(LogData logData)
     {
         MassageText massageText = Instantiate(massageTextTemplate,massageTextContanier);
-        massageText.SetMassageText(logData.GetLogString());
+        if(logData.logType == LogType.Massage)
+            massageText.SetMassageText(logData.GetLogString(M_SenderColor,M_TimeColor,M_MassageColor));
+        else
+            massageText.SetMassageText(logData.GetLogString(O_SenderColor,O_TimeColor,O_MassageColor));
+
         massageText.gameObject.SetActive(true);
         uIMessageNotification.PlayEnter();
     }

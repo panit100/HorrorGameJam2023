@@ -103,6 +103,7 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
              MeshGroup.SetActive(false);
              isUsingPipboy = false;
              FadeInDone = false;
+             PlayerManager.Instance.PlayerEquipment.SwitchPipboyToEquipment();
          });
      }
 

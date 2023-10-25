@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using HorrorJam.Audio;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -68,6 +69,7 @@ public class Scanable : MonoBehaviour
         onDeactiveScanComplete?.Invoke();
     }
 
+    [Button]
     public void ResetProgress()
     {
         alreadyScan = false;

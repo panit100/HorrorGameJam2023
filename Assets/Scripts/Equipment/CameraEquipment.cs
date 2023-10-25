@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using HorrorJam.Audio;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -73,6 +74,7 @@ public class CameraEquipment : Equipment
             
         isUsing = true;
 
+        AudioManager.Instance.PlayOneShot("cameraShutter");
         ActiveFlash();
         CaptureScreenshot();
         StartCoroutine(DisplayImage());

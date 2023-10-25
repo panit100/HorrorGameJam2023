@@ -52,7 +52,7 @@ namespace HorrorJam.AI
 
         void FadeOut()
         {
-            scanable.OnDeactiveScanWithDuration(1f);
+            scanable.OnDeactiveScanWithDuration(1.5f);
         }
 
         public void HideAI()
@@ -60,6 +60,7 @@ namespace HorrorJam.AI
             gameObject.SetActive(false);
         }
 
+        [Button]
         public void ShowAI()
         {
             gameObject.SetActive(true);
