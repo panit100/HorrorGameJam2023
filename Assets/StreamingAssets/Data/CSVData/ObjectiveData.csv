@@ -1,18 +1,18 @@
-ObjectiveName,ObjectiveCode,ObjectiveType,NextObjectiveCode,Sender,LogMessage
-string,string,string,string,string,string
-Get in lab,rp_start,ObjectiveType.ReachPosition,tp_test,DELTA2,IS THE CAMERA WORKING FINE? YOU SHOULD CHECK ON IT. PRESS 1 TO BRING UP CAMERA AND LEFT CLICK TO TAKE A PHOTO.
-Test take photo,tp_test,ObjectiveType.TakePhoto,so_test,DELTA2,OKAY. I WILL ASSUME THAT YOUR CAMERA IS FINE. EVEN IT IS NO DIFFERENT FROM SCRAP. NOW PRESS 2 TO TAKE OUT YOUR SCANNER AND TRY SCAN ON SOMETHING. THIS SHIT WON'T ACTIVE IF YOU DON'T HOLD THE LEFT CLICK UNTIL COMPLETE.
-Test scan object,so_test,ObjectiveType.ScanObject,tp_suit,DELTA2,FIRST YOU NEED TO TAKE THE PHOTO OF A HELMET. A SCIETIST'S HELMET. FIND THE PREP ROOM. THIS SHOUL BE EASY.
-Take photo of Science suit,tp_suit,ObjectiveType.TakePhoto,rp_con,DELTA2,LOOKS EXPENSIVE EH? THE COLLECTOR TEAM WILL COME PICK IT UP LATER. NOW FIND THE CONTROL ROOM.
-Open Control Room,rp_con,ObjectiveType.ReachPosition,so_tool_sci,DELTA2,I CAN SEE CONTROL ROOM'S GREEN LIGHT ON THE MAP.
-Scan Scientific tool,so_tool_sci,ObjectiveType.ScanObject,tp_shelfroom,DELTA2,WAIT. THIS IS BIOLOGICAL TOOL. ARE THEY RESEARCHING THE BIO-TECH HERE? ON THE MOON? I'M SURE THERE'S MORE NEARBY. GO FIND IT.
-Take photo in Shelf Room,tp_shelfroom,ObjectiveType.TakePhoto,so_tool_shelf,DELTA2,I HAVE NO IDEA JUST SEEING IT. YOU NEED TO SCAN THE ENTIRE SHELF.
-Scan Shelf science,so_tool_shelf,ObjectiveType.ScanObject,rp_lab,DELTA2,OKAY. I THINK WE FOUND SOMETHING VERY INTERESTING. THE SHELF IS FULL OF DISSECTION TOOLS. GET TO THE LAB ZONE THERE SHOULD BE MORE OF GOOD STUFFS THERE. BUT YOU NEED TO ACTIVE THE POWER BUTTON IN CONTROL ROOM.
-Check Laboratory zone,rp_lab,ObjectiveType.ReachPosition,tp_laboratory_1,DELTA2,WHAT'S WRONG? I WON'T ACTIVE THE ELEVATOR FOR YOU UNTIL YOU COMPLETE THE DAMN JOB. TAKE ALL THREE PHOTO IN THE LAB.
-Take photo Laboratory zone 1/3,tp_laboratory_1,ObjectiveType.TakePhoto,tp_laboratory_2,DELTA2,TWO LEFT.
-Take photo Laboratory zone 2/3,tp_laboratory_2,ObjectiveType.TakePhoto,tp_laboratory_3,DELTA2,ONE LEFT.
-Take photo Laboratory zone 3/3,tp_laboratory_3,ObjectiveType.TakePhoto,so_lab_sci,DELTA2,OKAY. I NEED MORE SCAN DATA FOR OUR COLLECTOR. SCAN ANYTHING YOU THINK IT IS INTERESTING.
-Scan Lab bench,so_lab_sci,ObjectiveType.ScanObject,so_cham_sci,DELTA2,SOME KIND OF SURGERY BENCH? GOOD. I NEED MORE. SCAN ONE OR TWO THING.
-Scan Growth chamber,so_cham_sci,ObjectiveType.ScanObject,so_ex_sci,DELTA2,WHAT THE HELL. THEY ARE RUNNING XENO RESEARCH ON THE FUCKING MOON. THE RUMOR WAS TRUE. I NEED TO KNOW MORE. SCAN ONE LAST THING AND GET OUT OF THERE.
-Scan Experimental bed,so_ex_sci,ObjectiveType.ScanObject,rp_base,DELTA2,ECHO3 YOU NEED TO GET BACK TO THE ELEAVATOR.
-Get back to base,rp_base,ObjectiveType.ReachPosition,,DELTA2,
+ObjectiveName,ObjectiveCode,ObjectiveType,NextObjectiveCode,Sender,LogMessage,SenderColor,TimeColor,MassageColor
+string,string,string,string,string,string,string,string,string
+Get in lab,rp_start,ObjectiveType.ReachPosition,tp_test,DELTA2,IS THE CAMERA WORKING FINE? YOU SHOULD CHECK ON IT. PRESS 1 TO BRING UP CAMERA AND LEFT CLICK TO TAKE A PHOTO.,white,white,white
+Test take photo,tp_test,ObjectiveType.TakePhoto,so_test,DELTA2,OKAY. I WILL ASSUME THAT YOUR CAMERA IS FINE. EVEN IT IS NO DIFFERENT FROM SCRAP. NOW PRESS 2 TO TAKE OUT YOUR SCANNER AND TRY SCAN ON SOMETHING. THIS SHIT WON'T ACTIVE IF YOU DON'T HOLD THE LEFT CLICK UNTIL COMPLETE.,white,white,white
+Test scan object,so_test,ObjectiveType.ScanObject,tp_suit,DELTA2,FIRST YOU NEED TO TAKE THE PHOTO OF A HELMET. A SCIETIST'S HELMET. FIND THE PREP ROOM. THIS SHOUL BE EASY.,white,white,white
+Take photo of Science suit,tp_suit,ObjectiveType.TakePhoto,rp_con,DELTA2,LOOKS EXPENSIVE EH? THE COLLECTOR TEAM WILL COME PICK IT UP LATER. NOW FIND THE CONTROL ROOM.,white,white,white
+Open Control Room,rp_con,ObjectiveType.ReachPosition,so_tool_sci,DELTA2,I CAN SEE CONTROL ROOM'S GREEN LIGHT ON THE MAP.,white,white,white
+Scan Scientific tool,so_tool_sci,ObjectiveType.ScanObject,tp_shelfroom,DELTA2,WAIT. THIS IS BIOLOGICAL TOOL. ARE THEY RESEARCHING THE BIO-TECH HERE? ON THE MOON? I'M SURE THERE'S MORE NEARBY. GO FIND IT.,white,white,white
+Take photo in Shelf Room,tp_shelfroom,ObjectiveType.TakePhoto,so_tool_shelf,DELTA2,I HAVE NO IDEA JUST SEEING IT. YOU NEED TO SCAN THE ENTIRE SHELF.,white,white,white
+Scan Shelf science,so_tool_shelf,ObjectiveType.ScanObject,rp_lab,DELTA2,OKAY. I THINK WE FOUND SOMETHING VERY INTERESTING. THE SHELF IS FULL OF DISSECTION TOOLS. GET TO THE LAB ZONE THERE SHOULD BE MORE OF GOOD STUFFS THERE. BUT YOU NEED TO ACTIVE THE POWER BUTTON IN CONTROL ROOM.,white,white,white
+Check Laboratory zone,rp_lab,ObjectiveType.ReachPosition,tp_laboratory_1,DELTA2,WHAT'S WRONG? I WON'T ACTIVE THE ELEVATOR FOR YOU UNTIL YOU COMPLETE THE DAMN JOB. TAKE ALL THREE PHOTO IN THE LAB.,white,white,white
+Take photo Laboratory zone 1/3,tp_laboratory_1,ObjectiveType.TakePhoto,tp_laboratory_2,DELTA2,TWO LEFT.,white,white,white
+Take photo Laboratory zone 2/3,tp_laboratory_2,ObjectiveType.TakePhoto,tp_laboratory_3,DELTA2,ONE LEFT.,white,white,white
+Take photo Laboratory zone 3/3,tp_laboratory_3,ObjectiveType.TakePhoto,so_lab_sci,DELTA2,OKAY. I NEED MORE SCAN DATA FOR OUR COLLECTOR. SCAN ANYTHING YOU THINK IT IS INTERESTING.,white,white,white
+Scan Lab bench,so_lab_sci,ObjectiveType.ScanObject,so_cham_sci,DELTA2,SOME KIND OF SURGERY BENCH? GOOD. I NEED MORE. SCAN ONE OR TWO THING.,white,white,white
+Scan Growth chamber,so_cham_sci,ObjectiveType.ScanObject,so_ex_sci,DELTA2,WHAT THE HELL. THEY ARE RUNNING XENO RESEARCH ON THE FUCKING MOON. THE RUMOR WAS TRUE. I NEED TO KNOW MORE. SCAN ONE LAST THING AND GET OUT OF THERE.,white,white,white
+Scan Experimental bed,so_ex_sci,ObjectiveType.ScanObject,rp_base,DELTA2,ECHO3 YOU NEED TO GET BACK TO THE ELEAVATOR.,white,white,white
+Get back to base,rp_base,ObjectiveType.ReachPosition,,DELTA2,,white,white,white

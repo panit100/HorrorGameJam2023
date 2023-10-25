@@ -15,18 +15,27 @@ public class LogData
     public string sender;
     public string sendTime; 
     public string massage;
+    public string senderColor;
+    public string timeColor;
+    public string massageColor;
     public LogType logType;
 
-    public LogData(string _sender,string _sendTime,string _massage, LogType _logType)
+    public LogData(string _sender,string _sendTime,string _massage, LogType _logType,string _senderColor,string _timeColor,string _massageColor)
     {
         sender = _sender;
         sendTime = _sendTime;
         massage = _massage;
         logType = _logType;
+        senderColor = _senderColor;
+        timeColor = _timeColor;
+        massageColor = _massageColor;
     }
 
-    public string GetLogString(Color senderColor , Color timeColor, Color massageColor)
-    {
-        return $"<color=#{ColorUtility.ToHtmlStringRGB(senderColor)}><b>{sender}</color></b> : <color=#{ColorUtility.ToHtmlStringRGB(timeColor)}>{sendTime}</color> : <color=#{ColorUtility.ToHtmlStringRGB(massageColor)}>{massage}</color>";
+    public string GetLogString()
+    {   
+        string _sender = $"<color=white> {sender} </color>";
+        string _time = $"<color=white> {sendTime} </color>";
+        string _massage = $"<color=white> {massage} </color>";
+        return $"{_sender} : {_time} : {_massage}";
     }
 }

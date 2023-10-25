@@ -9,4 +9,7 @@ public class MassageData
     public string massageCode;
     public string sender;
     public string massage;
+    public string senderColor;
+    public string timeColor;
+    public string massageColor;
 }

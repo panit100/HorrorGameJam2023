@@ -58,9 +58,7 @@ public class MassageManager : Singleton<MassageManager>
 
     public void AddLogData(MainObjectiveData objectiveData)
     {
-        print(objectiveData.Sender);
-        print(objectiveData.LogMessage);
-        LogData newLogData = new LogData(objectiveData.Sender,TimeManager.Instance.GetCurrentTime(),objectiveData.LogMessage,LogType.Objective);
+        LogData newLogData = new LogData(objectiveData.Sender,TimeManager.Instance.GetCurrentTime(),objectiveData.LogMessage,LogType.Objective,objectiveData.SenderColor,objectiveData.TimeColor,objectiveData.MassageColor);
         logDataDic.Add(newLogData);
 
         DisplayLogData(newLogData);
@@ -68,7 +66,7 @@ public class MassageManager : Singleton<MassageManager>
 
     public void AddLogData(string massageCode)
     {
-        LogData newLogData = new LogData(massageDataDic[massageCode].sender,TimeManager.Instance.GetCurrentTime(),massageDataDic[massageCode].massage,LogType.Massage);
+        LogData newLogData = new LogData(massageDataDic[massageCode].sender,TimeManager.Instance.GetCurrentTime(),massageDataDic[massageCode].massage,LogType.Massage,massageDataDic[massageCode].senderColor,massageDataDic[massageCode].timeColor,massageDataDic[massageCode].massageColor);
         logDataDic.Add(newLogData);
 
         DisplayLogData(newLogData);
@@ -79,9 +77,9 @@ public class MassageManager : Singleton<MassageManager>
     {
         MassageText massageText = Instantiate(massageTextTemplate,massageTextContanier);
         if(logData.logType == LogType.Massage)
-            massageText.SetMassageText(logData.GetLogString(M_SenderColor,M_TimeColor,M_MassageColor));
+            massageText.SetMassageText(logData.GetLogString());
         else
-            massageText.SetMassageText(logData.GetLogString(O_SenderColor,O_TimeColor,O_MassageColor));
+            massageText.SetMassageText(logData.GetLogString());
 
         massageText.gameObject.SetActive(true);
 
