@@ -797,7 +797,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenDoorAndBakeNavMesh
+      value: OpenDoor
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
@@ -1235,7 +1235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1271,15 +1271,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenDoorAndBakeNavMesh
+      value: OpenDoor
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: OpenDoorAndBakeNavMesh
+      value: OpenDoor
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: OpenDoorAndBakeNavMesh
+      value: Play
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
@@ -1295,7 +1295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: Door, Assembly-CSharp
+      value: UnityEngine.AudioSource, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 743624929826946289, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
@@ -1327,23 +1327,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5.1367617
+      value: 2.2561762
+      objectReference: {fileID: 0}
+    - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.4487674
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalScale.z
-      value: 13.233007
+      value: 9.738221
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 37.93
+      value: 33.46
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.14
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.76
+      value: -40.42
       objectReference: {fileID: 0}
     - target: {fileID: 3194261379256032326, guid: 0abc1bbe29583994f8ca90502fda88f5, type: 3}
       propertyPath: m_LocalRotation.w
