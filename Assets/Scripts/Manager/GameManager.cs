@@ -150,6 +150,7 @@ public class GameManager : Singleton<GameManager>
     {
         TimeManager.Instance.SetCurrentTime();
         GameManager.Instance.OnChangeGameStage(GameStage.Playing);
+        initFogsetting();
         MainObjectiveManager.Instance.SetupObjective();
     }
 
@@ -225,5 +226,13 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitUntil(() => SceneController.Instance != null);
         GameManager.Instance.OnChangeGameStage(GameStage.Cutscene);
         SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_CUTSCENE, null, () => {OnStartCutscene(cutsceneID);});
+    }
+
+    public void initFogsetting()
+    {
+        RenderSettings.fog = true;
+        RenderSettings.fogColor = new Color(0.141f,0,0);
+        RenderSettings.fogMode = FogMode.ExponentialSquared;
+        RenderSettings.fogDensity = 0;
     }
 }
