@@ -149,7 +149,7 @@ public class GameManager : Singleton<GameManager>
     public void OnStartGame()
     {
         TimeManager.Instance.SetCurrentTime();
-        GameManager.Instance.OnChangeGameStage(GameStage.Playing);
+        GameManager.Instance.OnChangeGameStage(GameStage.Tutorial);
         initFogsetting();
         MainObjectiveManager.Instance.SetupObjective();
     }
