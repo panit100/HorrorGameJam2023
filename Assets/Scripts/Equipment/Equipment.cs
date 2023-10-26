@@ -19,4 +19,9 @@ public class Equipment : MonoBehaviour
     {
         
     }
+
+    public void ForceSetIsPress(bool toggle)
+    {
+        isPress = toggle;
+    }
 }
