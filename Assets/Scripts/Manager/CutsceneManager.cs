@@ -68,6 +68,7 @@ public class CutsceneManager : Singleton<CutsceneManager>
 
     public void EndOfvideo(UnityEngine.Video.VideoPlayer vp)
     {
+        VdoPlayer.Stop();
         if (currentCutscene == "As_ending")
         {
             StartCoroutine(  GameManager.Instance.GoToSceneMainMenu());
@@ -80,6 +81,7 @@ public class CutsceneManager : Singleton<CutsceneManager>
     }
     public void SkipEndOfvideo()
     {
+        VdoPlayer.Stop();
         if (currentCutscene == "As_ending")
         {
             StartCoroutine(  GameManager.Instance.GoToSceneMainMenu());
