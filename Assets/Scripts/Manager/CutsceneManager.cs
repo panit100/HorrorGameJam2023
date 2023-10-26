@@ -6,15 +6,16 @@ using LlockhamIndustries.Misc;
 using LogMassage;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.Video;
 
 public class CutsceneManager : Singleton<CutsceneManager>
 {
-    public List<VideoClip> Cutscene = new List<VideoClip>();
+    public List<videolist> Cutscene = new List<videolist>();
     public VideoPlayer VdoPlayer;
     private UIMessageNotification skipimage;
     
-    private Dictionary<string, VideoClip> CutsceneID = new Dictionary<string, VideoClip>();
+   
 
     private String currentCutscene;
     // Start is called before the first frame update
@@ -22,10 +23,10 @@ public class CutsceneManager : Singleton<CutsceneManager>
     protected override void InitAfterAwake()
     {
         VdoPlayer.loopPointReached += EndOfvideo;
-        foreach (var VARIABLE in Cutscene)
-        {
-            CutsceneID.Add(VARIABLE.name,VARIABLE);
-        }
+    }
+
+    private void Start()
+    {
       
     }
 
@@ -55,13 +56,14 @@ public class CutsceneManager : Singleton<CutsceneManager>
         currentCutscene = EventID;
         if (EventID == "init")
         {
-            VdoPlayer.clip = CutsceneID[Cutscene[0].name];
+            VdoPlayer.clip = Cutscene[0].video ;
         }
         else
         {
-            VdoPlayer.clip = CutsceneID[EventID];
+            VdoPlayer.clip = Cutscene.Find(x=>x.ID== EventID).video;
         }
-        VdoPlayer.Play();
+        VdoPlayer.Prepare();
+        VdoPlayer.prepareCompleted += (source =>  VdoPlayer.Play());
     }
 
     public void EndOfvideo(UnityEngine.Video.VideoPlayer vp)
@@ -94,4 +96,11 @@ public class CutsceneManager : Singleton<CutsceneManager>
     {
         VdoPlayer.loopPointReached -= EndOfvideo;
     }
+}
+
+[Serializable]
+public class videolist
+{
+    public string ID;
+    public VideoClip video;
 }

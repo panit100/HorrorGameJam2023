@@ -549,8 +549,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Cutscene:
-  - {fileID: 32900000, guid: 8b734211dbaaf024b997a49e7e0b99f8, type: 3}
-  - {fileID: 32900000, guid: 025d4a1e4bfd2854083db045e7d305d6, type: 3}
+  - ID: As_intro
+    video: {fileID: 32900000, guid: 8b734211dbaaf024b997a49e7e0b99f8, type: 3}
+  - ID: AS_ending
+    video: {fileID: 32900000, guid: 025d4a1e4bfd2854083db045e7d305d6, type: 3}
   VdoPlayer: {fileID: 0}
 --- !u!4 &2079521050
 Transform:
