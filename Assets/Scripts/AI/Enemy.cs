@@ -204,6 +204,7 @@ namespace HorrorJam.AI
             if (targetWaypoint)
                 ReplaceTo(targetWaypoint);
 
+            //TODO สว่าง
             scanable.ResetProgress();
         }
 
@@ -333,6 +334,7 @@ namespace HorrorJam.AI
             OnDetectPlayer?.Invoke();
             ChangeSpeedSetting(chaseSpeed);
             speedBeforeStop = chaseSpeed;
+            //TODO มืดขึ้น
             isDetectedPlayer = true;
         }
         
