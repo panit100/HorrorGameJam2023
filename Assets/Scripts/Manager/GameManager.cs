@@ -64,6 +64,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 InputSystemManager.Instance.TogglePipboyControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
+
                 break;
             case GameStage.Playing:
                 isPause = false;
@@ -83,6 +84,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 InputSystemManager.Instance.TogglePipboyControl(true);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
+
+                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
                 break;
             case GameStage.Pause:
                 isPause = true;
@@ -92,6 +95,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 InputSystemManager.Instance.TogglePipboyControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
+
+                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
                 
                 if(FindObjectOfType<PausePanel>() != null)
                     FindObjectOfType<PausePanel>().EnablePausePanel(true);
@@ -103,6 +108,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.TogglePipboyControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
 
+                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
+
                 PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
                 break;
             case GameStage.Cutscene:
@@ -111,6 +118,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 InputSystemManager.Instance.TogglePipboyControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(true);
+
                 break;
             case GameStage.Tutorial:
                 LockCursor(false);
@@ -118,6 +126,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 InputSystemManager.Instance.TogglePipboyControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
+
+                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
                 break;
 
         }

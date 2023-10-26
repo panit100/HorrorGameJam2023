@@ -102,17 +102,24 @@ public class ScannerEquipment : Equipment
     {
         objectInRange = GetObjectInRange();
 
-        if (isScanning && batteryAmout <= 0)
-        {
-            OnUnscan();
-        }
-          
+        UpdateCanvas();
 
         if(isScanning)
+        {
+            if(batteryAmout <= 0)
+            {
+                OnUnscan();
+                return;
+            }
+            
             ConsumeBattery();
+        }
         else
             RefillBattery();
+    }
 
+    void UpdateCanvas()
+    {
         if(scannerCanvas != null)
         {
             scannerCanvas.UpdateBattery(batteryAmout);
@@ -128,10 +135,7 @@ public class ScannerEquipment : Equipment
             {
                 scannerCanvas.UpdateText("Scanning");
             }
-            
         }
-
-
     }
 
     void OnScan()
@@ -157,7 +161,7 @@ public class ScannerEquipment : Equipment
         }
     }
 
-    void OnUnscan()
+    public void OnUnscan()
     {
         if(!isScanning)
             return;

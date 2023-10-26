@@ -83,4 +83,9 @@ public class PlayerEquipment : MonoBehaviour
     {
         equipment.Find(x => x.equipmentType == currentEquipment).HoldAnim();
     }
+
+    public ScannerEquipment GetScanner()
+    {
+        return equipment.Find(x => x.equipmentType == EquipmentType.Scanner).GetComponent<ScannerEquipment>();
+    }
 }
