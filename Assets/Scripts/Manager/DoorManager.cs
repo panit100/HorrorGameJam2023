@@ -23,11 +23,13 @@ public class DoorManager : Singleton<DoorManager>
     [Button]
     public void OnOpenAllDoor()
     {
-        foreach(var n in doors)
+        for(int i = 0; i < doors.Length; i++)
         {
-            n.OpenDoor();
+            doors[i].OpenDoor();
+            if(i == doors.Length-1)
+            {
+                AIManager.Instance.BakeNavMeshAfterDelay(1f);
+            }
         }
-        
-        AIManager.Instance.BakeNavMeshAfterDelay(1f);
     }
 }

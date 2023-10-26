@@ -15581,6 +15581,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48eeb41acc6305e46a3d87b1e5f29c2b, type: 3}
+--- !u!114 &1321815152 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7998892740276471981, guid: 48eeb41acc6305e46a3d87b1e5f29c2b, type: 3}
+  m_PrefabInstance: {fileID: 1321815151}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1340939548
 GameObject:
   m_ObjectHideFlags: 0
@@ -19262,7 +19273,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.33333334
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 9fd3c56e56db14528b80ab46703fc774, type: 2}
   m_BuildHeightMesh: 0
@@ -19824,7 +19835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c2cadaa3954fd5a04deee591a44974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surface: {fileID: 1737115831}
+  surface: {fileID: 1321815152}
   spawnEnemyConfig:
     enemyPrefab: {fileID: -5674676057466913536, guid: a6a0025cc2f264b80b14ae63fd349e27, type: 3}
     spawnPosition: {x: -3.6, y: -1.13, z: -27.4}
