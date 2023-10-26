@@ -114,8 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanProgress: 0
-  scanDuration: 0.5
-  scanEase: 0
+  scanDuration: 0.35
+  scanEase: 1
 --- !u!65 &2537919681911296635
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 1109764809317579960}
-  fadeOutTime: 1.5
+  fadeOutTime: 0.25
 --- !u!65 &7029206761839880465
 BoxCollider:
   m_ObjectHideFlags: 0
