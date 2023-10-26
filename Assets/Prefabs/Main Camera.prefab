@@ -204,6 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6823822144818096174}
   - component: {fileID: 7882038486329299894}
+  - component: {fileID: 8045104766771817665}
   m_Layer: 0
   m_Name: ScreenShotCamera
   m_TagString: ScreenShotCamera
@@ -277,6 +278,18 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &8045104766771817665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944396030115673867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eebcb94a7a755d4190789a0c75f05c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2189515389069629298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,6 +1332,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4044105640943997610, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4274755636876206185, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
       propertyPath: m_CastShadows
       value: 2
@@ -1330,6 +1347,26 @@ PrefabInstance:
     - target: {fileID: 4411760319744562785, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
       propertyPath: m_PixelsPerUnitMultiplier
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278147456150448580, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278147456150448580, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278147456150448580, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278147456150448580, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 312.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5278147456150448580, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5352394233346864138, guid: 4fa494c852c91134487004e0fe702d41, type: 3}
       propertyPath: m_LocalPosition.x
