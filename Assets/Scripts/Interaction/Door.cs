@@ -43,7 +43,7 @@ public class Door : MonoBehaviour
     public void OpenDoorAndBakeNavMesh()
     {
         OpenDoor();
-        AIManager.Instance.BakeNavMeshAfterDelay(duration);
+        // AIManager.Instance.BakeNavMeshAfterDelay(duration);
     }
 
     public void OpenDoor()
@@ -66,7 +66,7 @@ public class Door : MonoBehaviour
     public void CloseDoorAndBakeNavMesh()
     {
         CloseDoor();
-        AIManager.Instance.BakeNavMeshAfterDelay(duration);
+        // AIManager.Instance.BakeNavMeshAfterDelay(duration);
     }
 
     public void CloseDoor()

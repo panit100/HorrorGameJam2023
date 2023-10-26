@@ -60,6 +60,7 @@ namespace HorrorJam.AI
         {
             Enemy _enemy = Instantiate(spawnEnemyConfig.enemyPrefab,spawnEnemyConfig.spawnPosition,Quaternion.identity);
             _enemy.SetCurrentWaypointContainer(spawnEnemyConfig.waypointContainer);
+            _enemy.SetWaypoint(spawnEnemyConfig.waypointContainer.GetRandomWaypoint());
             enemy = _enemy;
         }
         

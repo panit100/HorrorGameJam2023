@@ -115,6 +115,7 @@ namespace HorrorJam.AI
 
             LookToPlayer();
 
+
             if (GameManager.Instance.IsPause)
                 return;
 

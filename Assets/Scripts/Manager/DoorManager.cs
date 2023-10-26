@@ -26,10 +26,10 @@ public class DoorManager : Singleton<DoorManager>
         for(int i = 0; i < doors.Length; i++)
         {
             doors[i].OpenDoor();
-            if(i == doors.Length-1)
-            {
-                AIManager.Instance.BakeNavMeshAfterDelay(1f);
-            }
+            // if(i == doors.Length-1)
+            // {
+            //     AIManager.Instance.BakeNavMeshAfterDelay(1f);
+            // }
         }
     }
 }
