@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using HorrorJam.AI;
 using HorrorJam.Audio;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -28,7 +29,7 @@ public class Scanable : MonoBehaviour
         if(alreadyScan)
             return;
 
-        if(!isObjective())
+        if(!isObjective() && !isFakeEnemy() && !isEnemy())
             return;
         
         scanTween.Kill();
@@ -79,6 +80,22 @@ public class Scanable : MonoBehaviour
     public bool isObjective()
     {
         if(GetComponent<Objective>() != null && GetComponent<Objective>().CheckObjective())
+            return true;
+        else
+            return false;
+    }
+
+    public bool isFakeEnemy()
+    {
+        if(GetComponentInParent<FakeEnemy>() != null)
+            return true;
+        else
+            return false;
+    }
+
+    public bool isEnemy()
+    {
+        if(GetComponentInParent<Enemy>() != null)
             return true;
         else
             return false;

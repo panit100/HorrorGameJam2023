@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using HorrorJam.AI;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -201,6 +202,12 @@ public class ScannerEquipment : Equipment
                 if(CylindricalSectorContains(n.transform.position))
                 {
                     if(n.GetComponent<Scanable>().isObjective())
+                        return true;
+
+                    if(n.GetComponent<Scanable>().isFakeEnemy())
+                        return true;
+
+                    if(n.GetComponent<Scanable>().isEnemy())
                         return true;
                 }
             }
