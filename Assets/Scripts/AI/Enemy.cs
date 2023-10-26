@@ -112,6 +112,9 @@ namespace HorrorJam.AI
         void Update()
         {
             Debug.DrawLine(transform.position, agent.destination, Color.white);
+
+            LookToPlayer();
+
             if (GameManager.Instance.IsPause)
                 return;
 
@@ -455,6 +458,20 @@ namespace HorrorJam.AI
         public void SetCurrentWaypointContainer(WaypointContainer waypointContainer)
         {
             currentWaypointContainer = waypointContainer;
+        }
+
+        void LookToPlayer()
+        {
+            Vector3 playerPos = PlayerManager.Instance.transform.position;
+            playerPos.y = 0;
+            Vector3 enemyPos = transform.position;
+            enemyPos.y = 0;
+
+            Vector3 directionToPlayer = playerPos - enemyPos;
+
+            Quaternion rotation = Quaternion.LookRotation(directionToPlayer);
+
+            transform.rotation = rotation;
         }
 
 #if UNITY_EDITOR
