@@ -196,11 +196,13 @@ namespace HorrorJam.AI
             }
         }
 
+        Waypoint lastRespawnPoint;
+
         [Button]
         void RespawnFarFromPlayer()
         {
             var playerPlanePos = AIManager.Instance.PlayerPlanePosition;
-            var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance);
+            var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance,lastRespawnPoint);
             if (targetWaypoint)
                 ReplaceTo(targetWaypoint);
 
@@ -214,6 +216,7 @@ namespace HorrorJam.AI
             agent.enabled = false;
             transform.position = targetWaypoint.transform.position;
             agent.enabled = true;
+            lastRespawnPoint = targetWaypoint;
         }
 
         [Button]
