@@ -391,7 +391,7 @@ namespace HorrorJam.AI
             speedBeforeStop = superSlowedDownSpeed;
 
             scanable.OnDeactiveScanWithDuration(respawnDelayAfterPursue);
-            Schedule(respawnDelayAfterPursue, () => {Destroy(this.gameObject);}, RespawnId);
+            Schedule(respawnDelayAfterPursue, RespawnFarFromPlayer, RespawnId);
         }
 
         [Button]
