@@ -21,12 +21,13 @@ public class GameManager : Singleton<GameManager>
 {
     [SerializeField] GameStage gameStage = GameStage.MainMenu;
 
-    public GameStage GameStage => gameStage;
-
     [Indent,SerializeField,ReadOnly] bool isPause = false;
+
+    public GameStage GameStage => gameStage;
     public bool IsPause => isPause;
 
     public Action onPause;
+    
     protected override void InitAfterAwake()
     {
         AddInputListener();

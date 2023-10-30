@@ -66,7 +66,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
     public void SendLogToPipBoy()
     {
-        MassageManager.Instance.AddLogData(mainObjectiveDataDictionary[currentMainObjectiveCode]);
+        MessageManager.Instance.AddLogData(mainObjectiveDataDictionary[currentMainObjectiveCode]);
     }
 
     string SetNextObjective(string NextObjectiveCode)

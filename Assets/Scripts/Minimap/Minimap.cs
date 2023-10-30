@@ -7,6 +7,12 @@ namespace Minimap
         [SerializeField] GameObject pinPrefabObj;
         [SerializeField] float objectivePinHeight = 25f;
         [SerializeField] Transform cameraTransform;
+
+        protected override void InitAfterAwake()
+        {
+            
+        }
+
         void LateUpdate()
         {
             if (cameraTransform == null)
@@ -20,11 +26,6 @@ namespace Minimap
             var targetAngle = cameraTransform.transform.eulerAngles;
             targetAngle.y = playerTransform.transform.eulerAngles.y;
             cameraTransform.eulerAngles = targetAngle;
-        }
-
-        protected override void InitAfterAwake()
-        {
-            
         }
 
         public GameObject CreateObjectivePin(ObjectiveMapPin pin)

@@ -109,7 +109,7 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
 
      private void fadeInAlpha()
      {
-        MassageManager.Instance.HideNotificationText();
+        MessageManager.Instance.HideNotificationText();
          Tween fadein ;
          fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 1, fadeinduration*0.35f).SetEase(ScreenEase);
      }

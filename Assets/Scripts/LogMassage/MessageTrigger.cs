@@ -4,14 +4,14 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class MassageTrigger : MonoBehaviour
+public class MessageTrigger : MonoBehaviour
 {
     [SerializeField] string massageCode;
     [SerializeField] float massageDelay;
 
-    string MassageId => $"Massage_{massageCode}";
     [SerializeField] UnityEvent unityEvent;
 
+    string MassageId => $"Massage_{massageCode}";
     
     void Start()
     {
@@ -20,7 +20,7 @@ public class MassageTrigger : MonoBehaviour
 
     Sequence Schedule(float delay, TweenCallback callback, string id)
     {
-        DOTween.Kill(id);  //TODO: Error not found id
+        DOTween.Kill(id); 
         return DOTween.Sequence()
             .AppendInterval(delay)
             .AppendCallback(callback)
@@ -29,7 +29,7 @@ public class MassageTrigger : MonoBehaviour
 
     void SendLogToPipBoy()
     {
-        MassageManager.Instance.AddLogData(massageCode);
+        MessageManager.Instance.AddLogData(massageCode);
     }
 
     private void OnTriggerEnter(Collider other) 
