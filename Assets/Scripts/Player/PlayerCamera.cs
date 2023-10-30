@@ -15,8 +15,6 @@ public class PlayerCamera : MonoBehaviour
     float xRotation;
     float yRotation;
 
-    public UnityAction onDie;
-
     void Start()
     {
         AddInputListener();

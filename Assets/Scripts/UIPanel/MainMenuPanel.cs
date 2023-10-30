@@ -34,6 +34,7 @@ public class MainMenuPanel : MonoBehaviour
     {
         howToPlayPanel.SetActive(true);
     }
+    
     void OnClickQuitButton()
     {
         Application.Quit();

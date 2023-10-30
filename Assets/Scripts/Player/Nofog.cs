@@ -4,14 +4,15 @@ public class Nofog : MonoBehaviour {
 
     bool doWeHaveFogInScene;
 
-    private void Start() {
+    void Start() {
         doWeHaveFogInScene = RenderSettings.fog;
     }
 
-    private void OnPreRender() {
+    void OnPreRender() {
         RenderSettings.fog = false;
     }
-    private void OnPostRender() {
+    
+    void OnPostRender() {
         RenderSettings.fog = doWeHaveFogInScene;
     }
 }

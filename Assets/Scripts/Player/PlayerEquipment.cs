@@ -18,7 +18,7 @@ public class PlayerEquipment : MonoBehaviour
     void Start()
     {
         AddInputListener();
-        SwitchEquipment(0);
+        SwitchEquipment(0); //TODO: Move to OnStartGame
     }
 
     void AddInputListener()
@@ -41,9 +41,7 @@ public class PlayerEquipment : MonoBehaviour
     void OnUseArm()
     {
         foreach (var VARIABLE in equipment)
-        {
             VARIABLE.PutAnim();
-        }
     }
 
     void OnUseEquipment()
@@ -67,15 +65,12 @@ public class PlayerEquipment : MonoBehaviour
         if(currentEquipment == equipment[index].equipmentType)
             return;
 
+        Equipment tempHoldedEquipment = equipment.Find(n => n.equipmentType == currentEquipment);
+
         currentEquipment = equipment[index].equipmentType;
         
-        foreach (var VARIABLE in equipment)
-        {
-            if (VARIABLE.equipmentType != currentEquipment)
-            {
-                VARIABLE.PutAnim();
-            }
-        }
+        tempHoldedEquipment.PutAnim();
+        
         equipment[index].HoldAnim();
     }
 
@@ -87,5 +82,10 @@ public class PlayerEquipment : MonoBehaviour
     public ScannerEquipment GetScanner()
     {
         return equipment.Find(x => x.equipmentType == EquipmentType.Scanner).GetComponent<ScannerEquipment>();
+    }
+
+    public CameraEquipment GetCamera()
+    {
+        return equipment.Find(x => x.equipmentType == EquipmentType.Camera).GetComponent<CameraEquipment>();
     }
 }

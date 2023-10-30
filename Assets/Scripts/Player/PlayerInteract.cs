@@ -55,6 +55,7 @@ public class PlayerInteract : MonoBehaviour
         RemoveInputListener();
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos() 
     {
         Gizmos.color = IsInteractObjectInRange() ? Color.green : Color.red;    
@@ -63,4 +64,5 @@ public class PlayerInteract : MonoBehaviour
         Vector3 camForward = Camera.main.transform.TransformDirection(Vector3.forward) * InteractRange;
         Gizmos.DrawRay(camPos,camForward);
     }
+#endif
 }

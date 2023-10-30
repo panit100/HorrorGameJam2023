@@ -26,6 +26,8 @@ public class GameManager : Singleton<GameManager>
 
     [Indent,SerializeField,ReadOnly] bool isPause = false;
     public bool IsPause => isPause;
+
+    public  Action onPause;
     protected override void InitAfterAwake()
     {
         AddInputListener();
@@ -68,8 +70,6 @@ public class GameManager : Singleton<GameManager>
                 break;
             case GameStage.Playing:
                 isPause = false;
-                if(FindObjectOfType<PausePanel>() != null)
-                    FindObjectOfType<PausePanel>().EnablePausePanel(false);
                 LockCursor(true);
 
                 InputSystemManager.Instance.TogglePlayerControl(true);
@@ -98,8 +98,8 @@ public class GameManager : Singleton<GameManager>
 
                 PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
                 
-                if(FindObjectOfType<PausePanel>() != null)
-                    FindObjectOfType<PausePanel>().EnablePausePanel(true);
+                onPause?.Invoke();
+
                 break;
             case GameStage.GameOver:
                 LockCursor(false);

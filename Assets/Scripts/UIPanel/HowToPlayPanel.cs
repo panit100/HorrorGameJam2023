@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class HowToPlayPanel : MonoBehaviour
 {
     [SerializeField] Button backButton;
-    private void Awake()
+
+    void Start()
     {
         backButton.onClick.AddListener(OnClickBackButton);
         gameObject.SetActive(false);
     }
+
     void OnClickBackButton()
     {
         gameObject.SetActive(false);
