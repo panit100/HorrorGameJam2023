@@ -14,9 +14,7 @@ public class ScanObjective : Objective
             scanable.onScanComplete += OnScanFinish;
         }
         else
-        {
             scanable = null;
-        }
     }   
 
     public void OnScanFinish()

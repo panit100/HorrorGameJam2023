@@ -33,7 +33,7 @@ public class Scanable : MonoBehaviour
             return;
         
         scanTween.Kill();
-        scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,100f,scanDuration).SetEase(scanEase).OnComplete(OnScanComplete);
+        scanTween = DOTween.To(() => scanProgress, x => scanProgress = x,100f,scanDuration).SetEase(scanEase).OnComplete(OnScanComplete);
         onActiveScan?.Invoke();
     }
 
@@ -43,14 +43,14 @@ public class Scanable : MonoBehaviour
             return;
             
         scanTween.Kill();
-        scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,0f,.5f).SetEase(scanEase);
+        scanTween = DOTween.To(() => scanProgress, x => scanProgress = x,0f,.5f).SetEase(scanEase);
         onDeactiveScan?.Invoke();
     }
 
     public void OnDeactiveScanWithDuration(float duration)
     {
         scanTween.Kill();
-        scanTween = DOTween.To(() => scanProgress, x=> scanProgress = x,0f,duration).SetEase(scanEase).OnComplete(OnDeactiveScanComplete);
+        scanTween = DOTween.To(() => scanProgress, x => scanProgress = x,0f,duration).SetEase(scanEase).OnComplete(OnDeactiveScanComplete);
         onDeactiveScan?.Invoke();
     }
 

@@ -73,7 +73,6 @@ public class ScannerEquipment : Equipment
     }
     public override void HoldAnim()
     {
-        base.HoldAnim();
         if(!Application.isPlaying)return;   
         MeshGroup.SetActive(true);
         Onhold.Kill();
@@ -88,7 +87,6 @@ public class ScannerEquipment : Equipment
     
     public override void PutAnim()
     {
-        base.HoldAnim();
         if(!Application.isPlaying)return;   
         MeshGroup.SetActive(false);
         

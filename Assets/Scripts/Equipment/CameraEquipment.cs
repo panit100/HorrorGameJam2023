@@ -47,7 +47,6 @@ public class CameraEquipment : Equipment
     [Button]
     public override void HoldAnim()
     {
-        base.HoldAnim();
         if(!Application.isPlaying)return;   
         MeshGroup.SetActive(true);
         Onhold.Kill();
@@ -61,7 +60,6 @@ public class CameraEquipment : Equipment
     
     public override void PutAnim()
     {
-        base.HoldAnim();
         if(!Application.isPlaying)return;   
         MeshGroup.SetActive(false);
         
