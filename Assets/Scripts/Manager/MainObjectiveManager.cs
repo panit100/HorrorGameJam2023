@@ -19,9 +19,9 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
     Dictionary<string, MainObjectiveData> mainObjectiveDataDictionary = new Dictionary<string, MainObjectiveData>();
     public Dictionary<string, MainObjectiveData> MainObjectiveDataDictionary => mainObjectiveDataDictionary;
+
     [SerializeField] string mainObjectiveFile;
    
-    
     protected override void InitAfterAwake()
     {
 
@@ -62,7 +62,6 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
         SendLogToPipBoy();
         SetNextObjective(mainObjectiveDataDictionary[currentMainObjectiveCode].NextObjectiveCode);
-
     }
 
     public void SendLogToPipBoy()
@@ -72,7 +71,7 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
     string SetNextObjective(string NextObjectiveCode)
     {
-        if(NextObjectiveCode == "")
+        if(NextObjectiveCode == "end")
         {
             Debug.Log("Happy ending");
             StartCoroutine(GameManager.Instance.GoToCutscene("As_ending"));

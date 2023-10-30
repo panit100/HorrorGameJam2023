@@ -28,7 +28,7 @@ public class TimeManager : Singleton<TimeManager>
     }
 
     public string GetCurrentTime()
-    {
+    {   
         return $"{currentTime.Hours}:{currentTime.Minutes}:{currentTime.Seconds} ";
     }
 }
