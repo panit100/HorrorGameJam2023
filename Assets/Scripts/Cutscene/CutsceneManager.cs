@@ -2,34 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using LlockhamIndustries.Misc;
 using LogMassage;
 using Sirenix.OdinInspector;
-using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.Video;
 
 public class CutsceneManager : Singleton<CutsceneManager>
 {
-    public List<videolist> Cutscene = new List<videolist>();
+    public List<VideoConfig> Cutscene = new List<VideoConfig>();
     public VideoPlayer VdoPlayer;
     private UIMessageNotification skipimage;
     
-   
-
-    private String currentCutscene;
-    // Start is called before the first frame update
+    private string currentCutscene;
 
     protected override void InitAfterAwake()
     {
         VdoPlayer.loopPointReached += EndOfvideo;
     }
-
-    private void Start()
-    {
-      
-    }
-
+    
     public void initCutscene()
     {
         if (VdoPlayer == null)
@@ -41,56 +30,39 @@ public class CutsceneManager : Singleton<CutsceneManager>
         DOTween.Sequence().AppendCallback((() => skipimage.PlayEnter())).AppendInterval(2f)
             .AppendCallback(() => skipimage.PlayExit());
     }
-
- 
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     [Button]
     public void Playcutscene(string EventID = "init")
     {
         currentCutscene = EventID;
-        if (EventID == "init")
-        {
-            VdoPlayer.clip = Cutscene[0].video ;
-        }
+
+        if(Cutscene.Find(x=>x.ID== currentCutscene) != null)
+            VdoPlayer.clip = Cutscene.Find(x=>x.ID== currentCutscene).video;
         else
-        {
-            VdoPlayer.clip = Cutscene.Find(x=>x.ID== EventID).video;
-        }
+            VdoPlayer.clip = Cutscene[0].video ;
+        
         VdoPlayer.Prepare();
-        VdoPlayer.prepareCompleted += (source =>  VdoPlayer.Play());
+        VdoPlayer.prepareCompleted +=  (source =>  VdoPlayer.Play());
     }
 
-    public void EndOfvideo(UnityEngine.Video.VideoPlayer vp)
+    public void EndOfvideo(VideoPlayer vp)
     {
         VdoPlayer.Stop();
         if (currentCutscene == "As_ending")
-        {
-            StartCoroutine(  GameManager.Instance.GoToSceneMainMenu());
-        }
+            StartCoroutine(GameManager.Instance.GoToSceneMainMenu());
 
         if (currentCutscene == "As_intro")
-        {
             StartCoroutine(GameManager.Instance.GoToSceneGame());
-        }
     }
     public void SkipEndOfvideo()
     {
         VdoPlayer.Stop();
         if (currentCutscene == "As_ending")
-        {
             StartCoroutine(  GameManager.Instance.GoToSceneMainMenu());
-        }
 
         if (currentCutscene == "As_intro")
-        {
             StartCoroutine(GameManager.Instance.GoToSceneGame());
-        }
+
         InputSystemManager.Instance.onSkipcutscene -= SkipEndOfvideo;
     }
 
@@ -98,11 +70,4 @@ public class CutsceneManager : Singleton<CutsceneManager>
     {
         VdoPlayer.loopPointReached -= EndOfvideo;
     }
-}
-
-[Serializable]
-public class videolist
-{
-    public string ID;
-    public VideoClip video;
 }

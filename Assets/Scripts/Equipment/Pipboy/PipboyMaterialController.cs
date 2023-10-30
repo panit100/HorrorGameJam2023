@@ -69,19 +69,19 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
      public void StartPipboy()
      { 
          
-         if(!Application.isPlaying)return;
-         group.interactable = true;
-         isUsingPipboy = true;
-         GameManager.Instance.OnChangeGameStage(GameStage.OnPipboy);
-         MeshGroup.SetActive(true);
-         Pipboymesh.materials[0] = TempScreenmat;
-         sparkleprop = sparkleprop_temp;
-         pipboytween.Kill();
-         pipboytween = DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration).SetEase(ScreenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
+        if(!Application.isPlaying)return;
+        group.interactable = true;
+        isUsingPipboy = true;
+        PlayerManager.Instance.OnChangePlayerState(PlayerState.PipBoy);
+        MeshGroup.SetActive(true);
+        Pipboymesh.materials[0] = TempScreenmat;
+        sparkleprop = sparkleprop_temp;
+        pipboytween.Kill();
+        pipboytween = DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration).SetEase(ScreenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
 
-     
-         transform.localPosition = startpos;
-         transform.DOLocalMove(endpose, fadeinduration*0.95f).SetEase(ScreenEase).OnComplete((() => FadeInDone = true));
+    
+        transform.localPosition = startpos;
+        transform.DOLocalMove(endpose, fadeinduration*0.95f).SetEase(ScreenEase).OnComplete((() => FadeInDone = true));
         this.transform.localRotation = Quaternion.Euler(new Vector3(0,-90,-90));
         transform.DOLocalRotate(
             new Vector3(0, -90, 0f), fadeinduration).SetEase(ScreenEase);
@@ -95,7 +95,7 @@ public class PipboyMaterialController : Singleton<PipboyMaterialController>
          if(!Application.isPlaying)return;
        
          group.interactable = false;
-         GameManager.Instance.OnChangeGameStage(GameStage.Playing);
+         PlayerManager.Instance.OnChangePlayerState(PlayerState.Move);
          fadeOutAlpha();
          transform.DOLocalRotate(new Vector3(0, -90, -90f), fadeinduration).SetEase(ScreenEase);
          transform.DOLocalMove(startpos, fadeinduration*0.95f).SetEase(ScreenEase).OnComplete( ()=>

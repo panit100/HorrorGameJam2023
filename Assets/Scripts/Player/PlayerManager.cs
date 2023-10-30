@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public enum PlayerState
 {
@@ -30,13 +31,18 @@ public class PlayerManager : Singleton<PlayerManager>
         playerCamera = GetComponentInChildren<PlayerCamera>();
     }
 
-    public void OnChangePlayerState()
+    public void OnChangePlayerState(PlayerState _playerState)
     {
+        playerState = _playerState;
+
         switch (playerState)
         {
             case PlayerState.Move:
+                InputSystemManager.Instance.TogglePlayerControl(true);
                 break;
-            case PlayerState.PipBoy:
+            case PlayerState.PipBoy:    
+                GameManager.Instance.LockCursor(false);
+                InputSystemManager.Instance.TogglePlayerControl(false);
                 break;
         }
     }

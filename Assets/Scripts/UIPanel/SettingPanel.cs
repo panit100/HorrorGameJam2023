@@ -10,7 +10,7 @@ public class SettingPanel : MonoBehaviour
     [SerializeField] Slider masterVolumeSlider;
     [SerializeField] Button backButton;
 
-    public  Action OnBack;
+    public Action OnBack;
 
     void Start()
     {

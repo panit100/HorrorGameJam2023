@@ -5,6 +5,8 @@ using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine.UI;
 using HorrorJam.AI;
+using System;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,14 +14,6 @@ using UnityEditor;
 
 public class ScannerEquipment : Equipment
 {
-    // [Range(0f,100f)]
-    // [SerializeField] float scanProgress = 0f;
-    // [SerializeField] float scanDuration = 5f;
-    // [SerializeField] Ease scanEase;
-
-    // Tween scanTween;
-    
-    // bool isScan = false;
     [Range(0f, 100f)]
     [SerializeField] float batteryAmout = 100f;
     [SerializeField] float batteryConsumeAmount = 1.5f;
@@ -49,7 +43,9 @@ public class ScannerEquipment : Equipment
     bool isScanning = false;
     Collider[] objectInRange;
 
-     AudioSource scanAudio;
+    AudioSource scanAudio;
+
+    public Action OnBatteryEmpty;
     
     void Start()
     {
@@ -109,6 +105,7 @@ public class ScannerEquipment : Equipment
             if(batteryAmout <= 0)
             {
                 OnUnscan();
+                OnBatteryEmpty?.Invoke();
                 return;
             }
             
@@ -120,21 +117,21 @@ public class ScannerEquipment : Equipment
 
     void UpdateCanvas()
     {
-        if(scannerCanvas != null)
-        {
-            scannerCanvas.UpdateBattery(batteryAmout);
+        if(scannerCanvas == null)
+            return;
 
-            if(!isScanning)
-            {
-                if(isScanableObjectInScanRange()) 
-                    scannerCanvas.UpdateText("Detect");
-                else
-                    scannerCanvas.UpdateText("Not Found");
-            }
+        scannerCanvas.UpdateBattery(batteryAmout);
+
+        if(!isScanning)
+        {
+            if(isScanableObjectInScanRange()) 
+                scannerCanvas.UpdateText("Detect");
             else
-            {
-                scannerCanvas.UpdateText("Scanning");
-            }
+                scannerCanvas.UpdateText("Not Found");
+        }
+        else
+        {
+            scannerCanvas.UpdateText("Scanning");
         }
     }
 
@@ -184,19 +181,6 @@ public class ScannerEquipment : Equipment
         return Physics.OverlapSphere(transform.position,scanRange);
     }
 
-    bool isScanableObjectInRange()
-    {
-        foreach(var n in objectInRange)
-        {
-            if(n.GetComponent<Scanable>() != null)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     bool isScanableObjectInScanRange() //TODO: เอาไปใช้บอกว่า object อยู่ในระยะการ scan
     {
         foreach(var n in objectInRange)
@@ -226,10 +210,8 @@ public class ScannerEquipment : Equipment
         Vector3 vecToTargetWorld = position - transform.position;
 
         Vector3 vecToTarget = transform.InverseTransformVector(vecToTargetWorld);
-        Vector3 dirToTarget = vecToTarget.normalized;
 
         //angular check
-
         Vector3 flatDirToTarget = vecToTarget;
         flatDirToTarget.y = 0;
         float flatDistance = flatDirToTarget.magnitude;
@@ -248,12 +230,6 @@ public class ScannerEquipment : Equipment
 
     void ConsumeBattery()
     {
-        if(batteryAmout <= 0)
-        {
-            batteryAmout = 0;
-            return;
-        }
-
         batteryAmout -= batteryConsumeAmount * Time.deltaTime;
     }
 

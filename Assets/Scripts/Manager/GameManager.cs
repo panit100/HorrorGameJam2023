@@ -11,7 +11,6 @@ public enum GameStage
 {
     MainMenu,
     Playing,
-    OnPipboy,
     Pause,
     Cutscene,
     GameOver,
@@ -27,31 +26,29 @@ public class GameManager : Singleton<GameManager>
     [Indent,SerializeField,ReadOnly] bool isPause = false;
     public bool IsPause => isPause;
 
-    public  Action onPause;
+    public Action onPause;
     protected override void InitAfterAwake()
     {
         AddInputListener();
     }
 
+#if UNITY_EDITOR
     void Start()
     {
-        #if UNITY_EDITOR
             LockCursor(true);
             TimeManager.Instance.SetCurrentTime();
             OnChangeGameStage(GameStage.Playing);
-        #endif
     }
+#endif
 
     void AddInputListener()
     {
         InputSystemManager.Instance.onPause += OnPause;
-        InputSystemManager.Instance.onPause += ShowSkipCutsceneUI;
     }
 
     void RemoveInputListener()
     {
         InputSystemManager.Instance.onPause -= OnPause;
-        InputSystemManager.Instance.onPause -= ShowSkipCutsceneUI;
     }
 
     public void OnChangeGameStage(GameStage _gameStage)
@@ -64,28 +61,17 @@ public class GameManager : Singleton<GameManager>
                 LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(false);
-                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
 
                 break;
             case GameStage.Playing:
                 isPause = false;
-                LockCursor(true);
-
-                InputSystemManager.Instance.TogglePlayerControl(true);
                 InputSystemManager.Instance.ToggleInGameControl(true);
-                InputSystemManager.Instance.TogglePipboyControl(true);
-                InputSystemManager.Instance.ToggleCutsceneControl(false);
-                break;
-            case GameStage.OnPipboy:
-                LockCursor(false);
-                
-                InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleInGameControl(false);
-                InputSystemManager.Instance.TogglePipboyControl(true);
+                InputSystemManager.Instance.ToggleInGameUIControl(true);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
 
-                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
+                PlayerManager.Instance.OnChangePlayerState(PlayerState.Move);
                 break;
             case GameStage.Pause:
                 isPause = true;
@@ -93,19 +79,18 @@ public class GameManager : Singleton<GameManager>
 
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(true);
-                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
 
                 PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
-                
-                onPause?.Invoke();
 
+                onPause?.Invoke();
                 break;
             case GameStage.GameOver:
                 LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(false);
-                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
 
                 PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
@@ -116,20 +101,14 @@ public class GameManager : Singleton<GameManager>
                 LockCursor(true);
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 InputSystemManager.Instance.ToggleInGameControl(false);
-                InputSystemManager.Instance.TogglePipboyControl(false);
+                InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(true);
 
                 break;
             case GameStage.Tutorial:
                 LockCursor(false);
-                InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleInGameControl(false);
-                InputSystemManager.Instance.TogglePipboyControl(false);
-                InputSystemManager.Instance.ToggleCutsceneControl(false);
-
                 PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
                 break;
-
         }
     }
 
@@ -152,51 +131,6 @@ public class GameManager : Singleton<GameManager>
     public void OnDie()
     {
         OnChangeGameStage(GameStage.GameOver);
-    }
-
-    //TODO: Start Game Cutscene
-    [Button]
-    public void OnStartGame()
-    {
-        TimeManager.Instance.SetCurrentTime();
-        GameManager.Instance.OnChangeGameStage(GameStage.Tutorial);
-        initFogsetting();
-        MainObjectiveManager.Instance.SetupObjective();
-    }
-
-
-    public void OnStartCutscene(String CutsceneID)
-    {
-        CutsceneManager.Instance.initCutscene();
-        CutsceneManager.Instance.Playcutscene(CutsceneID);
-    }
-
-    //TODO: End Game Cutscene
-
-    [Button]
-    public void OnEndGame()
-    {
-        LockCursor(true);
-        InputSystemManager.Instance.TogglePlayerControl(false);
-        InputSystemManager.Instance.ToggleInGameControl(false);
-
-        //TODO: Load End game Cutscene scene
-    }
-
-    void ShowSkipCutsceneUI()
-    {
-        //TODO: Skip Cutscene
-        if(gameStage != GameStage.Cutscene)
-            return;
-        
-        //TODO: Show skip button
-    }   
-
-    [Button]
-    public void OnSkipCutScene()
-    {
-        //TODO: Skip Cutscene
-        //TODO: load scene game
     }
 
     public void LockCursor(bool toggle)
@@ -231,11 +165,25 @@ public class GameManager : Singleton<GameManager>
         SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAIN, null, () => {OnStartGame();});
     }
 
+    [Button]
+    public void OnStartGame()
+    {
+        TimeManager.Instance.SetCurrentTime();
+        MainObjectiveManager.Instance.SetupObjective();
+        initFogsetting();
+    }
+
     public IEnumerator GoToCutscene(string cutsceneID)
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
-        GameManager.Instance.OnChangeGameStage(GameStage.Cutscene);
+        OnChangeGameStage(GameStage.Cutscene);
         SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_CUTSCENE, null, () => {OnStartCutscene(cutsceneID);});
+    }
+
+    public void OnStartCutscene(String CutsceneID)
+    {
+        CutsceneManager.Instance.initCutscene();
+        CutsceneManager.Instance.Playcutscene(CutsceneID);
     }
 
     public void initFogsetting()

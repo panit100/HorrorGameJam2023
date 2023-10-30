@@ -12,40 +12,13 @@ public enum ObjectiveType
     ScanObject
 }
 
-public class MainObjectiveData{
-    public string ObjectiveName;
-    public string ObjectiveCode;
-    public string ObjectiveType;
-    public string NextObjectiveCode;
-    public string Sender;
-    public string SenderColor;
-    public string TimeColor;
-    public string MassageColor;
-    public string LogMessage;
-    
-    public ObjectiveType GetObjectiveType()
-    {
-        switch (this.ObjectiveType)
-        {
-            case "ObjectiveType.TakePhoto":
-                return global::ObjectiveType.TakePhoto;
-            case "ObjectiveType.ReachPosition":
-                return global::ObjectiveType.ReachPosition;
-            case "ObjectiveType.ScanObject":
-                return global::ObjectiveType.ScanObject;
-            default:
-                return global::ObjectiveType.TakePhoto;
-        }
-    }
-}
-
 public class MainObjectiveManager : Singleton<MainObjectiveManager>
 {
     [SerializeField] string startMainObjectiveCode;
+    [Indent,SerializeField,ReadOnly] string currentMainObjectiveCode;
 
     Dictionary<string, MainObjectiveData> mainObjectiveDataDictionary = new Dictionary<string, MainObjectiveData>();
     public Dictionary<string, MainObjectiveData> MainObjectiveDataDictionary => mainObjectiveDataDictionary;
-    [Indent,SerializeField,ReadOnly] string currentMainObjectiveCode;
     [SerializeField] string mainObjectiveFile;
    
     
