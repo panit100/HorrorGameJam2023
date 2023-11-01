@@ -54,8 +54,6 @@ public class CameraEquipment : Equipment
         Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo);
         animationRoot.transform.localRotation = Quaternion.Euler(initrot);
         animationRoot.transform.DOLocalRotate(endrot,AnimDuration).SetEase(Ease.OutExpo);
-        MeshGroup.SetActive(true);
-        
     }
     
     public override void PutAnim()

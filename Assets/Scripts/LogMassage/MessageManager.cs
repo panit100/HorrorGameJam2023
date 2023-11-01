@@ -70,7 +70,7 @@ public class MessageManager : Singleton<MessageManager>
 
         massageText.gameObject.SetActive(true);
 
-        if(PipboyMaterialController.Instance.IsUsingPipboy)
+        if(PipboyManager.Instance.IsUsingPipboy)
             uIMessageNotification.PlayEnter();
     }
 
