@@ -6,6 +6,8 @@ using Unity.VisualScripting;
 using UnityEngine.UI;
 using HorrorJam.AI;
 using System;
+using System.Linq;
+
 
 
 #if UNITY_EDITOR
@@ -14,6 +16,7 @@ using UnityEditor;
 
 public class ScannerEquipment : Equipment
 {
+#region Setting
     [Header("Scanner Setting")]
 
     [Range(0f, 100f)]
@@ -28,6 +31,7 @@ public class ScannerEquipment : Equipment
     float angThresh => Mathf.Cos(fovRad / 2);
 
     [SerializeField] ScannerCanvas scannerCanvas;
+#endregion
 
 #region  Animation
     [Header("For animation")] 
@@ -44,8 +48,10 @@ public class ScannerEquipment : Equipment
     
     bool isScanning = false;
     Collider[] objectInRange;
-    List<Scanable> scanningObject = new List<Scanable>();
+    Scanable scanningObject;
+    List<Scanable> scanningEnemies = new List<Scanable>();
 
+    public Scanable ScanningObject => scanningObject;
 
     AudioSource scanAudio;
     public Action OnBatteryEmpty;
@@ -77,15 +83,13 @@ public class ScannerEquipment : Equipment
         if(!Application.isPlaying)
             return;
 
-        MeshGroup.SetActive(true); //WHY
+        MeshGroup.SetActive(true);
         Onhold.Kill();
         animationRoot.transform.localPosition = initpos;
         Brightness.transform.localScale = new Vector3(1,1,1);
         Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo).OnComplete(()=> Brightness.transform.DOScale(new Vector3(Brightness.transform.localScale.x,0, Brightness.transform.localScale.z),AnimDuration*0.5f).SetEase(Ease.OutExpo));
         animationRoot.transform.localRotation = Quaternion.Euler(initrot);
         animationRoot.transform.DOLocalRotate(endrot,AnimDuration).SetEase(Ease.OutExpo);
-        MeshGroup.SetActive(true); //WHY
-        
     }
     
     public override void PutAnim()
@@ -127,7 +131,7 @@ public class ScannerEquipment : Equipment
 
         if(!isScanning)
         {
-            if(objectInRange != null) 
+            if(objectInRange.Length > 0) 
                 scannerCanvas.UpdateText("Detect");
             else
                 scannerCanvas.UpdateText("Not Found");
@@ -142,23 +146,34 @@ public class ScannerEquipment : Equipment
     {
         isScanning = true;
 
-        if(objectInRange == null)
+        if(objectInRange.Length == 0)
             return;
 
-        foreach(var n in objectInRange)
-        {
-            if(n.GetComponent<Scanable>() != null)
-            {
-                if(CylindricalSectorContains(n.transform.position))
-                {
-                    n.GetComponent<Scanable>().OnActiveScan();
-                    scanningObject.Add(n.GetComponent<Scanable>());
+        var closestObject = GetClosestObject();
 
-                    if(n.TryGetComponent<ScanObjective>(out ScanObjective scan))
-                        scannerCanvas.SetScanner(scan);
-                }
+        if(closestObject != null)
+        {
+            if(CylindricalSectorContains(closestObject.transform.position))
+            {
+                closestObject.OnActiveScan();
+                if(closestObject.TryGetComponent<ScanObjective>(out ScanObjective scan))
+                    scannerCanvas.SetScanner(scan);
+
+                scanningObject = closestObject;
             }
         }
+
+        var enemies = GetEnemy();
+
+        foreach(var n in enemies)
+        {
+            if(CylindricalSectorContains(n.transform.position))
+            {
+                n.OnActiveScan();
+                scanningEnemies.Add(n);
+            }
+        }
+        
     }
 
     public void OnUnscan()
@@ -166,16 +181,49 @@ public class ScannerEquipment : Equipment
         if(!isScanning)
             return;
 
-        foreach(var n in scanningObject)
+        if(scanningObject != null)
         {
-            n.OnDeactiveScan();
+            scanningObject.OnDeactiveScan();
+            scanningObject = null;
         }
 
-        scanningObject.Clear();
+        if(scanningEnemies.Count > 0)
+        {
+            foreach(var n in scanningEnemies)
+                n.OnDeactiveScan();
+        }
 
+        scanningEnemies.Clear();
+        
         scannerCanvas.SetScanner(null);
 
         isScanning = false;
+    }
+
+    Scanable GetClosestObject()
+    {
+        var closetObjectArray = objectInRange.OrderBy(c => (transform.position - c.transform.position).sqrMagnitude).ToArray();
+        
+        var closestObject = closetObjectArray.Where(closetObject => closetObject.GetComponentInParent<Enemy>() == null).ToArray();
+
+        if(closestObject.Length == 0)
+            return null;
+
+        return closestObject[0].GetComponent<Scanable>();
+    }
+
+    Scanable[] GetEnemy()
+    {
+        var enemyArray = objectInRange.Where(enemy => enemy.GetComponentInParent<Enemy>() != null).ToArray();
+
+        List<Scanable> enemies = new List<Scanable>();
+
+        foreach(var n in enemyArray)
+        {
+            enemies.Add(n.GetComponent<Scanable>());
+        }
+
+        return enemies.ToArray();
     }
 
     Collider[] GetObjectInScanRange()

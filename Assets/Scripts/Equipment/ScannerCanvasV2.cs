@@ -35,15 +35,10 @@ public class ScannerCanvasV2 : MonoBehaviour
         {
             UpdateScanProgress(scanObjective.GetComponent<Scanable>().scanProgress);
             if (scanObjective.GetComponent<Scanable>().scanProgress >= 100)
-            {
                 SwitchImage(ScanState.Complete);
-            }
         }
-          
         else
-        {
             UpdateScanProgress(0f);
-        }
           
     }
 
