@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using HorrorJam.AI;
 using HorrorJam.Audio;

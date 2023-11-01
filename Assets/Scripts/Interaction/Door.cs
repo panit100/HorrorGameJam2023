@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
-using UnityEngine.Events;
-using System;
 
 public class Door : MonoBehaviour
 {

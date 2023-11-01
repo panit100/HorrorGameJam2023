@@ -1,16 +1,6 @@
-using System;
-using DG.Tweening;
-using Sirenix.OdinInspector;
-
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using UnityEngine.XR;
+using Sirenix.OdinInspector;
 
 namespace HorrorJam.AI
 {

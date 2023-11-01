@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public enum MainMenuStage
 {
@@ -77,11 +74,13 @@ public class MainMenuController : MonoBehaviour
         {
             mainMenuGroup.alpha = 1;
             mainMenuGroup.blocksRaycasts = true;
+            mainMenuGroup.interactable = true;
         }
         else
         {
             mainMenuGroup.alpha = 0;
             mainMenuGroup.blocksRaycasts = false;
+            mainMenuGroup.interactable = false;
             
         }
     }
@@ -92,11 +91,13 @@ public class MainMenuController : MonoBehaviour
         {
             settingGroup.alpha = 1;
             settingGroup.blocksRaycasts = true;
+            settingGroup.interactable = true;
         }
         else
         {
             settingGroup.alpha = 0;
             settingGroup.blocksRaycasts = false;
+            settingGroup.interactable = false;
             
         }
     }
@@ -107,11 +108,13 @@ public class MainMenuController : MonoBehaviour
         {
             howToPlayGroup.alpha = 1;
             howToPlayGroup.blocksRaycasts = true;
+            howToPlayGroup.interactable = true;
         }
         else
         {
             howToPlayGroup.alpha = 0;
             howToPlayGroup.blocksRaycasts = false;
+            howToPlayGroup.interactable = false;
             
         }
     }

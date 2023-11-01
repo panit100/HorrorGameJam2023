@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using Sirenix.OdinInspector;
-using System;
 
 public enum ObjectiveType
 {

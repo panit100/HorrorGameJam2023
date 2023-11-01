@@ -14,6 +14,8 @@ using UnityEditor;
 
 public class ScannerEquipment : Equipment
 {
+    [Header("Scanner Setting")]
+
     [Range(0f, 100f)]
     [SerializeField] float batteryAmout = 100f;
     [SerializeField] float batteryConsumeAmount = 1.5f;
@@ -21,14 +23,13 @@ public class ScannerEquipment : Equipment
 
     [SerializeField] float scanRange = 10f;
     [Range(0, 180)]
-    [SerializeField] float fovDeg = 45;
-    float fovRad => fovDeg * Mathf.Deg2Rad;
+    [SerializeField] float ScanDeg = 45;
+    float fovRad => ScanDeg * Mathf.Deg2Rad;
     float angThresh => Mathf.Cos(fovRad / 2);
 
     [SerializeField] ScannerCanvas scannerCanvas;
 
-    List<Scanable> scanningObject = new List<Scanable>();
-    
+#region  Animation
     [Header("For animation")] 
     [SerializeField]private float AnimDuration;
     [SerializeField]private Vector3 initpos;
@@ -39,21 +40,20 @@ public class ScannerEquipment : Equipment
     [SerializeField] private GameObject animationRoot;
     [SerializeField] private Image Brightness;
     private Tween Onhold;
-
+#endregion
+    
     bool isScanning = false;
     Collider[] objectInRange;
+    List<Scanable> scanningObject = new List<Scanable>();
+
 
     AudioSource scanAudio;
-
     public Action OnBatteryEmpty;
     
     void Start()
     {
         scanAudio = GetComponent<AudioSource>();
-
         equipmentType = EquipmentType.Scanner;
-        
-        HoldAnim();
     }
 
     public override void OnUse()
@@ -71,30 +71,35 @@ public class ScannerEquipment : Equipment
             scanAudio.Pause();
         }    
     }
+
     public override void HoldAnim()
     {
-        if(!Application.isPlaying)return;   
-        MeshGroup.SetActive(true);
+        if(!Application.isPlaying)
+            return;
+
+        MeshGroup.SetActive(true); //WHY
         Onhold.Kill();
         animationRoot.transform.localPosition = initpos;
         Brightness.transform.localScale = new Vector3(1,1,1);
         Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo).OnComplete(()=> Brightness.transform.DOScale(new Vector3(Brightness.transform.localScale.x,0, Brightness.transform.localScale.z),AnimDuration*0.5f).SetEase(Ease.OutExpo));
         animationRoot.transform.localRotation = Quaternion.Euler(initrot);
         animationRoot.transform.DOLocalRotate(endrot,AnimDuration).SetEase(Ease.OutExpo);
-        MeshGroup.SetActive(true);
+        MeshGroup.SetActive(true); //WHY
         
     }
     
     public override void PutAnim()
     {
-        if(!Application.isPlaying)return;   
+        if(!Application.isPlaying)
+            return;
+
         MeshGroup.SetActive(false);
         
     }
 
     void Update()
     {
-        objectInRange = GetObjectInRange();
+        objectInRange = GetObjectInScanRange();
 
         UpdateCanvas();
 
@@ -122,7 +127,7 @@ public class ScannerEquipment : Equipment
 
         if(!isScanning)
         {
-            if(isScanableObjectInScanRange()) 
+            if(objectInRange != null) 
                 scannerCanvas.UpdateText("Detect");
             else
                 scannerCanvas.UpdateText("Not Found");
@@ -164,7 +169,6 @@ public class ScannerEquipment : Equipment
         foreach(var n in scanningObject)
         {
             n.OnDeactiveScan();
-            
         }
 
         scanningObject.Clear();
@@ -174,28 +178,35 @@ public class ScannerEquipment : Equipment
         isScanning = false;
     }
 
-    Collider[] GetObjectInRange()
+    Collider[] GetObjectInScanRange()
     {
-        return Physics.OverlapSphere(transform.position,scanRange);
+        Collider[] colliders = Physics.OverlapSphere(transform.position,scanRange);
+        
+        List<Collider> collidersInScanRange = new List<Collider>();
+
+        foreach(var n in colliders)
+        {
+            if(isScanableObjectInScanRange(n))
+                collidersInScanRange.Add(n);
+        }
+
+        return collidersInScanRange.ToArray();
     }
 
-    bool isScanableObjectInScanRange() //TODO: เอาไปใช้บอกว่า object อยู่ในระยะการ scan
+    bool isScanableObjectInScanRange(Collider collider)
     {
-        foreach(var n in objectInRange)
+        if(collider.GetComponent<Scanable>() != null)
         {
-            if(n.GetComponent<Scanable>() != null)
+            if(CylindricalSectorContains(collider.transform.position))
             {
-                if(CylindricalSectorContains(n.transform.position))
-                {
-                    if(n.GetComponent<Scanable>().isObjective())
-                        return true;
+                if(collider.GetComponent<Scanable>().isObjective())
+                    return true;
 
-                    if(n.GetComponent<Scanable>().isFakeEnemy())
-                        return true;
+                if(collider.GetComponent<Scanable>().isFakeEnemy())
+                    return true;
 
-                    if(n.GetComponent<Scanable>().isEnemy())
-                        return true;
-                }
+                if(collider.GetComponent<Scanable>().isEnemy())
+                    return true;
             }
         }
 
@@ -254,7 +265,7 @@ public class ScannerEquipment : Equipment
         Vector3 vLeft = new Vector3(-x,0,p) * scanRange;
         Vector3 vRight = new Vector3(x,0,p) * scanRange;
         
-        Handles.DrawWireArc(default,Vector3.up,vLeft,fovDeg,scanRange);
+        Handles.DrawWireArc(default,Vector3.up,vLeft,ScanDeg,scanRange);
 
         Gizmos.DrawLine(default,vLeft);
         Gizmos.DrawLine(default,vRight);

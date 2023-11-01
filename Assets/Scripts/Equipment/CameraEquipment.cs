@@ -119,15 +119,13 @@ public class CameraEquipment : Equipment
         {
             canvas.enabled = true;
         }
-
     }
 
     IEnumerator DisplayImage()
     {
         yield return new WaitForEndOfFrame();
-        // Display the screenshot
-        imageDisplay.texture = screenshot;
 
+        imageDisplay.texture = screenshot;
         EnableCanvas(true);
 
         yield return new WaitForSeconds(displayImageTime);
