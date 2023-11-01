@@ -6,21 +6,21 @@ using DG.Tweening;
 using DG.Tweening.Plugins.Options;
 using Sirenix.OdinInspector;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class PipboyManager: Singleton<PipboyManager>
 {
-    public MeshRenderer Pipboymesh;
-    public GameObject MeshGroup;
+    public MeshRenderer pipboymesh;
+    public GameObject meshGroup;
     public CanvasGroup group;
 
-    public UnityAction allEqupment;
-
-    [SerializeField] Ease ScreenEase;
+    [SerializeField] GameObject pipboyObject;
+    [SerializeField] Ease screenEase;
     [SerializeField] float fadeinduration = 1f;
     [SerializeField] Vector3 startpos;
     [SerializeField] Vector3 endpose;
     Tween pipboytween;
-    Material TempScreenmat;
+    Material tempScreenmat;
     Vector3 sparkleprop;
     Vector3 sparkleprop_temp;
 
@@ -31,9 +31,9 @@ public class PipboyManager: Singleton<PipboyManager>
     
     protected override void InitAfterAwake()
     {
-    TempScreenmat = Pipboymesh.materials[0];
-        TempScreenmat = Instantiate(TempScreenmat);
-        Pipboymesh.materials[0] = TempScreenmat;
+        tempScreenmat = pipboymesh.materials[0];
+        tempScreenmat = Instantiate(tempScreenmat);
+        pipboymesh.materials[0] = tempScreenmat;
     }
 
     void AddInputListener()
@@ -45,10 +45,10 @@ public class PipboyManager: Singleton<PipboyManager>
     {
         InputSystemManager.Instance.onUseArmConsole -= togglepipboy;
     }
-
+    
     private void Start()
     {
-        sparkleprop_temp = Pipboymesh.materials[0].GetVector("_SparkleTCI");
+        sparkleprop_temp = pipboymesh.materials[0].GetVector("_SparkleTCI");
         AddInputListener();
     }
 
@@ -68,18 +68,18 @@ public class PipboyManager: Singleton<PipboyManager>
     group.interactable = true;
     isUsingPipboy = true;
     PlayerManager.Instance.OnChangePlayerState(PlayerState.PipBoy);
-    MeshGroup.SetActive(true);
-    Pipboymesh.materials[0] = TempScreenmat;
+    meshGroup.SetActive(true);
+    pipboymesh.materials[0] = tempScreenmat;
     sparkleprop = sparkleprop_temp;
     pipboytween.Kill();
-    pipboytween = DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration).SetEase(ScreenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
+    pipboytween = DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration).SetEase(screenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
 
 
-    transform.localPosition = startpos;
-    transform.DOLocalMove(endpose, fadeinduration*0.95f).SetEase(ScreenEase).OnComplete((() => FadeInDone = true));
-    this.transform.localRotation = Quaternion.Euler(new Vector3(0,-90,-90));
-    transform.DOLocalRotate(
-        new Vector3(0, -90, 0f), fadeinduration).SetEase(ScreenEase);
+    pipboyObject.transform.localPosition = startpos;
+    pipboyObject.transform.DOLocalMove(endpose, fadeinduration*0.95f).SetEase(screenEase).OnComplete((() => FadeInDone = true));
+    pipboyObject.transform.localRotation = Quaternion.Euler(new Vector3(0,-90,-90));
+    pipboyObject.transform.DOLocalRotate(
+        new Vector3(0, -90, 0f), fadeinduration).SetEase(screenEase);
     }
 
     [Button]
@@ -90,10 +90,10 @@ public class PipboyManager: Singleton<PipboyManager>
         group.interactable = false;
         PlayerManager.Instance.OnChangePlayerState(PlayerState.Move);
         fadeOutAlpha();
-        transform.DOLocalRotate(new Vector3(0, -90, -90f), fadeinduration).SetEase(ScreenEase);
-        transform.DOLocalMove(startpos, fadeinduration*0.95f).SetEase(ScreenEase).OnComplete( ()=>
+        pipboyObject.transform.DOLocalRotate(new Vector3(0, -90, -90f), fadeinduration).SetEase(screenEase);
+        pipboyObject.transform.DOLocalMove(startpos, fadeinduration*0.95f).SetEase(screenEase).OnComplete( ()=>
         {
-            MeshGroup.SetActive(false);
+            meshGroup.SetActive(false);
             isUsingPipboy = false;
             FadeInDone = false;
             PlayerManager.Instance.PlayerEquipment.SwitchPipboyToEquipment();
@@ -104,39 +104,39 @@ public class PipboyManager: Singleton<PipboyManager>
     {
     MessageManager.Instance.HideNotificationText();
         Tween fadein ;
-        fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 1, fadeinduration*0.35f).SetEase(ScreenEase);
+        fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 1, fadeinduration*0.35f).SetEase(screenEase);
     }
 
     private void fadeOutAlpha()
     {
         Tween fadein ;
-        fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 0, fadeinduration ).SetEase(ScreenEase);
+        fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 0, fadeinduration ).SetEase(screenEase);
     }
 
     Tween _fadein ;
     public void PanelTransition()
     { 
         _fadein.Kill();
-        _fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 0, 0 ).SetEase(ScreenEase).OnStart(resetdefaultmat);
+        _fadein = DOTween.To(()=> group.alpha, x => group.alpha = x, 0, 0 ).SetEase(screenEase).OnStart(resetdefaultmat);
     }
 
     private void resetdefaultmat()
     { 
         Debug.Log("working");
-        Pipboymesh.materials[0] = TempScreenmat;
+        pipboymesh.materials[0] = tempScreenmat;
     sparkleprop = sparkleprop_temp;
-    DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration*2f).SetEase(ScreenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
+    DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration*2f).SetEase(screenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
     }
 
     private void SparkleSequence()
     {
-        DOVirtual.Vector3(sparkleprop, new Vector3(sparkleprop.x, 1f, 0.1f), fadeinduration, v => sparkleprop = v).SetEase(ScreenEase).OnComplete(()=> sparkleprop = sparkleprop_temp);
+        DOVirtual.Vector3(sparkleprop, new Vector3(sparkleprop.x, 1f, 0.1f), fadeinduration, v => sparkleprop = v).SetEase(screenEase).OnComplete(()=> sparkleprop = sparkleprop_temp);
     }
 
     private void UpdateMaterial()
     {
         
-        Pipboymesh.materials[0].SetVector("_SparkleTCI",sparkleprop);
+        pipboymesh.materials[0].SetVector("_SparkleTCI",sparkleprop);
     }
 
     private void OnDestroy()

@@ -1,5 +1,73 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1462648229430498102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4749374931072024980}
+  - component: {fileID: 5908126140607844038}
+  - component: {fileID: 1376524164471253945}
+  m_Layer: 0
+  m_Name: playerdevice
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4749374931072024980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462648229430498102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6857789825299034440}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5908126140607844038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462648229430498102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffacdfea482a9b74991907d2759ada69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pipboymesh: {fileID: 0}
+  meshGroup: {fileID: 0}
+  group: {fileID: 0}
+  pipboyObject: {fileID: 0}
+  screenEase: 2
+  fadeinduration: 0.375
+  startpos: {x: 0.009, y: -0.07, z: 0.066}
+  endpose: {x: 0.009, y: -0.01, z: 0.066}
+--- !u!114 &1376524164471253945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462648229430498102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd6d2c7bcc54b8980aa22d75940407c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pinPrefabObj: {fileID: 7832395776793593954, guid: 39120b44aaa9c4e3693fc5098f9a96f1, type: 3}
+  objectivePinHeight: 25
+  cameraTransform: {fileID: 0}
 --- !u!1 &2880254584818841516
 GameObject:
   m_ObjectHideFlags: 0
@@ -49,7 +117,7 @@ MonoBehaviour:
   batteryConsumeAmount: 10
   batteryRefillAmount: 5
   scanRange: 20
-  fovDeg: 45
+  ScanDeg: 45
   scannerCanvas: {fileID: 0}
   AnimDuration: 0.5
   initpos: {x: 0.18, y: -0.48, z: 0.32}
@@ -846,6 +914,7 @@ Transform:
   m_Children:
   - {fileID: 6910703457756617835}
   - {fileID: 6558294279912098524}
+  - {fileID: 4749374931072024980}
   m_Father: {fileID: 360549033318752936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9205705281462378874
