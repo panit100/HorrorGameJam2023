@@ -47,7 +47,6 @@ public class CameraEquipment : Equipment
     [Button]
     public override void HoldAnim()
     {
-        base.HoldAnim();
         if(!Application.isPlaying)return;   
         MeshGroup.SetActive(true);
         Onhold.Kill();
@@ -55,13 +54,10 @@ public class CameraEquipment : Equipment
         Onhold = animationRoot.transform.DOLocalMove(endpos, AnimDuration).SetEase(Ease.OutExpo);
         animationRoot.transform.localRotation = Quaternion.Euler(initrot);
         animationRoot.transform.DOLocalRotate(endrot,AnimDuration).SetEase(Ease.OutExpo);
-        MeshGroup.SetActive(true);
-        
     }
     
     public override void PutAnim()
     {
-        base.HoldAnim();
         if(!Application.isPlaying)return;   
         MeshGroup.SetActive(false);
         
@@ -121,15 +117,13 @@ public class CameraEquipment : Equipment
         {
             canvas.enabled = true;
         }
-
     }
 
     IEnumerator DisplayImage()
     {
         yield return new WaitForEndOfFrame();
-        // Display the screenshot
-        imageDisplay.texture = screenshot;
 
+        imageDisplay.texture = screenshot;
         EnableCanvas(true);
 
         yield return new WaitForSeconds(displayImageTime);

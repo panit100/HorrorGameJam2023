@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Equipment : MonoBehaviour
+public abstract class Equipment : MonoBehaviour
 {
     protected bool isPress = false;
     public EquipmentType equipmentType {get; protected set;}
@@ -11,14 +11,8 @@ public class Equipment : MonoBehaviour
         isPress = !isPress;
     }
 
-    public virtual void HoldAnim()
-    {
-        
-    }
-    public virtual void PutAnim()
-    {
-        
-    }
+    public abstract void HoldAnim();
+    public abstract void PutAnim();
 
     public void ForceSetIsPress(bool toggle)
     {

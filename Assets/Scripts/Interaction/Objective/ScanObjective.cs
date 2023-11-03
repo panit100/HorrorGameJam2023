@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Scanable))]
@@ -14,9 +12,7 @@ public class ScanObjective : Objective
             scanable.onScanComplete += OnScanFinish;
         }
         else
-        {
             scanable = null;
-        }
     }   
 
     public void OnScanFinish()

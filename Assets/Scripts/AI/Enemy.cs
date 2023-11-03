@@ -8,9 +8,7 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using UnityEngine.XR;
 
 namespace HorrorJam.AI
 {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -12,23 +10,24 @@ public class TutorialTrigger : MonoBehaviour
     [SerializeField, TextArea] private string text;
     [SerializeField] private Button tutorialButton;
 
-    private void Start()
+    void Start()
     {
         SetupObject();
     }
-    private void SetupObject()
+    void SetupObject()
     {
         tutorialCanvas.SetActive(false);
     }
 
-    private void OnTriggerEnter(Collider player) 
+    void OnTriggerEnter(Collider player) 
     {
         if(player.tag == "Player")
         {
             ActiveTutorialCanvas();
         }
     }
-    private void ActiveTutorialCanvas()
+
+    void ActiveTutorialCanvas()
     {
         tutorialCanvas.SetActive(true);
         tutorialText.text = text;
@@ -36,12 +35,14 @@ public class TutorialTrigger : MonoBehaviour
         GameManager.Instance.OnChangeGameStage(GameStage.Tutorial);
         Time.timeScale = 0;
     }
-    private void DisableTutorialCanvas()
+
+    void DisableTutorialCanvas()
     {
         Time.timeScale = 1;
         GameManager.Instance.OnChangeGameStage(GameStage.Playing);
         tutorialCanvas.SetActive(false);
         AudioManager.Instance.PlayOneShot("clickUI");
         this.gameObject.SetActive(false);
+        tutorialButton.onClick.RemoveAllListeners();
     }
 }

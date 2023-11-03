@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -14,8 +8,6 @@ public class PlayerCamera : MonoBehaviour
     Vector2 deltaMouse;
     float xRotation;
     float yRotation;
-
-    public UnityAction onDie;
 
     void Start()
     {

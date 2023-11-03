@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +32,7 @@ public class MainMenuPanel : MonoBehaviour
     {
         howToPlayPanel.SetActive(true);
     }
+    
     void OnClickQuitButton()
     {
         Application.Quit();

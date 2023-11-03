@@ -12,7 +12,7 @@ public class mapbutton : MonoBehaviour
     public void ClickToMap()
     {
         AudioManager.Instance.PlayOneShot("clickUI");
-        PipboyMaterialController.Instance.PanelTransition();
+        PipboyManager.Instance.PanelTransition();
         this.transform.parent.gameObject.SetActive(false);
         PanelGroup.SetActive(true);
     }

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Hellmade.Sound;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using Hellmade.Sound;
 
 namespace HorrorJam.Audio
 {
@@ -12,6 +12,11 @@ namespace HorrorJam.Audio
         [SerializeField] List<AudioRecord> recordList = new List<AudioRecord>();
         [SerializeField] float soundEffectVolume = 0.75f;
         [SerializeField] float bgmVolume = 0.5f;
+        
+        protected override void InitAfterAwake()
+        {
+
+        }
 
         void Update()
         {
@@ -44,10 +49,6 @@ namespace HorrorJam.Audio
         AudioRecord FindRecord(string id)
         {
             return recordList.FirstOrDefault(rec => rec.id == id);
-        }
-
-        protected override void InitAfterAwake()
-        {
         }
     }
 

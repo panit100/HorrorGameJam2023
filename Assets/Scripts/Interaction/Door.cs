@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
-using UnityEngine.Events;
-using System;
 
 public class Door : MonoBehaviour
 {
@@ -52,7 +47,9 @@ public class Door : MonoBehaviour
         //     if(!scanable.AlreadyScan)
         //         return;
 
-        if(isDoorOpen == true) { return; }
+        if(isDoorOpen == true)
+            return;
+            
         isDoorOpen = true;
 
         DOTween.Kill(doorID);
@@ -71,7 +68,9 @@ public class Door : MonoBehaviour
 
     public void CloseDoor()
     {
-        if(isDoorOpen == false) { return; }
+        if(isDoorOpen == false)
+            return;
+
         isDoorOpen = false;
 
         DOTween.Kill(doorID);

@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using DG.Tweening;
 using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace HorrorJam.AI

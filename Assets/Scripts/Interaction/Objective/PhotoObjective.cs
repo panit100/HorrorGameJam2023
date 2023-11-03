@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using Unity.VisualScripting;
 using Sirenix.OdinInspector;
 
 public class PhotoObjective : Objective
@@ -21,7 +17,10 @@ public class PhotoObjective : Objective
 
     public void OnTakeObjectivePhoto()
     {
-        if(!IsSeenByPlayer)
+        if(IsObjectiveBehindObstacle())
+            isSeenByPlayer = false;
+
+        if(isSeenByCamera && isSeenByPlayer)
             return;
 
         if(CheckObjective())
@@ -31,7 +30,6 @@ public class PhotoObjective : Objective
             gameObject.SetActive(false);
         }
     }
-
 
     void OnBecameInvisible()
     {
@@ -45,7 +43,6 @@ public class PhotoObjective : Objective
 
     bool IsObjectiveBehindObstacle()
     {
-        // Use raycasting to check for obstacles between the enemy and the player
         RaycastHit hit;
         if (Physics.Linecast(transform.position, PlayerManager.Instance.transform.position, out hit))
         {
@@ -55,23 +52,5 @@ public class PhotoObjective : Objective
             }
         }
         return false;
-    }
-
-    private void Update()
-    {
-        // Check for visibility on every frame
-        if(IsObjectiveBehindObstacle())
-        {
-            isSeenByPlayer = false;
-            return;
-        }
-
-        if(!isSeenByCamera)
-        {
-            isSeenByPlayer = false;
-            return;
-        }
-        
-        isSeenByPlayer = true;
     }
 }

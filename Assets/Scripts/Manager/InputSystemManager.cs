@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -9,7 +7,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
     const string PLAYER_ACTIONMAP = "Player";
     const string UI_ACTIONMAP = "UI";
     const string INGAME_ACTIONMAP = "InGame";
-    const string PIPBOY_ACTIONMAP = "Pipboy";
+    const string INGAMEUI_ACTIONMAP = "InGameUI";
     const string CUTSCENE_ACTIONMAP = "Cutscene";
 
     [SerializeField] InputActionAsset playerInputAction;
@@ -30,7 +28,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
     InputActionMap playerControlMap;
     InputActionMap uiControlMap;
     InputActionMap inGameControlMap;
-    InputActionMap pipboyControlMap;
+    InputActionMap inGameUIControlMap;
     InputActionMap cutsceneControlMap;
     
 
@@ -38,7 +36,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
     bool playerControlEnable = false;   
     bool uiControlMapEnable = true;
     bool inGameMapEnable = false;
-    bool pipboyMapEnable = false;
+    bool inGameUIMapEnable = false;
     bool cutsceneMapEnable = false;
 
     protected override void InitAfterAwake()
@@ -46,7 +44,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
         playerControlMap = playerInputAction.FindActionMap(PLAYER_ACTIONMAP);
         uiControlMap = playerInputAction.FindActionMap(UI_ACTIONMAP);
         inGameControlMap = playerInputAction.FindActionMap(INGAME_ACTIONMAP);
-        pipboyControlMap = playerInputAction.FindActionMap(PIPBOY_ACTIONMAP);
+        inGameUIControlMap = playerInputAction.FindActionMap(INGAMEUI_ACTIONMAP);
         cutsceneControlMap = playerInputAction.FindActionMap(CUTSCENE_ACTIONMAP);
     }
 
@@ -81,9 +79,9 @@ public class InputSystemManager : Singleton<InputSystemManager>
         UpdateInputState();
     }
 
-    public void TogglePipboyControl(bool toggle)
+    public void ToggleInGameUIControl(bool toggle)
     {
-        pipboyMapEnable = toggle;
+        inGameUIMapEnable = toggle;
         UpdateInputState();
     }
 
@@ -104,8 +102,8 @@ public class InputSystemManager : Singleton<InputSystemManager>
         if(globalInputEnable && inGameMapEnable) inGameControlMap.Enable();
         else inGameControlMap.Disable();
 
-        if(globalInputEnable && pipboyMapEnable) pipboyControlMap.Enable();
-        else pipboyControlMap.Disable();
+        if(globalInputEnable && inGameUIMapEnable) inGameUIControlMap.Enable();
+        else inGameUIControlMap.Disable();
 
         if(globalInputEnable && cutsceneMapEnable) cutsceneControlMap.Enable();
         else cutsceneControlMap.Disable();
@@ -141,8 +139,6 @@ public class InputSystemManager : Singleton<InputSystemManager>
 
     private void OnUsePipBoy(InputValue value)
     {
-        //TODO: LockCursor(false), InputSystemManager.Instance.TogglePlayerControl(false); when open armconsole and LockCursor(true) , InputSystemManager.Instance.TogglePlayerControl(true); when close armconsole
-        //TODO: if press Q , Check is pipboy using. if it didn't use then use it, but if it use then hide.
         onUseArmConsole?.Invoke();
     }
 
