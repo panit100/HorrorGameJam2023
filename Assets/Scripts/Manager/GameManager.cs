@@ -169,7 +169,6 @@ public class GameManager : Singleton<GameManager>
     {
         TimeManager.Instance.SetCurrentTime();
         MainObjectiveManager.Instance.SetupObjective();
-        initFogsetting();
     }
 
     public IEnumerator GoToCutscene(string cutsceneID)
@@ -184,12 +183,5 @@ public class GameManager : Singleton<GameManager>
         CutsceneManager.Instance.initCutscene();
         CutsceneManager.Instance.Playcutscene(CutsceneID);
     }
-
-    public void initFogsetting()
-    {
-        RenderSettings.fog = true;
-        RenderSettings.fogColor = new Color(0.141f,0,0);
-        RenderSettings.fogMode = FogMode.ExponentialSquared;
-        RenderSettings.fogDensity = 0;
-    }
+    
 }

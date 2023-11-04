@@ -209,7 +209,7 @@ namespace HorrorJam.AI
                 ReplaceTo(targetWaypoint);
 
             //TODO สว่าง
-            DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0f, 1.5f);
+            DOTween.To(() => CustomPostprocessingManager.Instance.fog.fogDensity, x => CustomPostprocessingManager.Instance.fog.fogDensity = x, 0f, 0.194f);
             scanable.ResetProgress();
         }
 
@@ -341,8 +341,7 @@ namespace HorrorJam.AI
             ChangeSpeedSetting(chaseSpeed);
             speedBeforeStop = chaseSpeed;
             //TODO มืดขึ้น
-            GameManager.Instance.initFogsetting();
-            DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0.075f, 1.5f);
+            DOTween.To(() => CustomPostprocessingManager.Instance.fog.fogDensity, x => CustomPostprocessingManager.Instance.fog.fogDensity = x, 0.194f, 1.5f);
             isDetectedPlayer = true;
         }
         
