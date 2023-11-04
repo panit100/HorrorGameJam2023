@@ -4,6 +4,7 @@ using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace HorrorJam.AI
 {
@@ -80,6 +81,18 @@ namespace HorrorJam.AI
         {
             if(enemy != null)
                 enemy.ExitStop();
+        }
+
+        public bool TryGetPositionOnSurface(Vector3 originalPosition, out Vector3 result)
+        {
+            result = originalPosition;
+            if(NavMesh.SamplePosition(originalPosition, out var myNavHit, 100 , -1))
+            {
+                result = myNavHit.position;
+                return true;
+            }
+
+            return false;
         }
     }
 }
