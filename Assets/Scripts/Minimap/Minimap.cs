@@ -1,11 +1,17 @@
-using HorrorJam.AI;
 using UnityEngine;
 
 namespace Minimap
 {
-    public class Minimap : MonoBehaviour
+    public class Minimap : Singleton<Minimap>
     {
+        [SerializeField] GameObject pinPrefabObj;
+        [SerializeField] float objectivePinHeight = 25f;
         [SerializeField] Transform cameraTransform;
+
+        protected override void InitAfterAwake()
+        {
+            
+        }
 
         void LateUpdate()
         {
@@ -20,6 +26,20 @@ namespace Minimap
             var targetAngle = cameraTransform.transform.eulerAngles;
             targetAngle.y = playerTransform.transform.eulerAngles.y;
             cameraTransform.eulerAngles = targetAngle;
+        }
+
+        public GameObject CreateObjectivePin(ObjectiveMapPin pin)
+        {
+            var newPin = Instantiate(pinPrefabObj, pin.transform, true);
+            newPin.transform.localPosition = Vector3.zero;
+            
+            var pos = newPin.transform.position;
+            pos.y = objectivePinHeight;
+            
+            newPin.transform.position = pos;
+            newPin.gameObject.SetActive(false);
+            
+            return newPin;
         }
     }
 }

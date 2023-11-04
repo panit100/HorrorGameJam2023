@@ -1,28 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Scanable))]
-public class ScanObjective : Objective, InteractObject
+public class ScanObjective : Objective
 {
     Scanable scanable;
 
     private void Start() {
         if(TryGetComponent<Scanable>(out Scanable _scanable))
+        {
             scanable = _scanable;
+            scanable.onScanComplete += OnScanFinish;
+        }
         else
             scanable = null;
     }   
 
-    public void OnInteract()
+    public void OnScanFinish()
     {
-        if(scanable != null)
-            if(!scanable.AlreadyScan)
-                return;
-
-        if(CheckObjective())
-            this.gameObject.SetActive(false);
-
+        if(!scanable.AlreadyScan)
+            return;
         
+        if(CheckObjective())
+        {
+            MainObjectiveManager.Instance.UpdateProgress(objectiveCode);
+            unityEvent?.Invoke();
+            gameObject.SetActive(false);
+        }
     }
 }

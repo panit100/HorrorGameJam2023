@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TimeManager : Singleton<TimeManager>
@@ -28,7 +26,7 @@ public class TimeManager : Singleton<TimeManager>
     }
 
     public string GetCurrentTime()
-    {
+    {   
         return $"{currentTime.Hours}:{currentTime.Minutes}:{currentTime.Seconds} ";
     }
 }

@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Objective : MonoBehaviour
 {
-    [SerializeField] string objectiveCode;
+    [SerializeField]protected string objectiveCode;
+    [SerializeField]protected UnityEvent unityEvent;
 
-    protected bool CheckObjective()
+    public bool CheckObjective()
     {
-        return MainObjectiveManager.Instance.GetCheckObjective(objectiveCode);
+        return MainObjectiveManager.Instance.isEqualCurrentObjective(objectiveCode);
     }
-
 }

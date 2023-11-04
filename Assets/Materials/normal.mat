@@ -15,6 +15,7 @@ Material:
   - DIFF_VERTEX
   - OPAQUE
   - SPEC_PHONG
+  - UNLIT
   - _EMISSION
   m_InvalidKeywords:
   - _DIFFMODEL_VERTEX
@@ -22,6 +23,7 @@ Material:
   - _EFFECTORENABLED
   - _SIMPLELIT
   - _SPECMODEL_PHONG
+  - _UNLIT_ON
   - _WIREALBEDO_BLEND
   - _WIREALPHA_ALPHA
   - _WIREFRAME
@@ -32,7 +34,8 @@ Material:
   m_CustomRenderQueue: 2000
   stringTagMap:
     RenderType: Opaque
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - FORWARDADD
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -935,7 +938,7 @@ Material:
     - _TriplanarSpace: 0
     - _UVSec: 0
     - _UVSource: 0
-    - _Unlit: 0
+    - _Unlit: 1
     - _Version: 0
     - _VertexInaccuracy: -1
     - _WetnessAmount: 0

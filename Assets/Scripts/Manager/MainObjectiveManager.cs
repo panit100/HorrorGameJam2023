@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using Sirenix.OdinInspector;
 
 public enum ObjectiveType
 {
@@ -10,40 +9,16 @@ public enum ObjectiveType
     ScanObject
 }
 
-public class MainObjectiveData{
-    public string ObjectiveName;
-    public string ObjectiveCode;
-    public string ObjectiveType;
-    public string NextObjectiveCode;
-    public string LogMessage;
-    
-    public ObjectiveType GetObjectiveType()
-    {
-        switch (this.ObjectiveType)
-        {
-            case "ObjectiveType.TakePhoto":
-                return global::ObjectiveType.TakePhoto;
-            case "ObjectiveType.ReachPosition":
-                return global::ObjectiveType.ReachPosition;
-            case "ObjectiveType.ScanObject":
-                return global::ObjectiveType.ScanObject;
-            default:
-                return global::ObjectiveType.TakePhoto;
-        }
-    }
-}
-
 public class MainObjectiveManager : Singleton<MainObjectiveManager>
 {
-    public Objective currentObjective; //TODO: Change to string or MainObjectiveData
-    [SerializeField] int objectiveIndex = 0;
-    public List<Objective> objectiveItems;
+    [SerializeField] string startMainObjectiveCode;
+    [Indent,SerializeField,ReadOnly] string currentMainObjectiveCode;
 
     Dictionary<string, MainObjectiveData> mainObjectiveDataDictionary = new Dictionary<string, MainObjectiveData>();
-    MainObjectiveData currentMainObjectiveData;
+    public Dictionary<string, MainObjectiveData> MainObjectiveDataDictionary => mainObjectiveDataDictionary;
+
     [SerializeField] string mainObjectiveFile;
-    [Header("UI")]
-    [SerializeField] TextMeshProUGUI objectiveText;
+   
     protected override void InitAfterAwake()
     {
 
@@ -51,73 +26,55 @@ public class MainObjectiveManager : Singleton<MainObjectiveManager>
 
     private void Start()
     {
-        LoadDialogueFromCSV(mainObjectiveFile);
-        //SetupObjective();
+        LoadDialogueFromCSV();
     }
-    void LoadDialogueFromCSV(string csvFile)
+
+    public void LoadDialogueFromCSV()
     {
-        MainObjectiveData[] mainObjectiveDatas = CSVHelper.LoadCSVAsObject<MainObjectiveData>(csvFile);
+        MainObjectiveData[] mainObjectiveDatas = CSVHelper.LoadCSVAsObject<MainObjectiveData>(mainObjectiveFile);
 
         foreach (var data in mainObjectiveDatas)
         {
             mainObjectiveDataDictionary.Add(data.ObjectiveCode, data);
-            print(mainObjectiveDataDictionary[data.ObjectiveCode].ObjectiveName);
         }
     }
 
-    void SetupObjective()
+    public void SetupObjective()
     {
-        if (objectiveItems.Count == 0)
-        {
-            return;
-        }
-        currentObjective = objectiveItems[objectiveIndex];
-        UpdateObjectiveText();
+        currentMainObjectiveCode = startMainObjectiveCode;
     }
 
-    public bool GetCheckObjective(string objectiveCode)
+    public bool isEqualCurrentObjective(string objectiveCode)
     {
-        //TODO: Use objective code to check current objective
-        // if (checkObjective == currentObjective)
-        // {
-        //     UpdateProgress();
-        //     return true;
-        // }
-
-        return false;
-    }
-    void UpdateProgress()
-    {
-        objectiveIndex += 1;
-        if (objectiveIndex < objectiveItems.Count)
-        {
-            currentObjective = objectiveItems[objectiveIndex];
-        }
+        if (currentMainObjectiveCode == objectiveCode)
+            return true;
         else
-        {
-            currentObjective = null;
-            print("No Objective");
-        }
-        UpdateObjectiveText();
+            return false;
     }
-    void UpdateObjectiveText()
+    
+    public void UpdateProgress(string objectiveCode)
     {
-        if (currentObjective == null)
-        {
-            objectiveText.text = "-";
+        if (!isEqualCurrentObjective(objectiveCode))
             return;
-        }
-        if (currentObjective.GetComponent<InteractObject>() != null)
-        {
-            objectiveText.text = "Find " + currentObjective.name;
-        }
-        else if (currentObjective.GetComponent<Scanable>() != null)
-        {
-            objectiveText.text = "Find and Scan " + currentObjective.name;
-        }
+
+        SendLogToPipBoy();
+        SetNextObjective(mainObjectiveDataDictionary[currentMainObjectiveCode].NextObjectiveCode);
     }
 
-    //TODO: Create function to Get log massage
+    public void SendLogToPipBoy()
+    {
+        MessageManager.Instance.AddLogData(mainObjectiveDataDictionary[currentMainObjectiveCode]);
+    }
 
-    //TODO: Craete function to Set Next Objective
+    string SetNextObjective(string NextObjectiveCode)
+    {
+        if(NextObjectiveCode == "end")
+        {
+            Debug.Log("Happy ending");
+            StartCoroutine(GameManager.Instance.GoToCutscene("As_ending"));
+        }
+
+        currentMainObjectiveCode = mainObjectiveDataDictionary[currentMainObjectiveCode].NextObjectiveCode;
+        return currentMainObjectiveCode;
+    }
 }

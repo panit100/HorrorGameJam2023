@@ -8,19 +8,10 @@ using UnityEditor;
 
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using UnityEngine.XR;
 
 namespace HorrorJam.AI
 {
-    public enum EnemyStage
-    {
-        Explore,
-        Chase,
-        Slowed,
-    }
-
     public class Enemy : MonoBehaviour
     {
         [TitleGroup("Movement")]
@@ -30,6 +21,8 @@ namespace HorrorJam.AI
         [Indent,SerializeField] SpeedSetting chaseSpeed;
         [Indent,SerializeField] SpeedSetting slowedDownSpeed;
         [Indent,SerializeField] SpeedSetting superSlowedDownSpeed;
+        [Indent,SerializeField] SpeedSetting stopSpeed;
+        
         
         [Header("Destination")]
         [Indent,SerializeField] WaypointContainer currentWaypointContainer;
@@ -83,8 +76,8 @@ namespace HorrorJam.AI
         [Header("Scan Info")]
         [SerializeField] SpriteRenderer sprite;
         Scanable scanable;
-        EnemyStage enemyStage = EnemyStage.Explore;
 
+        SpeedSetting speedBeforeStop;
         void Awake() 
         {
             scanable = GetComponentInChildren<Scanable>();
@@ -95,11 +88,12 @@ namespace HorrorJam.AI
             scanable.onActiveScan += EnterSlowDown;
             scanable.onScanComplete += EnterSuperSlowDown;
 
-            scanable.onDeactiveScan += ExitSlowDown;
+            // scanable.onDeactiveScan += ExitSlowDown;
 
             lastKnownPlayerPosition = transform.position;
             OnFinishWaypoint += NotifyOnFinishWaypoint;
             ChangeSpeedSetting(exploreSpeed);
+            speedBeforeStop = exploreSpeed;
             MakeVisibleEnemy(scanable.scanProgress);
         }
 
@@ -119,6 +113,10 @@ namespace HorrorJam.AI
         void Update()
         {
             Debug.DrawLine(transform.position, agent.destination, Color.white);
+
+            LookToPlayer();
+
+
             if (GameManager.Instance.IsPause)
                 return;
 
@@ -194,6 +192,7 @@ namespace HorrorJam.AI
             isPursuingLostPlayer = false;
             SetStun(standStillDurationAfterPursue);
             ChangeSpeedSetting(exploreSpeed);
+            speedBeforeStop = exploreSpeed;
 
             if (isRespawnAfterPursue)
             {
@@ -202,14 +201,18 @@ namespace HorrorJam.AI
             }
         }
 
+        Waypoint lastRespawnPoint;
+
         [Button]
         void RespawnFarFromPlayer()
         {
             var playerPlanePos = AIManager.Instance.PlayerPlanePosition;
-            var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance);
+            var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance,lastRespawnPoint);
             if (targetWaypoint)
                 ReplaceTo(targetWaypoint);
 
+            //TODO สว่าง
+            DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0f, 1.5f);
             scanable.ResetProgress();
         }
 
@@ -218,6 +221,7 @@ namespace HorrorJam.AI
             agent.enabled = false;
             transform.position = targetWaypoint.transform.position;
             agent.enabled = true;
+            lastRespawnPoint = targetWaypoint;
         }
 
         [Button]
@@ -338,6 +342,10 @@ namespace HorrorJam.AI
             CancelRespawning();
             OnDetectPlayer?.Invoke();
             ChangeSpeedSetting(chaseSpeed);
+            speedBeforeStop = chaseSpeed;
+            //TODO มืดขึ้น
+            GameManager.Instance.initFogsetting();
+            DOTween.To(() => RenderSettings.fogDensity, x => RenderSettings.fogDensity = x, 0.075f, 1.5f);
             isDetectedPlayer = true;
         }
         
@@ -366,6 +374,7 @@ namespace HorrorJam.AI
                 return;
 
             ChangeSpeedSetting(slowedDownSpeed);
+            speedBeforeStop = slowedDownSpeed;
             isSlowedDown = true;
         }
 
@@ -375,15 +384,39 @@ namespace HorrorJam.AI
             if (!isSlowedDown)
                 return;
 
-            ChangeSpeedSetting(isDetectedPlayer? chaseSpeed : exploreSpeed);
+            if(isDetectedPlayer)
+            {
+                ChangeSpeedSetting(chaseSpeed);
+                speedBeforeStop = chaseSpeed;
+            }
+            else
+            {
+                ChangeSpeedSetting(exploreSpeed);
+                speedBeforeStop = exploreSpeed;
+            }
             isSlowedDown = false;
         }
 
         [Button]
         public void EnterSuperSlowDown()
         {
-            if (isSlowedDown)
-                ChangeSpeedSetting(superSlowedDownSpeed);
+            ChangeSpeedSetting(superSlowedDownSpeed);
+            speedBeforeStop = superSlowedDownSpeed;
+
+            scanable.OnDeactiveScanWithDuration(respawnDelayAfterPursue);
+            Schedule(respawnDelayAfterPursue, RespawnFarFromPlayer, RespawnId);
+        }
+
+        [Button]
+        public void EnterStop()
+        {
+            ChangeSpeedSetting(stopSpeed);
+        }
+
+        [Button]
+        public void ExitStop()
+        {
+            ChangeSpeedSetting(speedBeforeStop);
         }
 
         [Button]
@@ -425,6 +458,35 @@ namespace HorrorJam.AI
             {
                 GameManager.Instance.OnDie();
             }    
+        }
+
+        public void HideAI()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void ShowAI()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void SetCurrentWaypointContainer(WaypointContainer waypointContainer)
+        {
+            currentWaypointContainer = waypointContainer;
+        }
+
+        void LookToPlayer()
+        {
+            Vector3 playerPos = PlayerManager.Instance.transform.position;
+            playerPos.y = 0;
+            Vector3 enemyPos = transform.position;
+            enemyPos.y = 0;
+
+            Vector3 directionToPlayer = playerPos - enemyPos;
+
+            Quaternion rotation = Quaternion.LookRotation(directionToPlayer);
+
+            transform.rotation = rotation;
         }
 
 #if UNITY_EDITOR

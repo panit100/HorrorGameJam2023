@@ -2,6 +2,7 @@ Shader "Custom/Geometry/Wireframe"
 {
     Properties
     {
+          _MainTex ("Texture", 2D) = "white" {}
         [PowerSlider(3.0)]
         _WireframeVal ("Wireframe width", Range(0., 0.5)) = 0.05
         _FrontColor ("Front color", color) = (1., 1., 1., 1.)
@@ -89,27 +90,36 @@ Shader "Custom/Geometry/Wireframe"
             #pragma vertex vert
             #pragma fragment frag
             #pragma geometry geom
+            #pragma multi_compile_fog
 
             // Change "shader_feature" with "pragma_compile" if you want set this keyword from c# code
-            #pragma shader_feature __ _REMOVEDIAG_ON
+             #pragma shader_feature __ _REMOVEDIAG_ON
 
             #include "UnityCG.cginc"
 
             struct v2g {
                 float4 worldPos : SV_POSITION;
+                float2 uv : TEXCOORD2;
+                UNITY_FOG_COORDS(1)
             };
 
             struct g2f {
                 float4 pos : SV_POSITION;
                 float3 bary : TEXCOORD0;
+             
+              
             };
-
+                sampler2D _MainTex;
+            float4 _MainTex_ST;
             v2g vert(appdata_base v) {
                 v2g o;
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+                UNITY_TRANSFER_FOG(o,o.worldPos);
                 return o;
             }
-
+             float _WireframeVal;
+            fixed4 _FrontColor;
             [maxvertexcount(3)]
             void geom(triangle v2g IN[3], inout TriangleStream<g2f> triStream) {
                 float3 param = float3(0., 0., 0.);
@@ -139,16 +149,18 @@ Shader "Custom/Geometry/Wireframe"
                 triStream.Append(o);
             }
 
-            float _WireframeVal;
-            fixed4 _FrontColor;
+           
 
-            fixed4 frag(g2f i) : SV_Target {
+            fixed4 frag(g2f i , v2g o) : SV_Target
+            {
+             
             if(!any(bool3(i.bary.x <= _WireframeVal, i.bary.y <= _WireframeVal, i.bary.z <= _WireframeVal)))
                  discard;
-
+                 fixed4 col = tex2D(_MainTex, o.uv);
+                col *= _FrontColor;
+                UNITY_APPLY_FOG(o.fogCoord,_FrontColor);
                 return _FrontColor;
             }
-
             ENDCG
         }
     }

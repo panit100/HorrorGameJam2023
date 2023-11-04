@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum PlayerState
@@ -15,31 +13,33 @@ public class PlayerManager : Singleton<PlayerManager>
     PlayerMovement playerMovement;
     PlayerInteract playerInteract;
     PlayerEquipment playerEquipment;
+    PlayerCamera playerCamera;
 
     public PlayerMovement PlayerMovement {get { return playerMovement;}}
     public PlayerInteract PlayerInteract {get { return playerInteract;}}
     public PlayerEquipment PlayerEquipment {get { return playerEquipment;}}
+    public PlayerCamera PlayerCamera {get { return playerCamera;}}
     
     protected override void InitAfterAwake()
     {
         playerMovement = GetComponent<PlayerMovement>();
         playerInteract = GetComponent<PlayerInteract>();
         playerEquipment = GetComponent<PlayerEquipment>();
+        playerCamera = GetComponentInChildren<PlayerCamera>();
     }
 
-    public void OnChangeStage(PlayerState _state)
+    public void OnChangePlayerState(PlayerState _playerState)
     {
-        playerState = _state;
+        playerState = _playerState;
 
-        switch(playerState)
+        switch (playerState)
         {
             case PlayerState.Move:
                 InputSystemManager.Instance.TogglePlayerControl(true);
-                InputSystemManager.Instance.ToggleUIControl(false);
                 break;
-            case PlayerState.PipBoy:
+            case PlayerState.PipBoy:    
+                GameManager.Instance.LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
-                InputSystemManager.Instance.ToggleUIControl(true);
                 break;
         }
     }

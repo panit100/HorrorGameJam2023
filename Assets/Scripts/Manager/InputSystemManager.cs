@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -9,6 +7,8 @@ public class InputSystemManager : Singleton<InputSystemManager>
     const string PLAYER_ACTIONMAP = "Player";
     const string UI_ACTIONMAP = "UI";
     const string INGAME_ACTIONMAP = "InGame";
+    const string INGAMEUI_ACTIONMAP = "InGameUI";
+    const string CUTSCENE_ACTIONMAP = "Cutscene";
 
     [SerializeField] InputActionAsset playerInputAction;
 
@@ -18,8 +18,8 @@ public class InputSystemManager : Singleton<InputSystemManager>
     public UnityAction onInteract;
     public UnityAction onUseEquipment;
     public UnityAction onPause;
-    public UnityAction onUsePipBoy;
     public UnityAction onUseArmConsole;
+    public UnityAction onSkipcutscene;
     public UnityAction<int> onUseScanner;
     public UnityAction<int> onUseCamera;
 
@@ -28,17 +28,24 @@ public class InputSystemManager : Singleton<InputSystemManager>
     InputActionMap playerControlMap;
     InputActionMap uiControlMap;
     InputActionMap inGameControlMap;
+    InputActionMap inGameUIControlMap;
+    InputActionMap cutsceneControlMap;
+    
 
     bool globalInputEnable = false;
-    bool playerControlEnable = true;   
-    bool uiControlMapEnable = false;
+    bool playerControlEnable = false;   
+    bool uiControlMapEnable = true;
     bool inGameMapEnable = false;
+    bool inGameUIMapEnable = false;
+    bool cutsceneMapEnable = false;
 
     protected override void InitAfterAwake()
     {
         playerControlMap = playerInputAction.FindActionMap(PLAYER_ACTIONMAP);
         uiControlMap = playerInputAction.FindActionMap(UI_ACTIONMAP);
         inGameControlMap = playerInputAction.FindActionMap(INGAME_ACTIONMAP);
+        inGameUIControlMap = playerInputAction.FindActionMap(INGAMEUI_ACTIONMAP);
+        cutsceneControlMap = playerInputAction.FindActionMap(CUTSCENE_ACTIONMAP);
     }
 
     void Start() 
@@ -72,6 +79,18 @@ public class InputSystemManager : Singleton<InputSystemManager>
         UpdateInputState();
     }
 
+    public void ToggleInGameUIControl(bool toggle)
+    {
+        inGameUIMapEnable = toggle;
+        UpdateInputState();
+    }
+
+    public void ToggleCutsceneControl(bool toggle)
+    {
+        cutsceneMapEnable = toggle;
+        UpdateInputState();
+    }
+
     void UpdateInputState()
     {
         if(globalInputEnable && playerControlEnable) playerControlMap.Enable();
@@ -82,6 +101,12 @@ public class InputSystemManager : Singleton<InputSystemManager>
 
         if(globalInputEnable && inGameMapEnable) inGameControlMap.Enable();
         else inGameControlMap.Disable();
+
+        if(globalInputEnable && inGameUIMapEnable) inGameUIControlMap.Enable();
+        else inGameUIControlMap.Disable();
+
+        if(globalInputEnable && cutsceneMapEnable) cutsceneControlMap.Enable();
+        else cutsceneControlMap.Disable();
     }
 
 #endregion
@@ -114,12 +139,12 @@ public class InputSystemManager : Singleton<InputSystemManager>
 
     private void OnUsePipBoy(InputValue value)
     {
-        onUsePipBoy?.Invoke();
+        onUseArmConsole?.Invoke();
     }
 
-    private void OnUseArmConsole(InputValue value)
+    private void OnSkipCutscene(InputValue value)
     {
-        onUseArmConsole?.Invoke();
+        onSkipcutscene?.Invoke();
     }
 
     private void OnUseScanner(InputValue value)

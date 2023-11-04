@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -16,22 +12,6 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         AddInputListener();
-
-        LockCursor(true);
-    }
-
-    void LockCursor(bool toggle)
-    {
-        if(toggle)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
     }
 
     void AddInputListener()
@@ -44,7 +24,7 @@ public class PlayerCamera : MonoBehaviour
         InputSystemManager.Instance.onMouseLook -= OnMouseLook;
     }
 
-    void Update()
+    void LateUpdate()
     {
         CameraRotate();
     }
