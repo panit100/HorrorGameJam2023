@@ -51,20 +51,20 @@ public class PausePanel : MonoBehaviour
 
     void OnClickResumeButton()
     {
-        AudioManager.Instance.PlayOneShot("clickUI");
+        // AudioManager.Instance.PlayOneShot("clickUI");
         EnablePauseCanvas(false);
         GameManager.Instance.OnPause();
     }
 
     void OnClickSettingButton()
     {
-        AudioManager.Instance.PlayOneShot("clickUI");
+        // AudioManager.Instance.PlayOneShot("clickUI");
         OpenSettingPanel();
     }
 
     void OnClickQuitButton()
     {
-        AudioManager.Instance.PlayOneShot("clickUI");
+        // AudioManager.Instance.PlayOneShot("clickUI");
         StartCoroutine(GameManager.Instance.GoToSceneMainMenu());
     }
 
@@ -73,7 +73,7 @@ public class PausePanel : MonoBehaviour
     {
         if(enable)
         {
-            AudioManager.Instance.PlayOneShot("windowEntry");
+            // AudioManager.Instance.PlayOneShot("windowEntry");
 
             canvasGroup.alpha = 1;
             canvasGroup.interactable =true;
@@ -108,7 +108,7 @@ public class PausePanel : MonoBehaviour
     //Hide All panal when pause
     void CloseAllPanel()
     {
-        AudioManager.Instance.PlayOneShot("windowEntry");
+        // AudioManager.Instance.PlayOneShot("windowEntry");
         
         TogglePausePanel(false);
         ToggleSettingPanel(false);

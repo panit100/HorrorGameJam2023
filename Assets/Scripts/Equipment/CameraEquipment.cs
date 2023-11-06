@@ -70,7 +70,7 @@ public class CameraEquipment : Equipment
             
         isUsing = true;
 
-        AudioManager.Instance.PlayOneShot("cameraShutter");
+        AudioManager.Instance.PlayOneShot("camera_shutter");
         ActiveFlash();
         CaptureScreenshot();
         StartCoroutine(DisplayImage());
