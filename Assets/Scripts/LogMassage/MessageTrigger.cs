@@ -43,6 +43,6 @@ public class MessageTrigger : MonoBehaviour
 
     public void PlayAudio(string audioID)
     {
-        AudioManager.Instance.PlayOneShot(audioID);
+        AudioManager.Instance.PlayAudioOneShot(audioID);
     }
 }

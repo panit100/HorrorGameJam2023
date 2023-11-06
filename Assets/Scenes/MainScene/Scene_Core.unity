@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -336,6 +336,14 @@ MonoBehaviour:
         Data3: 818318261
         Data4: -1698554693
       Path: event:/SFX/WindowEntry
+  - key: cutscene_intro
+    sound:
+      Guid:
+        Data1: -2132403805
+        Data2: 1187355554
+        Data3: 427224746
+        Data4: -562464955
+      Path: event:/Cutscene/cutscene_intro
 --- !u!1 &1083067103
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,8 +591,10 @@ MonoBehaviour:
   Cutscene:
   - ID: As_intro
     video: {fileID: 32900000, guid: 8b734211dbaaf024b997a49e7e0b99f8, type: 3}
+    videoAudioID: cutscene_intro
   - ID: As_ending
     video: {fileID: 32900000, guid: 025d4a1e4bfd2854083db045e7d305d6, type: 3}
+    videoAudioID: 
   VdoPlayer: {fileID: 0}
 --- !u!4 &2079521050
 Transform:

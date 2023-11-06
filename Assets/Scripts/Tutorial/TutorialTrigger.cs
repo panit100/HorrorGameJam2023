@@ -30,7 +30,7 @@ public class TutorialTrigger : MonoBehaviour
     void ActiveTutorialCanvas()
     {
         tutorialCanvas.SetActive(true);
-        AudioManager.Instance.PlayOneShot("window_entry");
+        AudioManager.Instance.PlayAudioOneShot("window_entry");
         tutorialText.text = text;
         tutorialButton.onClick.AddListener(DisableTutorialCanvas);
         GameManager.Instance.OnChangeGameStage(GameStage.Tutorial);
@@ -40,7 +40,7 @@ public class TutorialTrigger : MonoBehaviour
     void DisableTutorialCanvas()
     {
         Time.timeScale = 1;
-        AudioManager.Instance.PlayOneShot("ui_click");
+        AudioManager.Instance.PlayAudioOneShot("ui_click");
         GameManager.Instance.OnChangeGameStage(GameStage.Playing);
         tutorialCanvas.SetActive(false);
         this.gameObject.SetActive(false);

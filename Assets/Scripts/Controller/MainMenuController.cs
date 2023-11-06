@@ -154,6 +154,6 @@ public class MainMenuController : MonoBehaviour
 
     void PlayButtonSound()
     {
-        AudioManager.Instance.PlayOneShot("ui_click");
+        AudioManager.Instance.PlayAudioOneShot("ui_click");
     }
 }

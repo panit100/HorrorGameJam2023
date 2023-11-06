@@ -36,22 +36,22 @@ namespace HorrorJam.Audio
             // masterBus.setVolume(masterVolume);
         }
 
-        public void PlayOneShot(string soundID)
+        public void PlayAudioOneShot(string soundID)
         {
             RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID]);
         }
 
-        public void PlayOneShot(string soundID, Vector3 position)
+        public void PlayAudioOneShot(string soundID, Vector3 position)
         {
             RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID],position);
         }
 
-        public void PlayOneShot(EventReference sound)
+        public void PlayAudioOneShot(EventReference sound)
         {
             RuntimeManager.PlayOneShot(sound);
         }
 
-        public void PlayOneShot(EventReference sound, Vector3 position)
+        public void PlayAudioOneShot(EventReference sound, Vector3 position)
         {
             RuntimeManager.PlayOneShot(sound, position);
         }
@@ -62,14 +62,14 @@ namespace HorrorJam.Audio
             return eventInstance;
         }
 
-        public void PlayLoop(string soundID,string id)
+        public void PlayAudio(string soundID,string id)
         {
             var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
             _audioEvent.start();
             eventInstanceDic.Add(id,_audioEvent);
         }
 
-        public void PlayLoop(EventReference eventReference,string id)
+        public void PlayAudio(EventReference eventReference,string id)
         {
             var _audioEvent = CreateInstance(eventReference);
             _audioEvent.start();
@@ -81,7 +81,7 @@ namespace HorrorJam.Audio
         //     eventInstanceDic[id].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         // }
 
-        public void StopLoop(string id)
+        public void StopAudio(string id)
         {
             eventInstanceDic[id].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
             eventInstanceDic[id].release();
@@ -92,7 +92,7 @@ namespace HorrorJam.Audio
         {
             foreach(var n in eventInstanceDic.ToList())
             {
-                StopLoop(n.Key);
+                StopAudio(n.Key);
                 n.Value.release();
             }
         }

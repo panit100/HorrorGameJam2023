@@ -144,7 +144,7 @@ public class ScannerEquipment : Equipment
     {
         isScanning = true;
         
-        AudioManager.Instance.PlayLoop("scanner","scanner");
+        AudioManager.Instance.PlayAudio("scanner","scanner");
 
         if(objectInRange.Length == 0)
             return;
@@ -181,7 +181,7 @@ public class ScannerEquipment : Equipment
         if(!isScanning)
             return;
 
-        AudioManager.Instance.StopLoop("scanner");
+        AudioManager.Instance.StopAudio("scanner");
 
         if(scanningObject != null)
         {
