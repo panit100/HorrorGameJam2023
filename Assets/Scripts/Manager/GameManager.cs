@@ -31,15 +31,6 @@ public class GameManager : Singleton<GameManager>
         AddInputListener();
     }
 
-    void Start()
-    {
-#if UNITY_EDITOR
-            LockCursor(true);
-            TimeManager.Instance.SetCurrentTime();
-            OnChangeGameStage(GameStage.Playing);
-#endif
-    }
-
     void AddInputListener()
     {
         InputSystemManager.Instance.onPause += OnPause;

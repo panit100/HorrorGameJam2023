@@ -1,5 +1,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine.UI;
+using HorrorJam.Audio;
 
 public enum MainMenuStage
 {
@@ -15,14 +17,41 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] CanvasGroup mainMenuGroup;
     [SerializeField] CanvasGroup settingGroup;
     [SerializeField] CanvasGroup howToPlayGroup;
-    
+
+    [Header("MainmenuPanel")]
+    [SerializeField] Button mainMenu_startButton;
+    [SerializeField] Button mainMenu_settingButton;
+    [SerializeField] Button mainMenu_howToPlayButton;
+    [SerializeField] Button mainMenu_quitButton;
+
+    [Header("SettingPanel")]
+    [SerializeField] Slider setting_volumeSlider;
+    [SerializeField] Button setting_backButton;
+
+    [Header("HowToPlayPanel")]
+    [SerializeField] Button howToPlay_backButton;
 
     void Start()
     {
+        AddListener();
+
         GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
         EnableMainMenu(true);
         EnableSetting(false);
         EnableHowToPlay(false);
+    }
+
+    void AddListener()
+    {
+        mainMenu_startButton.onClick.AddListener(() => {OnStartCutscene(); PlayButtonSound();});
+        mainMenu_settingButton.onClick.AddListener(() => {OnSetting(); PlayButtonSound();});
+        mainMenu_howToPlayButton.onClick.AddListener(() => {OnHowToPlay(); PlayButtonSound();});
+        mainMenu_quitButton.onClick.AddListener(() => {OnQuit(); PlayButtonSound();});
+
+        setting_volumeSlider.onValueChanged.AddListener((f) => {OnChangeVolume(f);});
+        setting_backButton.onClick.AddListener(() => {OnBack(); PlayButtonSound();});
+        
+        howToPlay_backButton.onClick.AddListener(() => {OnBack(); PlayButtonSound();});
     }
 
     [Button]
@@ -61,11 +90,16 @@ public class MainMenuController : MonoBehaviour
         EnableHowToPlay(true);
     }
 
-    public void OnExit()
+    public void OnQuit()
     {
         if(mainMenuStage != MainMenuStage.MainMenu)
             return;
         Application.Quit();
+    }
+
+    void OnChangeVolume(float volume)
+    {
+
     }
 
     void EnableMainMenu(bool enable)
@@ -115,7 +149,11 @@ public class MainMenuController : MonoBehaviour
             howToPlayGroup.alpha = 0;
             howToPlayGroup.blocksRaycasts = false;
             howToPlayGroup.interactable = false;
-            
         }
+    }
+
+    void PlayButtonSound()
+    {
+        AudioManager.Instance.PlayOneShot("ui_click");
     }
 }
