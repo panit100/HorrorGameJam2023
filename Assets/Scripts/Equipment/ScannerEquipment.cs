@@ -23,6 +23,9 @@ public class ScannerEquipment : Equipment
     [SerializeField] float batteryAmout = 100f;
     [SerializeField] float batteryConsumeAmount = 1.5f;
     [SerializeField] float batteryRefillAmount = 3.5f;
+    [SerializeField] float batteryRefillDelay = 3f;
+    bool isBatteryRefill = true;
+    bool canScan = true;
 
     [SerializeField] float scanRange = 10f;
     [Range(0, 180)]
@@ -66,7 +69,7 @@ public class ScannerEquipment : Equipment
     {
         base.OnUse();
 
-        if(isPress && batteryAmout > 0)
+        if(isPress && batteryAmout > 0 && canScan == true)
         {
             OnScan();
             scanAudio.Play();
@@ -112,6 +115,7 @@ public class ScannerEquipment : Equipment
             if(batteryAmout <= 0)
             {
                 OnUnscan();
+                canScan = false;
                 OnBatteryEmpty?.Invoke();
                 return;
             }
@@ -145,8 +149,9 @@ public class ScannerEquipment : Equipment
     void OnScan()
     {
         isScanning = true;
+        isBatteryRefill = false;
 
-        if(objectInRange.Length == 0)
+        if (objectInRange.Length == 0)
             return;
 
         var closestObject = GetClosestObject();
@@ -173,7 +178,7 @@ public class ScannerEquipment : Equipment
                 scanningEnemies.Add(n);
             }
         }
-        
+
     }
 
     public void OnUnscan()
@@ -198,6 +203,11 @@ public class ScannerEquipment : Equipment
         scannerCanvas.SetScanner(null);
 
         isScanning = false;
+        if (isBatteryRefill == false)
+        {
+            StopAllCoroutines();
+            StartCoroutine(DelayBeforeRefillBattery());
+        }
     }
 
     Scanable GetClosestObject()
@@ -290,13 +300,22 @@ public class ScannerEquipment : Equipment
         batteryAmout -= batteryConsumeAmount * Time.deltaTime;
     }
 
+    IEnumerator DelayBeforeRefillBattery()
+    {
+        isBatteryRefill = false;
+        yield return new WaitForSeconds(batteryRefillDelay);
+        isBatteryRefill = true;
+    }
     void RefillBattery()
     {
         if(batteryAmout >= 100)
         {
             batteryAmout = 100;
+            canScan = true;
             return;
         }
+        if (isBatteryRefill == false)
+            return;
 
         batteryAmout += batteryRefillAmount * Time.deltaTime;
     }
