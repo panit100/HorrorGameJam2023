@@ -7,6 +7,7 @@ using DG.Tweening.Plugins.Options;
 using Sirenix.OdinInspector;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using HorrorJam.Audio;
 
 public class PipboyManager: Singleton<PipboyManager>
 {
@@ -24,7 +25,7 @@ public class PipboyManager: Singleton<PipboyManager>
     Vector3 sparkleprop;
     Vector3 sparkleprop_temp;
 
-    bool isUsingPipboy ;
+    bool isUsingPipboy;
     bool FadeInDone;
 
     public bool IsUsingPipboy => isUsingPipboy;
@@ -54,32 +55,33 @@ public class PipboyManager: Singleton<PipboyManager>
 
     void togglepipboy()
     {
-    if (!isUsingPipboy && !FadeInDone)
-        StartPipboy();
-    else
-        QuitPipboy();
+        if (!isUsingPipboy && !FadeInDone)
+            StartPipboy();
+        else
+            QuitPipboy();
     }
     
     [Button]
     public void StartPipboy()
     { 
-        
-    if(!Application.isPlaying)return;
-    group.interactable = true;
-    isUsingPipboy = true;
-    PlayerManager.Instance.OnChangePlayerState(PlayerState.PipBoy);
-    meshGroup.SetActive(true);
-    pipboymesh.materials[0] = tempScreenmat;
-    sparkleprop = sparkleprop_temp;
-    pipboytween.Kill();
-    pipboytween = DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration).SetEase(screenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
+        if(!Application.isPlaying)
+            return;
 
+        group.interactable = true;
+        isUsingPipboy = true;
+        PlayerManager.Instance.OnChangePlayerState(PlayerState.PipBoy);
+        meshGroup.SetActive(true);
+        pipboymesh.materials[0] = tempScreenmat;
+        sparkleprop = sparkleprop_temp;
+        pipboytween.Kill();
+        pipboytween = DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration).SetEase(screenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
 
-    pipboyObject.transform.localPosition = startpos;
-    pipboyObject.transform.DOLocalMove(endpose, fadeinduration*0.95f).SetEase(screenEase).OnComplete((() => FadeInDone = true));
-    pipboyObject.transform.localRotation = Quaternion.Euler(new Vector3(0,-90,-90));
-    pipboyObject.transform.DOLocalRotate(
-        new Vector3(0, -90, 0f), fadeinduration).SetEase(screenEase);
+        pipboyObject.transform.localPosition = startpos;
+        pipboyObject.transform.DOLocalMove(endpose, fadeinduration*0.95f).SetEase(screenEase).OnComplete((() => FadeInDone = true));
+        pipboyObject.transform.localRotation = Quaternion.Euler(new Vector3(0,-90,-90));
+        pipboyObject.transform.DOLocalRotate(
+            new Vector3(0, -90, 0f), fadeinduration).SetEase(screenEase);
+        AudioManager.Instance.PlayAudioOneShot("radio_static");
     }
 
     [Button]
@@ -98,6 +100,7 @@ public class PipboyManager: Singleton<PipboyManager>
             FadeInDone = false;
             PlayerManager.Instance.PlayerEquipment.SwitchPipboyToEquipment();
         });
+        AudioManager.Instance.PlayAudioOneShot("template");
     }
 
     private void fadeInAlpha()
@@ -124,8 +127,8 @@ public class PipboyManager: Singleton<PipboyManager>
     { 
         Debug.Log("working");
         pipboymesh.materials[0] = tempScreenmat;
-    sparkleprop = sparkleprop_temp;
-    DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration*2f).SetEase(screenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
+        sparkleprop = sparkleprop_temp;
+        DOTween.To(() => sparkleprop.x, x => sparkleprop.x = x, sparkleprop.x+20f, fadeinduration*2f).SetEase(screenEase).OnStart(SparkleSequence).OnUpdate(UpdateMaterial).OnComplete(fadeInAlpha);
     }
 
     private void SparkleSequence()

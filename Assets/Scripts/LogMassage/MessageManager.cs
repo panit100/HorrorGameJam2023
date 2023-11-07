@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Hellmade.Sound;
+using HorrorJam.Audio;
 using LogMassage;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -70,8 +72,12 @@ public class MessageManager : Singleton<MessageManager>
 
         massageText.gameObject.SetActive(true);
 
-        if(PipboyManager.Instance.IsUsingPipboy)
+        AudioManager.Instance.PlayAudioOneShot("new_massage");
+        if(!PipboyManager.Instance.IsUsingPipboy)
+        {
             uIMessageNotification.PlayEnter();
+        }
+        
     }
 
     public void HideNotificationText()

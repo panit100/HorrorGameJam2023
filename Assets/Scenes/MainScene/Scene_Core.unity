@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -304,6 +304,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <eventList>k__BackingField:
+  - key: template
+    sound:
+      Guid:
+        Data1: -1079859882
+        Data2: 1156959701
+        Data3: 1063600302
+        Data4: 740239265
+      Path: event:/SFX/TemplateSound
   - key: scanner
     sound:
       Guid:
@@ -352,6 +360,54 @@ MonoBehaviour:
         Data3: 1919070887
         Data4: -1744873307
       Path: event:/SFX/Enemy
+  - key: radio_static
+    sound:
+      Guid:
+        Data1: 1406483685
+        Data2: 1245099098
+        Data3: 2112008604
+        Data4: 1045328608
+      Path: event:/SFX/RadioStatic
+  - key: door_openall
+    sound:
+      Guid:
+        Data1: -294553077
+        Data2: 1240609138
+        Data3: -1294962030
+        Data4: 418190584
+      Path: event:/SFX/DoorOpenAll
+  - key: door_open
+    sound:
+      Guid:
+        Data1: 1018294304
+        Data2: 1301139748
+        Data3: 370600333
+        Data4: 788517668
+      Path: event:/SFX/DoorOpen
+  - key: monster_ambient
+    sound:
+      Guid:
+        Data1: 537274705
+        Data2: 1138381444
+        Data3: 783991185
+        Data4: 36457398
+      Path: event:/SFX/MonsterEncounter
+  - key: monster_scream
+    sound:
+      Guid:
+        Data1: 855144656
+        Data2: 1078014603
+        Data3: -756692561
+        Data4: 494104498
+      Path: event:/SFX/MonsterScream
+  - key: new_massage
+    sound:
+      Guid:
+        Data1: 650402252
+        Data2: 1211690287
+        Data3: -2008887934
+        Data4: 731623117
+      Path: event:/SFX/NewMessage
 --- !u!1 &1083067103
 GameObject:
   m_ObjectHideFlags: 0

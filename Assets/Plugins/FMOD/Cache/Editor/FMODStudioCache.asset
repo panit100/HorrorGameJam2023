@@ -75,7 +75,7 @@ MonoBehaviour:
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -156,7 +156,7 @@ MonoBehaviour:
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -176,19 +176,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/SFX/WaterPipe
   Guid:
-    Data1: 465265759
-    Data2: 1292389157
-    Data3: -518910539
-    Data4: -1612414125
+    Data1: 1046368389
+    Data2: 1334953127
+    Data3: 1702870719
+    Data4: -1673083380
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 1
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 51312
 --- !u!114 &-2124369844763026492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -285,7 +285,7 @@ MonoBehaviour:
   Path: FmodBuild/Desktop/Cutscene.bank
   Name: Cutscene
   StudioPath: bank:/Cutscene
-  lastModified: 638349517882506902
+  lastModified: 638349748427894789
   FileSizes: []
   Exists: 1
 --- !u!114 &-685048647145979046
@@ -329,19 +329,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/SFX/Chamber
   Guid:
-    Data1: -1460995994
-    Data2: 1087668974
-    Data3: -1154844794
-    Data4: 1959468818
+    Data1: -555160743
+    Data2: 1307871353
+    Data3: -1025305975
+    Data4: 833232533
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 1
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 176688
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,12 +387,13 @@ MonoBehaviour:
   - {fileID: -5845143546549771679}
   - {fileID: 6470836666994859827}
   - {fileID: 369950255800340910}
+  - {fileID: 4836272777704381169}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4313331513873805156}
   StringsBanks:
   - {fileID: 313402981994657067}
-  cacheTime: 638349517883017196
+  cacheTime: 638349748429128566
   cacheVersion: 131608
 --- !u!114 &212324260806811287
 MonoBehaviour:
@@ -415,7 +416,7 @@ MonoBehaviour:
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -436,10 +437,10 @@ MonoBehaviour:
   Path: FmodBuild/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638349517882526925
+  lastModified: 638349748427919989
   FileSizes:
   - Name: 
-    Value: 2052
+    Value: 2096
   Exists: 1
 --- !u!114 &369950255800340910
 MonoBehaviour:
@@ -489,7 +490,7 @@ MonoBehaviour:
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -536,19 +537,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/SFX/NoiseFan
   Guid:
-    Data1: 524720611
-    Data2: 1232808401
-    Data3: 1683258302
-    Data4: 1058036817
+    Data1: 269087383
+    Data2: 1099752788
+    Data3: 1621759113
+    Data4: -1019686922
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 1
   Is3D: 1
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 46008
 --- !u!114 &2725078194802088321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,7 +592,7 @@ MonoBehaviour:
   Path: FmodBuild/Desktop/Ambient.bank
   Name: Ambient
   StudioPath: bank:/Ambient
-  lastModified: 638349517882326810
+  lastModified: 638349748427176111
   FileSizes: []
   Exists: 1
 --- !u!114 &4313331513873805156
@@ -609,9 +610,36 @@ MonoBehaviour:
   Path: FmodBuild/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638349517882516928
+  lastModified: 638349748427909893
   FileSizes: []
   Exists: 1
+--- !u!114 &4836272777704381169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/TemplateSound
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/TemplateSound
+  Guid:
+    Data1: -1079859882
+    Data2: 1156959701
+    Data3: 1063600302
+    Data4: 740239265
+  Banks:
+  - {fileID: 5420056321799970006}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &5420056321799970006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -627,7 +655,7 @@ MonoBehaviour:
   Path: FmodBuild/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638349517883017196
+  lastModified: 638349748429128566
   FileSizes: []
   Exists: 1
 --- !u!114 &5487478099797464531
@@ -705,7 +733,7 @@ MonoBehaviour:
   Banks:
   - {fileID: 5420056321799970006}
   IsStream: 0
-  Is3D: 1
+  Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1

@@ -41,7 +41,12 @@ public class MessageTrigger : MonoBehaviour
         }
     }
 
-    public void PlayAudio(string audioID)
+    public void PlayAudio2D(string audioID)
+    {
+        AudioManager.Instance.PlayAudioOneShot(audioID);
+    }
+
+    public void PlayAudioAtPos(string audioID)
     {
         AudioManager.Instance.PlayAudioOneShot(audioID);
     }
