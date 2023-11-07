@@ -79,6 +79,8 @@ namespace HorrorJam.AI
         Scanable scanable;
         SpeedSetting speedBeforeStop;
         
+        [Header("Audio")]
+        [SerializeField] string audioID;
         StudioEventEmitter eventEmitter;
         void Awake() 
         {
@@ -98,7 +100,7 @@ namespace HorrorJam.AI
             speedBeforeStop = exploreSpeed;
             MakeVisibleEnemy(scanable.scanProgress);
 
-            PlaySound("enemy");
+            PlaySound();
         }
 
         void NotifyOnFinishWaypoint(Waypoint obj)
@@ -494,8 +496,11 @@ namespace HorrorJam.AI
             transform.rotation = rotation;
         }
 
-        void PlaySound(string audioID)
+        void PlaySound()
         {
+            if(string.IsNullOrEmpty(audioID))
+                return;
+
             if(GetComponent<StudioEventEmitter>() != null)
                 eventEmitter = GetComponent<StudioEventEmitter>();
             else
