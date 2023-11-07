@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using HorrorJam.Audio;
 using LogMassage;
 using Sirenix.OdinInspector;
 using UnityEngine.Video;
@@ -11,6 +12,8 @@ public class CutsceneManager : Singleton<CutsceneManager>
     private UIMessageNotification skipimage;
     
     private string currentCutscene;
+
+    string playingAudioID;
 
     protected override void InitAfterAwake()
     {
@@ -34,13 +37,16 @@ public class CutsceneManager : Singleton<CutsceneManager>
     {
         currentCutscene = EventID;
 
+        VideoConfig _videoConfig;
+
         if(Cutscene.Find(x=>x.ID== currentCutscene) != null)
-            VdoPlayer.clip = Cutscene.Find(x=>x.ID== currentCutscene).video;
+            _videoConfig = Cutscene.Find(x=>x.ID== currentCutscene);
         else
-            VdoPlayer.clip = Cutscene[0].video ;
+            _videoConfig = Cutscene[0];
         
+        VdoPlayer.clip = _videoConfig.video;
         VdoPlayer.Prepare();
-        VdoPlayer.prepareCompleted +=  (source =>  VdoPlayer.Play());
+        VdoPlayer.prepareCompleted +=  (source =>  {VdoPlayer.Play(); PlayVideoAudio(_videoConfig.videoAudioID);});
     }
 
     public void EndOfvideo(VideoPlayer vp)
@@ -54,6 +60,7 @@ public class CutsceneManager : Singleton<CutsceneManager>
     }
     public void SkipEndOfvideo()
     {
+        StopVideoAudio();
         VdoPlayer.Stop();
         if (currentCutscene == "As_ending")
             StartCoroutine(  GameManager.Instance.GoToSceneMainMenu());
@@ -67,5 +74,16 @@ public class CutsceneManager : Singleton<CutsceneManager>
     private void OnDestroy()
     {
         VdoPlayer.loopPointReached -= EndOfvideo;
+    }
+
+    void PlayVideoAudio(string id)
+    {
+        playingAudioID = id;
+        AudioManager.Instance.PlayAudio(id,id);
+    }
+
+    void StopVideoAudio()
+    {
+        AudioManager.Instance.StopAudio(playingAudioID);
     }
 }

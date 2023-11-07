@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
+using HorrorJam.Audio;
 
 public class Door : MonoBehaviour
 {
@@ -83,6 +84,27 @@ public class Door : MonoBehaviour
     //{
     //    OpenDoor();
     //}
+    public void PlayAudioAtPosition(string audioID)
+    {
+        AudioManager.Instance.PlayAudioOneShot(audioID);
+    }
+
+    public void OpenDoorWithSound()
+    {
+        OpenDoor();
+        PlayAudioAtPosition("door_open");
+    }
+
+    public void CloseDoorWithSound()
+    {
+        CloseDoor();
+        PlayAudioAtPosition("template");
+    }
+
+    // public void OnInteract()
+    // {
+    //     OpenDoor();
+    // }
 
     // public void OnBeingScanned()
     // {

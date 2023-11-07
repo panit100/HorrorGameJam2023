@@ -12,7 +12,7 @@ public class SettingPanel : MonoBehaviour
 
     void Start()
     {
-        backButton.onClick.AddListener(() => {OnBack?.Invoke(); AudioManager.Instance.PlayOneShot("clickUI");});
+        // backButton.onClick.AddListener(() => {OnBack?.Invoke(); AudioManager.Instance.PlayOneShot("clickUI");});
         masterVolumeSlider.onValueChanged.AddListener(ChangeMasterVolume);
         LoadMasterVolume();
     }

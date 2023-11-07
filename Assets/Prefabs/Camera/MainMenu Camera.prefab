@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4458911902986246775}
   - component: {fileID: 6331831881529061699}
-  - component: {fileID: 5240858726557805692}
   - component: {fileID: 3816259658093162052}
+  - component: {fileID: 8151938713471420161}
   m_Layer: 0
   m_Name: MainMenu Camera
   m_TagString: MainCamera
@@ -85,14 +85,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &5240858726557805692
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5970499434578728972}
-  m_Enabled: 1
 --- !u!114 &3816259658093162052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,3 +102,16 @@ MonoBehaviour:
   useImage: 0
   curvature: 5
   vignetteWidth: 7
+--- !u!114 &8151938713471420161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5970499434578728972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
