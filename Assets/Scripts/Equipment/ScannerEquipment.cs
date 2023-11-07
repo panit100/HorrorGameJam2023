@@ -308,14 +308,14 @@ public class ScannerEquipment : Equipment
     }
     void RefillBattery()
     {
+        if (isBatteryRefill == false)
+            return;
         if(batteryAmout >= 100)
         {
             batteryAmout = 100;
             canScan = true;
             return;
         }
-        if (isBatteryRefill == false)
-            return;
 
         batteryAmout += batteryRefillAmount * Time.deltaTime;
     }
