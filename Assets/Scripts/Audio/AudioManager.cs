@@ -3,59 +3,103 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Hellmade.Sound;
+using FMODUnity;
+using FMOD.Studio;
 
 namespace HorrorJam.Audio
 {
     public class AudioManager : Singleton<AudioManager>
     {
-        [SerializeField] List<AudioRecord> recordList = new List<AudioRecord>();
-        [SerializeField] float soundEffectVolume = 0.75f;
-        [SerializeField] float bgmVolume = 0.5f;
+        [Header("Volume")]
+        [Range(0f,1f)]
+        public float masterVolume = 1;
+
+        Bus masterBus;
+
+        Dictionary<string,EventInstance> eventInstanceDic;
         
+
         protected override void InitAfterAwake()
         {
+            Init();
+        }
 
+        void Init()
+        {
+            eventInstanceDic = new Dictionary<string, EventInstance>();
+
+            // masterBus = RuntimeManager.GetBus("bus:/");
         }
 
         void Update()
         {
-            EazySoundManager.GlobalMusicVolume = bgmVolume;
-            EazySoundManager.GlobalSoundsVolume = soundEffectVolume;
+            // masterBus.setVolume(masterVolume);
         }
 
-        [Button]
-        public void PlayOneShot(string id)
+        public void PlayAudioOneShot(string soundID)
         {
-            var rec = FindRecord(id);
-            if (rec != null)
-                EazySoundManager.PlaySound(rec.clip);
+            RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID]);
         }
 
-        [Button]
-        public void FadeInMusic(string id)
+        public void PlayAudioOneShot(string soundID, Vector3 position)
         {
-            var rec = FindRecord(id);
-            if (rec != null)
-                EazySoundManager.PlayMusic(rec.clip, bgmVolume, true, false);
-        }
-        
-        [Button]
-        public void FadeOutMusic()
-        { 
-            EazySoundManager.StopAllMusic();
+            RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID],position);
         }
 
-        AudioRecord FindRecord(string id)
+        public void PlayAudioOneShot(EventReference sound)
         {
-            return recordList.FirstOrDefault(rec => rec.id == id);
+            RuntimeManager.PlayOneShot(sound);
         }
-    }
 
-    [Serializable]
-    public class AudioRecord
-    {
-        public string id;
-        public AudioClip clip;
+        public void PlayAudioOneShot(EventReference sound, Vector3 position)
+        {
+            RuntimeManager.PlayOneShot(sound, position);
+        }
+
+        public EventInstance CreateInstance(EventReference eventReference)
+        {
+            EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+            return eventInstance;
+        }
+
+        public void PlayAudio(string soundID,string id)
+        {
+            var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            _audioEvent.start();
+            eventInstanceDic.Add(id,_audioEvent);
+        }
+
+        public void PlayAudio(EventReference eventReference,string id)
+        {
+            var _audioEvent = CreateInstance(eventReference);
+            _audioEvent.start();
+            eventInstanceDic.Add(id,_audioEvent);
+        }
+
+        // public void FadeOutLoop(string id)
+        // {
+        //     eventInstanceDic[id].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        // }
+
+        public void StopAudio(string id)
+        {
+            eventInstanceDic[id].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            eventInstanceDic[id].release();
+            eventInstanceDic.Remove(id);
+        }
+
+        public void CleanUp()
+        {
+            foreach(var n in eventInstanceDic.ToList())
+            {
+                StopAudio(n.Key);
+                n.Value.release();
+            }
+        }
+
+        void OnDestroy() 
+        {
+            CleanUp();    
+        }
     }
 }

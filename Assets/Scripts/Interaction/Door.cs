@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
+using HorrorJam.Audio;
 
 public class Door : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Door : MonoBehaviour
     [SerializeField] float duration = 1f;
     [SerializeField] Ease ease;
     [SerializeField] bool isDoorOpen = false;
+    [SerializeField] DoorSwitch doorSwitch;
     // [SerializeField] bool scanBeforeInteract = false;
 
     Vector3 originPos;
@@ -23,9 +25,7 @@ public class Door : MonoBehaviour
 
         // if(TryGetComponent<Scanable>(out Scanable _scanable))
         //     scanable = _scanable;
-
         originPos = transform.position;
-
         // OnBeingScanned();
     }
 
@@ -78,6 +78,27 @@ public class Door : MonoBehaviour
             .DOMove(originPos, duration)
             .SetEase(ease)
             .SetId(doorID);
+    }
+
+    //public void OnInteract()
+    //{
+    //    OpenDoor();
+    //}
+    public void PlayAudioAtPosition(string audioID)
+    {
+        AudioManager.Instance.PlayAudioOneShot(audioID);
+    }
+
+    public void OpenDoorWithSound()
+    {
+        OpenDoor();
+        PlayAudioAtPosition("door_open");
+    }
+
+    public void CloseDoorWithSound()
+    {
+        CloseDoor();
+        PlayAudioAtPosition("template");
     }
 
     // public void OnInteract()

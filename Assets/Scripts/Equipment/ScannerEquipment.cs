@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using HorrorJam.AI;
 using System;
 using System.Linq;
+using HorrorJam.Audio;
+
 
 
 
@@ -56,12 +58,10 @@ public class ScannerEquipment : Equipment
 
     public Scanable ScanningObject => scanningObject;
 
-    AudioSource scanAudio;
     public Action OnBatteryEmpty;
     
     void Start()
     {
-        scanAudio = GetComponent<AudioSource>();
         equipmentType = EquipmentType.Scanner;
     }
 
@@ -72,12 +72,10 @@ public class ScannerEquipment : Equipment
         if(isPress && batteryAmout > 0 && canScan == true)
         {
             OnScan();
-            scanAudio.Play();
         }
         else
         {
             OnUnscan();
-            scanAudio.Pause();
         }    
     }
 
@@ -150,6 +148,8 @@ public class ScannerEquipment : Equipment
     {
         isScanning = true;
         isBatteryRefill = false;
+        
+        AudioManager.Instance.PlayAudio("scanner","scanner");
 
         if (objectInRange.Length == 0)
             return;
@@ -185,6 +185,8 @@ public class ScannerEquipment : Equipment
     {
         if(!isScanning)
             return;
+
+        AudioManager.Instance.StopAudio("scanner");
 
         if(scanningObject != null)
         {

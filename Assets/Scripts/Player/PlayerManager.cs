@@ -35,6 +35,7 @@ public class PlayerManager : Singleton<PlayerManager>
         switch (playerState)
         {
             case PlayerState.Move:
+                GameManager.Instance.LockCursor(true);
                 InputSystemManager.Instance.TogglePlayerControl(true);
                 break;
             case PlayerState.PipBoy:    
