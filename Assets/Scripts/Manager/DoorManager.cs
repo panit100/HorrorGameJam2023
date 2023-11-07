@@ -1,3 +1,4 @@
+using HorrorJam.Audio;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ public class DoorManager : Singleton<DoorManager>
     [Button]
     public void OnOpenAllDoor()
     {
+        AudioManager.Instance.PlayAudioOneShot("door_openall");
         for(int i = 0; i < doors.Length; i++)
         {
             doors[i].OpenDoor();

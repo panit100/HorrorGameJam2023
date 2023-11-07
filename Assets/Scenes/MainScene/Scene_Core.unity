@@ -255,6 +255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1076138989}
   - component: {fileID: 1076138988}
+  - component: {fileID: 1076138990}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -274,23 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf92c33159643299ff61dfb03f47f93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recordList:
-  - id: arcadeFunk
-    clip: {fileID: 8300000, guid: 523f93e4829d858499a0283953cc18f3, type: 3}
-  - id: loungeGame
-    clip: {fileID: 8300000, guid: adb96177f30c01745bf992c263182ee0, type: 3}
-  - id: correct
-    clip: {fileID: 8300000, guid: ad7c48dc9f5230d4fbf7c8e72549c148, type: 3}
-  - id: newMassage
-    clip: {fileID: 8300000, guid: 06eefee683a8bec449662860629622ef, type: 3}
-  - id: clickUI
-    clip: {fileID: 8300000, guid: ea534bc0949c9984d9374bca43a31833, type: 3}
-  - id: cameraShutter
-    clip: {fileID: 8300000, guid: 6c21ff99d7ef1584bbcea12abb6e1da0, type: 3}
-  - id: windowEntry
-    clip: {fileID: 8300000, guid: b72e1f70b8e04ec4d89a8081dc3cbb96, type: 3}
-  soundEffectVolume: 0.75
-  bgmVolume: 0.5
+  masterVolume: 1
 --- !u!4 &1076138989
 Transform:
   m_ObjectHideFlags: 0
@@ -306,6 +291,123 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1076138990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076138987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ccda30ac14ed80408f2c97711cb83de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <eventList>k__BackingField:
+  - key: template
+    sound:
+      Guid:
+        Data1: -1079859882
+        Data2: 1156959701
+        Data3: 1063600302
+        Data4: 740239265
+      Path: event:/SFX/TemplateSound
+  - key: scanner
+    sound:
+      Guid:
+        Data1: -1223263594
+        Data2: 1253196467
+        Data3: -1322744642
+        Data4: 1075925262
+      Path: event:/SFX/Scanner
+  - key: camera_shutter
+    sound:
+      Guid:
+        Data1: -2021249320
+        Data2: 1075491810
+        Data3: -640190785
+        Data4: 1349375492
+      Path: event:/SFX/CameraShutter
+  - key: ui_click
+    sound:
+      Guid:
+        Data1: 1533041356
+        Data2: 1238949489
+        Data3: 1593858747
+        Data4: -819129511
+      Path: event:/SFX/UIClick
+  - key: window_entry
+    sound:
+      Guid:
+        Data1: 30740939
+        Data2: 1315792732
+        Data3: 818318261
+        Data4: -1698554693
+      Path: event:/SFX/WindowEntry
+  - key: cutscene_intro
+    sound:
+      Guid:
+        Data1: -2132403805
+        Data2: 1187355554
+        Data3: 427224746
+        Data4: -562464955
+      Path: event:/Cutscene/cutscene_intro
+  - key: enemy
+    sound:
+      Guid:
+        Data1: 203133299
+        Data2: 1181766507
+        Data3: 1919070887
+        Data4: -1744873307
+      Path: event:/SFX/Enemy
+  - key: radio_static
+    sound:
+      Guid:
+        Data1: 1406483685
+        Data2: 1245099098
+        Data3: 2112008604
+        Data4: 1045328608
+      Path: event:/SFX/RadioStatic
+  - key: door_openall
+    sound:
+      Guid:
+        Data1: -294553077
+        Data2: 1240609138
+        Data3: -1294962030
+        Data4: 418190584
+      Path: event:/SFX/DoorOpenAll
+  - key: door_open
+    sound:
+      Guid:
+        Data1: 1018294304
+        Data2: 1301139748
+        Data3: 370600333
+        Data4: 788517668
+      Path: event:/SFX/DoorOpen
+  - key: monster_ambient
+    sound:
+      Guid:
+        Data1: 537274705
+        Data2: 1138381444
+        Data3: 783991185
+        Data4: 36457398
+      Path: event:/SFX/MonsterEncounter
+  - key: monster_scream
+    sound:
+      Guid:
+        Data1: 855144656
+        Data2: 1078014603
+        Data3: -756692561
+        Data4: 494104498
+      Path: event:/SFX/MonsterScream
+  - key: new_massage
+    sound:
+      Guid:
+        Data1: 650402252
+        Data2: 1211690287
+        Data3: -2008887934
+        Data4: 731623117
+      Path: event:/SFX/NewMessage
 --- !u!1 &1083067103
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,8 +655,10 @@ MonoBehaviour:
   Cutscene:
   - ID: As_intro
     video: {fileID: 32900000, guid: 8b734211dbaaf024b997a49e7e0b99f8, type: 3}
+    videoAudioID: cutscene_intro
   - ID: As_ending
     video: {fileID: 32900000, guid: 025d4a1e4bfd2854083db045e7d305d6, type: 3}
+    videoAudioID: 
   VdoPlayer: {fileID: 0}
 --- !u!4 &2079521050
 Transform:

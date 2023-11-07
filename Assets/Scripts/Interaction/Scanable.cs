@@ -58,7 +58,7 @@ public class Scanable : MonoBehaviour
 
         if(alreadyScan)
         {
-            AudioManager.Instance.PlayOneShot("scanComplete");
+            // AudioManager.Instance.PlayOneShot("scanComplete");
             onScanComplete?.Invoke();
         }
     }
