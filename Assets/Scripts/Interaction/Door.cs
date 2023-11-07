@@ -9,6 +9,7 @@ public class Door : MonoBehaviour
     [SerializeField] float duration = 1f;
     [SerializeField] Ease ease;
     [SerializeField] bool isDoorOpen = false;
+    [SerializeField] DoorSwitch doorSwitch;
     // [SerializeField] bool scanBeforeInteract = false;
 
     Vector3 originPos;
@@ -23,9 +24,7 @@ public class Door : MonoBehaviour
 
         // if(TryGetComponent<Scanable>(out Scanable _scanable))
         //     scanable = _scanable;
-
         originPos = transform.position;
-
         // OnBeingScanned();
     }
 
@@ -80,10 +79,10 @@ public class Door : MonoBehaviour
             .SetId(doorID);
     }
 
-    // public void OnInteract()
-    // {
-    //     OpenDoor();
-    // }
+    //public void OnInteract()
+    //{
+    //    OpenDoor();
+    //}
 
     // public void OnBeingScanned()
     // {
