@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using FMODUnity;
 using Sirenix.OdinInspector;
 
 #if UNITY_EDITOR
@@ -76,8 +77,9 @@ namespace HorrorJam.AI
         [Header("Scan Info")]
         [SerializeField] SpriteRenderer sprite;
         Scanable scanable;
-
         SpeedSetting speedBeforeStop;
+        
+        StudioEventEmitter eventEmitter;
         void Awake() 
         {
             scanable = GetComponentInChildren<Scanable>();
@@ -95,6 +97,8 @@ namespace HorrorJam.AI
             ChangeSpeedSetting(exploreSpeed);
             speedBeforeStop = exploreSpeed;
             MakeVisibleEnemy(scanable.scanProgress);
+
+            PlaySound("enemy");
         }
 
         void NotifyOnFinishWaypoint(Waypoint obj)
@@ -449,6 +453,8 @@ namespace HorrorJam.AI
             scanable.onScanComplete -= EnterSuperSlowDown;
 
             scanable.onDeactiveScan -= ExitSlowDown;
+
+            eventEmitter.Stop();
         }
 
         void OnCollisionEnter(Collision other) 
@@ -486,6 +492,17 @@ namespace HorrorJam.AI
             Quaternion rotation = Quaternion.LookRotation(directionToPlayer);
 
             transform.rotation = rotation;
+        }
+
+        void PlaySound(string audioID)
+        {
+            if(GetComponent<StudioEventEmitter>() != null)
+                eventEmitter = GetComponent<StudioEventEmitter>();
+            else
+                eventEmitter = gameObject.AddComponent<StudioEventEmitter>();
+
+            eventEmitter.EventReference = AudioEvent.Instance.audioEventDictionary[audioID];
+            eventEmitter.Play();
         }
 
 #if UNITY_EDITOR
