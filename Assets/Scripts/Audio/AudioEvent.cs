@@ -9,6 +9,8 @@ public class AudioEvent : Singleton<AudioEvent>
 
     public Dictionary<string,EventReference>  audioEventDictionary = new Dictionary<string, EventReference>();
     
+    
+    
     protected override void InitAfterAwake()
     {
         foreach(var n in eventList)
