@@ -4,6 +4,7 @@ public enum PlayerState
 {
     Move,
     PipBoy,
+    puzzle,
 }
 
 public class PlayerManager : Singleton<PlayerManager>
@@ -39,6 +40,10 @@ public class PlayerManager : Singleton<PlayerManager>
                 InputSystemManager.Instance.TogglePlayerControl(true);
                 break;
             case PlayerState.PipBoy:    
+                GameManager.Instance.LockCursor(false);
+                InputSystemManager.Instance.TogglePlayerControl(false);
+                break;
+            case PlayerState.puzzle:
                 GameManager.Instance.LockCursor(false);
                 InputSystemManager.Instance.TogglePlayerControl(false);
                 break;
