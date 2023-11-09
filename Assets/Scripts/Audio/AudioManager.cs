@@ -127,11 +127,17 @@ namespace HorrorJam.Audio
                 StopAudio(n.Key);
             }
 
-            backgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            backgroundMusic.release();
-            
-            ambient.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            ambient.release();
+            if(backgroundMusic.isValid())
+            {
+                backgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                backgroundMusic.release();
+            }
+
+            if(ambient.isValid())
+            {
+                ambient.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                ambient.release();
+            }
         }
 
         void OnDestroy() 
