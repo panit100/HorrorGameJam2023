@@ -149,7 +149,7 @@ public class ScannerEquipment : Equipment
         isScanning = true;
         isBatteryRefill = false;
         
-        AudioManager.Instance.PlayAudio("scanner","scanner");
+        AudioManager.Instance.PlayAudio("scanner");
 
         if (objectInRange.Length == 0)
             return;

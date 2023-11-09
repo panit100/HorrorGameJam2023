@@ -79,7 +79,7 @@ public class CutsceneManager : Singleton<CutsceneManager>
     void PlayVideoAudio(string id)
     {
         playingAudioID = id;
-        AudioManager.Instance.PlayAudio(id,id);
+        AudioManager.Instance.PlayAudio(id);
     }
 
     void StopVideoAudio()
