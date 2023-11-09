@@ -468,7 +468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae68b3eb8b459408b29ab43b07f5e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  symbolType: 0
+  currentSymbolType: 0
+  nextSymbolButton: {fileID: 6131857798407369664}
+  previousSymbolButton: {fileID: 1377469296102560704}
 --- !u!1 &762545532648451775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1238,7 +1240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae68b3eb8b459408b29ab43b07f5e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  symbolType: 0
+  currentSymbolType: 0
+  nextSymbolButton: {fileID: 4969284063754050398}
+  previousSymbolButton: {fileID: 5385030620800148951}
 --- !u!1 &4102767487792680333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1963,7 +1967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae68b3eb8b459408b29ab43b07f5e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  symbolType: 0
+  currentSymbolType: 0
+  nextSymbolButton: {fileID: 4865443363506312389}
+  previousSymbolButton: {fileID: 5247849969370846255}
 --- !u!1 &5697168651699643402
 GameObject:
   m_ObjectHideFlags: 0
@@ -2741,7 +2747,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae68b3eb8b459408b29ab43b07f5e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  symbolType: 0
+  currentSymbolType: 0
+  nextSymbolButton: {fileID: 8908396288677287637}
+  previousSymbolButton: {fileID: 7018880392974772034}
 --- !u!1 &7401384809928673681
 GameObject:
   m_ObjectHideFlags: 0
@@ -2807,6 +2815,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   code: 
+  confirmButton: {fileID: 8203963500093027086}
+  puzzleSymbolImages:
+  - {fileID: 1860854498918833086}
+  - {fileID: 6633527278962511334}
+  - {fileID: 8449632375353628828}
+  - {fileID: 8594917300766330829}
 --- !u!1 &7486581563191859354
 GameObject:
   m_ObjectHideFlags: 0
