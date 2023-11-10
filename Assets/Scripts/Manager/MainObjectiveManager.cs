@@ -6,7 +6,8 @@ public enum ObjectiveType
 {
     TakePhoto,
     ReachPosition,
-    ScanObject
+    ScanObject,
+    Puzzle
 }
 
 public class MainObjectiveManager : Singleton<MainObjectiveManager>

@@ -25,8 +25,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] Button mainMenu_quitButton;
 
     [Header("SettingPanel")]
-    [SerializeField] Slider setting_volumeSlider;
-    [SerializeField] Button setting_backButton;
+    [SerializeField] SettingPanel settingPanel;
 
     [Header("HowToPlayPanel")]
     [SerializeField] Button howToPlay_backButton;
@@ -48,8 +47,7 @@ public class MainMenuController : MonoBehaviour
         mainMenu_howToPlayButton.onClick.AddListener(() => {OnHowToPlay(); PlayButtonSound();});
         mainMenu_quitButton.onClick.AddListener(() => {OnQuit(); PlayButtonSound();});
 
-        setting_volumeSlider.onValueChanged.AddListener((f) => {OnChangeVolume(f);});
-        setting_backButton.onClick.AddListener(() => {OnBack(); PlayButtonSound();});
+        settingPanel.OnBack += () => {OnBack(); PlayButtonSound();};
         
         howToPlay_backButton.onClick.AddListener(() => {OnBack(); PlayButtonSound();});
     }

@@ -13,8 +13,14 @@ namespace HorrorJam.Audio
         [Header("Volume")]
         [Range(0f,1f)]
         public float masterVolume = 1;
+        [Range(0f,1f)]
+        public float musicVolume = 1;
+        [Range(0f,1f)]
+        public float SFXVolume = 1;
 
         Bus masterBus;
+        Bus ambientBus;
+        Bus SFXBus;
 
         Dictionary<string,EventInstance> eventInstanceDic;
         
@@ -29,12 +35,16 @@ namespace HorrorJam.Audio
         {
             eventInstanceDic = new Dictionary<string, EventInstance>();
 
-            // masterBus = RuntimeManager.GetBus("bus:/");
+            masterBus = RuntimeManager.GetBus("bus:/");
+            ambientBus = RuntimeManager.GetBus("bus:/AmbientBus");
+            SFXBus = RuntimeManager.GetBus("bus:/SFXBus");
         }
 
         void Update()
         {
-            // masterBus.setVolume(masterVolume);
+            masterBus.setVolume(masterVolume);
+            ambientBus.setVolume(musicVolume);
+            SFXBus.setVolume(SFXVolume);
         }
 
         public void PlayAudioOneShot(string soundID)
@@ -143,6 +153,21 @@ namespace HorrorJam.Audio
         void OnDestroy() 
         {
             CleanUp();    
+        }
+
+        public void ChangeMasterVolume(float Volume)
+        {
+            masterVolume = Volume;
+        }
+
+        public void ChangeMusicVolume(float Volume)
+        {
+            musicVolume = Volume;
+        }
+
+        public void ChangeSFXVolume(float Volume)
+        {
+            SFXVolume = Volume;
         }
     }
 }

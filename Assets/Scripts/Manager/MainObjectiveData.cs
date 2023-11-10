@@ -8,6 +8,7 @@ public class MainObjectiveData{
     public string TimeColor;
     public string MassageColor;
     public string LogMessage;
+    public string PuzzleCode;
     
     public ObjectiveType GetObjectiveType()
     {
@@ -19,6 +20,8 @@ public class MainObjectiveData{
                 return global::ObjectiveType.ReachPosition;
             case "ObjectiveType.ScanObject":
                 return global::ObjectiveType.ScanObject;
+            case "ObjectiveType.Puzzle":
+                return global::ObjectiveType.Puzzle;
             default:
                 return global::ObjectiveType.TakePhoto;
         }
