@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using DG.Tweening;
 using System;
+using HorrorJam.Audio;
 
 public class RandomEnvironmentEvent : MonoBehaviour
 {
@@ -27,10 +28,11 @@ public class RandomEnvironmentEvent : MonoBehaviour
     }
     void EnvironmentEvent(EventInfo eventInfo)
     {
-        if (eventInfo.sound != null)
+        if (eventInfo.soundId != null)
         {
-            //add sound
+            AudioManager.Instance.PlayAudioOneShot(eventInfo.soundId);
         }
+
         if (eventInfo.moveObject != null)
         {
             print("OK");
@@ -46,9 +48,7 @@ public class RandomEnvironmentEvent : MonoBehaviour
             randomEventList[randomNumber].Invoke();
         }
         else
-        {
             print("Notting Happen");
-        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -61,7 +61,7 @@ public class RandomEnvironmentEvent : MonoBehaviour
 }
 [Serializable]
 public class EventInfo{
-    public string sound;
+    public string soundId;
     public GameObject moveObject;
     public Transform moveToPosition;
 }
