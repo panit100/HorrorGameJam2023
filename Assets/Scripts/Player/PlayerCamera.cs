@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
@@ -8,9 +9,11 @@ public class PlayerCamera : MonoBehaviour
     Vector2 deltaMouse;
     float xRotation;
     float yRotation;
+    bool Isdead;
 
     void Start()
     {
+        Isdead = false;
         AddInputListener();
     }
 
@@ -26,6 +29,7 @@ public class PlayerCamera : MonoBehaviour
 
     void LateUpdate()
     {
+        if(Isdead)return;
         CameraRotate();
     }
 
@@ -40,6 +44,24 @@ public class PlayerCamera : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
+    }
+
+    public void OnDead(Transform lookpoint)
+    {
+        Isdead = true;
+        Debug.Log(Vector3.Dot(transform.forward,lookpoint.forward));
+        float _duration = 1;
+        if (Vector3.Dot(transform.forward, lookpoint.forward) < 0)
+        {
+            _duration = 1 * Mathf.Abs(Vector3.Dot(transform.forward, lookpoint.forward) *1.15f);
+        }
+        else
+        {
+            _duration = 1 * Mathf.Abs((Vector3.Dot(transform.forward, lookpoint.forward) /2f));
+        }
+        Debug.Log(_duration);
+        transform.DOLookAt(lookpoint.position, _duration ).SetEase(Ease.OutQuad).OnComplete((() => {CustomPostprocessingManager.Instance.DeadSequnce();}));
+            //.OnComplete((() => GameManager.Instance.OnChangeGameStage(GameStage.GameOver)));
     }
 
     void OnMouseLook(Vector2 value)

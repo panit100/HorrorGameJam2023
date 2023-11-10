@@ -79,6 +79,9 @@ namespace HorrorJam.AI
         Scanable scanable;
         SpeedSetting speedBeforeStop;
         
+        [Header("FocusPoint Info")]  
+        [SerializeField] Transform point;
+        
         [Header("Audio")]
         [SerializeField] string audioID;
         StudioEventEmitter eventEmitter;
@@ -461,10 +464,22 @@ namespace HorrorJam.AI
 
         void OnCollisionEnter(Collision other) 
         {
-            if(other.gameObject.CompareTag("Player"))
-            {
-                GameManager.Instance.OnDie();
-            }    
+            // if(other.gameObject.CompareTag("Player"))
+            // {
+            //     GameManager.Instance.OnDie();
+            // }    
+           
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            EnterStop();
+            MakeVisibleEnemy(100f);
+            Animator enemyanimation = sprite.GetComponent<Animator>();
+            enemyanimation.speed = 0;
+            PlayerManager.Instance.OnChangePlayerState(PlayerState.Dead);
+            PlayerManager.Instance.PlayerCamera.OnDead(point);
+            this.enabled = false;
         }
 
         public void HideAI()

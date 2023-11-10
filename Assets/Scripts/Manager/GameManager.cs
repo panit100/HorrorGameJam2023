@@ -82,10 +82,8 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
-
                 PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
-
-                PlayerManager.Instance.PlayerCamera.transform.DORotate(new Vector3(0,0,90f),1f).OnComplete(() => {StartCoroutine(GoToSceneMainMenu());});
+                StartCoroutine(GoToSceneMainMenu());
                 break;
             case GameStage.Cutscene:
                 LockCursor(true);

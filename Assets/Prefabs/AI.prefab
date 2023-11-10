@@ -161,6 +161,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1551266471293775568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8762706320427020838}
+  m_Layer: 0
+  m_Name: lookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8762706320427020838
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551266471293775568}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.238, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7980828506591354744}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5328402455725273465
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +227,7 @@ Transform:
   - {fileID: 1382529604365216738}
   - {fileID: 1698278168212527724}
   - {fileID: 1220054967750681190}
+  - {fileID: 8762706320427020838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &5753278164641036728
@@ -278,6 +310,7 @@ MonoBehaviour:
   currentDelayPassed: 0
   isSlowedDown: 0
   sprite: {fileID: 9137832650303485035}
+  point: {fileID: 8762706320427020838}
   audioID: enemy
 --- !u!136 &5704400745092485852
 CapsuleCollider:
