@@ -10,13 +10,12 @@ public class RandomEnvironmentEvent : MonoBehaviour
 {
     [HideInInspector] public List<UnityEvent> randomEventList;
     [SerializeField] List<EventInfo> eventInfoList;
-    public GameObject moveObject;
-    public Transform moveToPosition;
+    
     private void Start()
     {
         AddEventInfoToRandomEventList();
-        //RandomEvent();
     }
+
     void AddEventInfoToRandomEventList()
     {
         foreach (EventInfo info in eventInfoList)
@@ -26,23 +25,24 @@ public class RandomEnvironmentEvent : MonoBehaviour
             randomEventList.Add(addEvent);
         }
     }
+
     void EnvironmentEvent(EventInfo eventInfo)
     {
-        if (eventInfo.soundId != null)
+        if (!string.IsNullOrEmpty(eventInfo.soundId))
         {
             AudioManager.Instance.PlayAudioOneShot(eventInfo.soundId);
         }
 
         if (eventInfo.moveObject != null)
         {
-            print("OK");
             Vector3 movePosition = eventInfo.moveToPosition.transform.position;
-            eventInfo.moveObject.transform.DOMove(movePosition,5);
+            eventInfo.moveObject.transform.DOMove(movePosition,2f).SetEase(eventInfo.ease);
         }
     }
+
     void RandomEvent()
     {
-        int randomNumber = UnityEngine.Random.Range(0, randomEventList.Count + 5);
+        int randomNumber = UnityEngine.Random.Range(0, randomEventList.Count);
         if (randomNumber <= randomEventList.Count)
         {
             randomEventList[randomNumber].Invoke();
@@ -50,6 +50,7 @@ public class RandomEnvironmentEvent : MonoBehaviour
         else
             print("Notting Happen");
     }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -64,4 +65,5 @@ public class EventInfo{
     public string soundId;
     public GameObject moveObject;
     public Transform moveToPosition;
+    public Ease ease;
 }
