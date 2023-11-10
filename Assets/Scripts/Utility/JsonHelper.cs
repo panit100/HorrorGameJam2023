@@ -299,11 +299,11 @@ public class JsonHelper
             catch (Exception e)
             {
                 Debug.LogError(e.Message);
-                return default(T);
+                return default;
             }
         }
         else
-            return default(T);
+            return default;
     }
 #endregion
 }
