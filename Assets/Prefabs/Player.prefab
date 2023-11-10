@@ -42,17 +42,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1462648229430498102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c66877d0e332444aa73e7d8367130a1, type: 3}
+  m_Script: {fileID: 11500000, guid: ffacdfea482a9b74991907d2759ada69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pipboymesh: {fileID: 0}
   meshGroup: {fileID: 0}
   group: {fileID: 0}
   pipboyObject: {fileID: 0}
-  screenEase: 0
-  fadeinduration: 1
-  startpos: {x: 0, y: 0, z: 0}
-  endpose: {x: 0, y: 0, z: 0}
+  screenEase: 2
+  fadeinduration: 0.375
+  startpos: {x: 0.009, y: -0.07, z: 0.066}
+  endpose: {x: 0.009, y: -0.01, z: 0.066}
 --- !u!114 &1376524164471253945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +116,7 @@ MonoBehaviour:
   batteryAmout: 100
   batteryConsumeAmount: 10
   batteryRefillAmount: 5
+  batteryRefillDelay: 3
   scanRange: 20
   ScanDeg: 45
   scannerCanvas: {fileID: 0}
@@ -248,7 +249,7 @@ Transform:
   m_GameObject: {fileID: 3698188140309934681}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.87, z: 0.42}
+  m_LocalPosition: {x: 0, y: 2.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -822,7 +823,7 @@ Transform:
   m_GameObject: {fileID: 8084677529463175217}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.87, z: 0.42}
+  m_LocalPosition: {x: 0, y: 2.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
