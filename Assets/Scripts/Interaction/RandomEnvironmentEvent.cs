@@ -15,7 +15,7 @@ public class RandomEnvironmentEvent : MonoBehaviour
     private void Start()
     {
         AddEventInfoToRandomEventList();
-        RandomEvent();
+        //RandomEvent();
     }
     void AddEventInfoToRandomEventList()
     {
