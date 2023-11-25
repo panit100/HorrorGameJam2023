@@ -72,6 +72,8 @@ public class ScannerEquipment : Equipment
         if(isPress && batteryAmout > 0 && canScan == true)
         {
             OnScan();
+            StopCoroutine(DelayBeforeCanScan());
+            StartCoroutine(DelayBeforeCanScan());
         }
         else
         {
@@ -110,14 +112,14 @@ public class ScannerEquipment : Equipment
 
         if(isScanning)
         {
+            canScan = false;
             if(batteryAmout <= 0)
             {
                 OnUnscan();
-                canScan = false;
                 OnBatteryEmpty?.Invoke();
                 return;
             }
-            
+
             ConsumeBattery();
         }
         else
@@ -207,7 +209,7 @@ public class ScannerEquipment : Equipment
         isScanning = false;
         if (isBatteryRefill == false)
         {
-            StopAllCoroutines();
+            StopCoroutine(DelayBeforeRefillBattery());
             StartCoroutine(DelayBeforeRefillBattery());
         }
     }
@@ -307,6 +309,14 @@ public class ScannerEquipment : Equipment
         isBatteryRefill = false;
         yield return new WaitForSeconds(batteryRefillDelay);
         isBatteryRefill = true;
+    }
+
+    IEnumerator DelayBeforeCanScan()
+    {
+        canScan = false;
+        yield return new WaitForSeconds(batteryRefillDelay);
+        print(canScan);
+        canScan = true;
     }
     void RefillBattery()
     {
