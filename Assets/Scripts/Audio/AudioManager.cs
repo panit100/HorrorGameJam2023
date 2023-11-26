@@ -97,9 +97,9 @@ namespace HorrorJam.Audio
 
         public void StopAudio(string id)
         {
-            eventInstanceDic[id].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-            eventInstanceDic[id].release();
-            eventInstanceDic.Remove(id);
+            //eventInstanceDic[id].stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            //eventInstanceDic[id].release();
+            //eventInstanceDic.Remove(id);
         }
 
         public void PlayBGM(string soundID)

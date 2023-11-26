@@ -26,8 +26,8 @@ public class ScannerEquipment : Equipment
     [SerializeField] float batteryConsumeAmount = 1.5f;
     [SerializeField] float batteryRefillAmount = 3.5f;
     [SerializeField] float batteryRefillDelay = 3f;
-    bool isBatteryRefill = true;
-    bool canScan = true;
+    //bool isBatteryRefill = true;
+    //bool canScan = true;
 
     [SerializeField] float scanRange = 10f;
     [Range(0, 180)]
@@ -49,9 +49,16 @@ public class ScannerEquipment : Equipment
     [SerializeField] private GameObject animationRoot;
     [SerializeField] private Image Brightness;
     private Tween Onhold;
-#endregion
-    
-    bool isScanning = false;
+    #endregion
+
+    public ScannerState scannerState;
+    public enum ScannerState
+    {
+        CanScan,
+        Scanning,
+        CannotScan,
+        OutOfBattery
+    }
     Collider[] objectInRange;
     Scanable scanningObject;
     List<Scanable> scanningEnemies = new List<Scanable>();
@@ -69,14 +76,18 @@ public class ScannerEquipment : Equipment
     {
         base.OnUse();
 
-        if(isPress && batteryAmout > 0 && canScan == true)
+        if(isPress && batteryAmout > 0 && scannerState == ScannerState.CanScan)
         {
+            scannerState = ScannerState.Scanning;
             OnScan();
-            StopCoroutine(DelayBeforeCanScan());
-            StartCoroutine(DelayBeforeCanScan());
         }
         else
         {
+            if (scannerState == ScannerState.Scanning)
+            {
+                StopCoroutine(DelayBeforeRefillBattery());
+                StartCoroutine(DelayBeforeRefillBattery());
+            }
             OnUnscan();
         }    
     }
@@ -101,7 +112,6 @@ public class ScannerEquipment : Equipment
             return;
 
         MeshGroup.SetActive(false);
-        
     }
 
     void Update()
@@ -110,11 +120,12 @@ public class ScannerEquipment : Equipment
 
         UpdateCanvas();
 
-        if(isScanning)
+        if(scannerState == ScannerState.Scanning && isPress)
         {
-            canScan = false;
             if(batteryAmout <= 0)
             {
+                StopCoroutine(DelayBeforeRefillOutOfBattery());
+                StartCoroutine(DelayBeforeRefillOutOfBattery());
                 OnUnscan();
                 OnBatteryEmpty?.Invoke();
                 return;
@@ -122,7 +133,7 @@ public class ScannerEquipment : Equipment
 
             ConsumeBattery();
         }
-        else
+        else if(scannerState == ScannerState.CanScan || scannerState == ScannerState.OutOfBattery)
             RefillBattery();
     }
 
@@ -133,7 +144,7 @@ public class ScannerEquipment : Equipment
 
         scannerCanvas.UpdateBattery(batteryAmout);
 
-        if(!isScanning)
+        if(scannerState == ScannerState.Scanning)
         {
             if(objectInRange.Length > 0) 
                 scannerCanvas.UpdateText("Detect");
@@ -148,10 +159,10 @@ public class ScannerEquipment : Equipment
 
     void OnScan()
     {
-        isScanning = true;
-        isBatteryRefill = false;
-        
-        AudioManager.Instance.PlayAudio("scanner");
+        if (scannerState != ScannerState.Scanning)
+            return;
+
+        //AudioManager.Instance.PlayAudio("scanner");
 
         if (objectInRange.Length == 0)
             return;
@@ -180,15 +191,12 @@ public class ScannerEquipment : Equipment
                 scanningEnemies.Add(n);
             }
         }
-
     }
 
     public void OnUnscan()
     {
-        if(!isScanning)
-            return;
 
-        AudioManager.Instance.StopAudio("scanner");
+        //AudioManager.Instance.StopAudio("scanner");
 
         if(scanningObject != null)
         {
@@ -205,13 +213,7 @@ public class ScannerEquipment : Equipment
         scanningEnemies.Clear();
         
         scannerCanvas.SetScanner(null);
-
-        isScanning = false;
-        if (isBatteryRefill == false)
-        {
-            StopCoroutine(DelayBeforeRefillBattery());
-            StartCoroutine(DelayBeforeRefillBattery());
-        }
+        
     }
 
     Scanable GetClosestObject()
@@ -306,26 +308,23 @@ public class ScannerEquipment : Equipment
 
     IEnumerator DelayBeforeRefillBattery()
     {
-        isBatteryRefill = false;
+        scannerState = ScannerState.CannotScan;
         yield return new WaitForSeconds(batteryRefillDelay);
-        isBatteryRefill = true;
+        scannerState = ScannerState.CanScan;
+    }
+    IEnumerator DelayBeforeRefillOutOfBattery()
+    {
+        scannerState = ScannerState.CannotScan;
+        yield return new WaitForSeconds(batteryRefillDelay);
+        scannerState = ScannerState.OutOfBattery;
     }
 
-    IEnumerator DelayBeforeCanScan()
-    {
-        canScan = false;
-        yield return new WaitForSeconds(batteryRefillDelay);
-        print(canScan);
-        canScan = true;
-    }
     void RefillBattery()
     {
-        if (isBatteryRefill == false)
-            return;
-        if(batteryAmout >= 100)
+        if (batteryAmout >= 100)
         {
             batteryAmout = 100;
-            canScan = true;
+            scannerState = ScannerState.CanScan;
             return;
         }
 
