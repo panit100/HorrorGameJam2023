@@ -1,3 +1,4 @@
+using HorrorJam.AI;
 using UnityEngine;
 
 public enum PlayerState
@@ -21,7 +22,7 @@ public class PlayerManager : Singleton<PlayerManager>
     public PlayerInteract PlayerInteract {get { return playerInteract;}}
     public PlayerEquipment PlayerEquipment {get { return playerEquipment;}}
     public PlayerCamera PlayerCamera {get { return playerCamera;}}
-    
+    public Enemy KilledByEnemy;
     protected override void InitAfterAwake()
     {
         playerMovement = GetComponent<PlayerMovement>();

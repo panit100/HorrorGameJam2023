@@ -1,6 +1,8 @@
 using System;
 using DG.Tweening;
+using FMOD.Studio;
 using FMODUnity;
+using HorrorJam.Audio;
 using Sirenix.OdinInspector;
 
 #if UNITY_EDITOR
@@ -85,6 +87,8 @@ namespace HorrorJam.AI
         [Header("Audio")]
         [SerializeField] string audioID;
         StudioEventEmitter eventEmitter;
+        EventInstance jumpScareEventInstance;
+        public EventInstance JumpScareEventInstance => jumpScareEventInstance;
         void Awake() 
         {
             scanable = GetComponentInChildren<Scanable>();
@@ -479,6 +483,7 @@ namespace HorrorJam.AI
             enemyanimation.speed = 0;
             PlayerManager.Instance.OnChangePlayerState(PlayerState.Dead);
             PlayerManager.Instance.PlayerCamera.OnDead(point);
+          
             this.enabled = false;
         }
 
@@ -523,6 +528,16 @@ namespace HorrorJam.AI
 
             eventEmitter.EventReference = AudioEvent.Instance.audioEventDictionary[audioID];
             eventEmitter.Play();
+        }
+
+        public void Stopsound()
+        {
+            if(GetComponent<StudioEventEmitter>() != null)  eventEmitter.Stop();
+        }
+
+        public void PlayJumpScareSound()
+        {
+           AudioManager.Instance.PlayAudio(AudioEvent.Instance.jumpscare ,out jumpScareEventInstance);
         }
 
 #if UNITY_EDITOR

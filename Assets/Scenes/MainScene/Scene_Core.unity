@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -276,6 +276,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterVolume: 1
+  musicVolume: 1
+  SFXVolume: 1
 --- !u!4 &1076138989
 Transform:
   m_ObjectHideFlags: 0
@@ -408,6 +410,14 @@ MonoBehaviour:
         Data3: -2008887934
         Data4: 731623117
       Path: event:/SFX/NewMessage
+  - key: jumpScare
+    sound:
+      Guid:
+        Data1: 1260593487
+        Data2: 1133954967
+        Data3: 1750158510
+        Data4: 1177885195
+      Path: event:/SFX/Jumpscare
 --- !u!1 &1083067103
 GameObject:
   m_ObjectHideFlags: 0
