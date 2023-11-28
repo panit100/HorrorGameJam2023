@@ -21,11 +21,11 @@ public class GameOverPanel : Singleton<GameOverPanel>
 
     public void Retry()
     {
-        StartCoroutine(GameManager.Instance.GoToSceneGame());
+        StartCoroutine(GameManager.Instance.ReTryGameScene());
     }
 
     public void GoMainMenu()
     {
-        GameManager.Instance.OnChangeGameStage(GameStage.GameOver);
+        StartCoroutine(GameManager.Instance.GoToSceneMainMenu());
     }
 }

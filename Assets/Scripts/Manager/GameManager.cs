@@ -83,7 +83,7 @@ public class GameManager : Singleton<GameManager>
                 InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
                 PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
-                StartCoroutine(GoToSceneMainMenu());
+              //  StartCoroutine(GoToSceneMainMenu());
                 break;
             case GameStage.Cutscene:
                 LockCursor(true);
@@ -151,6 +151,12 @@ public class GameManager : Singleton<GameManager>
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
         SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAIN, null, () => {OnStartGame();});
+    }
+    public IEnumerator ReTryGameScene()
+    {
+        yield return new WaitUntil(() => SceneController.Instance != null);
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_FAKELOADER, null,
+            () => { StartCoroutine(GoToSceneGame());});
     }
 
     [Button]

@@ -482,6 +482,7 @@ namespace HorrorJam.AI
             Animator enemyanimation = sprite.GetComponent<Animator>();
             enemyanimation.speed = 0;
             PlayerManager.Instance.OnChangePlayerState(PlayerState.Dead);
+            GameManager.Instance.OnChangeGameStage(GameStage.GameOver);
             PlayerManager.Instance.PlayerCamera.OnDead(point);
           
             this.enabled = false;

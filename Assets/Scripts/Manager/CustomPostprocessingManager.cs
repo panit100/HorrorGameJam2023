@@ -15,6 +15,7 @@ public class CustomPostprocessingManager : Singleton<CustomPostprocessingManager
       fog = FindFirstObjectByType<Fog>();
    }
 
+   #region DeadSequnce
    public void DeadSequnce()
    {
       fog.fogDensity = 0.057f;
@@ -37,8 +38,11 @@ public class CustomPostprocessingManager : Singleton<CustomPostprocessingManager
       }).AppendInterval(1.5f).AppendCallback(() =>
       {
          AudioManager.Instance.StopAudio(AudioEvent.Instance.jumpscare);
-         GameManager.Instance.OnChangeGameStage(GameStage.Pause); 
-         Flare.enabled = false;GameOverPanel.Instance.ShowPanelUp();
+         Flare.enabled = false;
+         GameOverPanel.Instance.ShowPanelUp();
       });
    }
+
+   #endregion
+
 }
