@@ -519,16 +519,12 @@ namespace HorrorJam.AI
 
         void PlaySound()
         {
-            if(string.IsNullOrEmpty(audioID))
-                return;
+            AudioManager.Instance.PlayAudio3D(audioID,this.gameObject);
+        }
 
-            if(GetComponent<StudioEventEmitter>() != null)
-                eventEmitter = GetComponent<StudioEventEmitter>();
-            else
-                eventEmitter = gameObject.AddComponent<StudioEventEmitter>();
-
-            eventEmitter.EventReference = AudioEvent.Instance.audioEventDictionary[audioID];
-            eventEmitter.Play();
+        void StopSound()
+        {
+            AudioManager.Instance.StopAudio(audioID);
         }
 
         public void Stopsound()
