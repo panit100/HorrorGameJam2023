@@ -79,6 +79,13 @@ namespace HorrorJam.Audio
             _audioEvent.start();
             eventInstanceDic.Add(soundID,_audioEvent);
         }
+        public void PlayAudio(string soundID,out EventInstance outInstance)
+        {
+            var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            outInstance = _audioEvent;
+            _audioEvent.start();
+            eventInstanceDic.Add(soundID,_audioEvent);
+        }
 
         public void PlayAudio(EventReference eventReference,string id)
         {

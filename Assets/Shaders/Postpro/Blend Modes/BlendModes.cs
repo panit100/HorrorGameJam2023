@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlendModes : MonoBehaviour {
     public Shader blendModesShader;
-
+    [SerializeField] Camera TargetTexture;
     public enum BlendMode {
         NoBlend = 0,
         Add,
@@ -45,7 +45,7 @@ public class BlendModes : MonoBehaviour {
     void OnRenderImage(RenderTexture source, RenderTexture destination) {
         blendModesMat.SetInt("_BlendType", (int)blendType);
         blendModesMat.SetVector("_BlendColor", blendColor);
-        blendModesMat.SetTexture("_BlendTex", blendTexture);
+        blendModesMat.SetTexture("_BlendTex", TargetTexture.targetTexture);
         blendModesMat.SetFloat("_Strength", strength);
         Graphics.Blit(source, destination, blendModesMat, (int)blendMode);
     }

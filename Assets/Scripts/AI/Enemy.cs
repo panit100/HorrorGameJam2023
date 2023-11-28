@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using FMOD.Studio;
 using FMODUnity;
 using HorrorJam.Audio;
 using Sirenix.OdinInspector;
@@ -80,9 +81,14 @@ namespace HorrorJam.AI
         Scanable scanable;
         SpeedSetting speedBeforeStop;
         
+        [Header("FocusPoint Info")]  
+        [SerializeField] Transform point;
+        
         [Header("Audio")]
         [SerializeField] string audioID;
         StudioEventEmitter eventEmitter;
+        EventInstance jumpScareEventInstance;
+        public EventInstance JumpScareEventInstance => jumpScareEventInstance;
         void Awake() 
         {
             scanable = GetComponentInChildren<Scanable>();
@@ -462,10 +468,24 @@ namespace HorrorJam.AI
 
         void OnCollisionEnter(Collision other) 
         {
-            if(other.gameObject.CompareTag("Player"))
-            {
-                GameManager.Instance.OnDie();
-            }    
+            // if(other.gameObject.CompareTag("Player"))
+            // {
+            //     GameManager.Instance.OnDie();
+            // }    
+           
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            EnterStop();
+            MakeVisibleEnemy(100f);
+            Animator enemyanimation = sprite.GetComponent<Animator>();
+            enemyanimation.speed = 0;
+            PlayerManager.Instance.OnChangePlayerState(PlayerState.Dead);
+            GameManager.Instance.OnChangeGameStage(GameStage.GameOver);
+            PlayerManager.Instance.PlayerCamera.OnDead(point);
+          
+            this.enabled = false;
         }
 
         public void HideAI()
@@ -505,6 +525,16 @@ namespace HorrorJam.AI
         void StopSound()
         {
             AudioManager.Instance.StopAudio(audioID);
+        }
+
+        public void Stopsound()
+        {
+            if(GetComponent<StudioEventEmitter>() != null)  eventEmitter.Stop();
+        }
+
+        public void PlayJumpScareSound()
+        {
+           AudioManager.Instance.PlayAudio(AudioEvent.Instance.jumpscare ,out jumpScareEventInstance);
         }
 
 #if UNITY_EDITOR
