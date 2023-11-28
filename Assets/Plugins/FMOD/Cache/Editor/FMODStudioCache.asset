@@ -388,12 +388,13 @@ MonoBehaviour:
   - {fileID: 6470836666994859827}
   - {fileID: 369950255800340910}
   - {fileID: 4836272777704381169}
+  - {fileID: 1980059669541384747}
   EditorParameters: []
   MasterBanks:
   - {fileID: 4313331513873805156}
   StringsBanks:
   - {fileID: 313402981994657067}
-  cacheTime: 638352357265928339
+  cacheTime: 638367975847373329
   cacheVersion: 131608
 --- !u!114 &212324260806811287
 MonoBehaviour:
@@ -437,10 +438,10 @@ MonoBehaviour:
   Path: FmodBuild/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638352357265535116
+  lastModified: 638367975846964784
   FileSizes:
   - Name: 
-    Value: 2174
+    Value: 2272
   Exists: 1
 --- !u!114 &369950255800340910
 MonoBehaviour:
@@ -469,6 +470,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 50
   Length: 2873
+--- !u!114 &1150002906121678199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Jumpscare/IsJumpscareloop1
+  m_EditorClassIdentifier: 
+  Name: IsJumpscareloop1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 938916666
+    data2: 3804644768
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - True
+  - False
+  Exists: 1
 --- !u!114 &1181607303348477138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,6 +577,34 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 46008
+--- !u!114 &1980059669541384747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Jumpscare
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Jumpscare
+  Guid:
+    Data1: 1260593487
+    Data2: 1133954967
+    Data3: 1750158510
+    Data4: 1177885195
+  Banks:
+  - {fileID: 5420056321799970006}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 1150002906121678199}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7000
 --- !u!114 &2725078194802088321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -655,7 +710,7 @@ MonoBehaviour:
   Path: FmodBuild/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638352357265928339
+  lastModified: 638367975847373329
   FileSizes: []
   Exists: 1
 --- !u!114 &5487478099797464531

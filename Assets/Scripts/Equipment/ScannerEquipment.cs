@@ -122,6 +122,7 @@ public class ScannerEquipment : Equipment
         {
             if(batteryAmout <= 0)
             {
+                AudioManager.Instance.StopAudio("scanner");
                 StopCoroutine(DelayBeforeRefillOutOfBattery());
                 StartCoroutine(DelayBeforeRefillOutOfBattery());
                 OnUnscan();
@@ -193,7 +194,7 @@ public class ScannerEquipment : Equipment
 
     public void OnUnscan()
     {
-        if (scannerState == ScannerState.CannotScan)
+        if (scannerState == ScannerState.CannotScan )
             return;
 
         AudioManager.Instance.StopAudio("scanner");
