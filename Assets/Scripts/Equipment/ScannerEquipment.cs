@@ -26,8 +26,6 @@ public class ScannerEquipment : Equipment
     [SerializeField] float batteryConsumeAmount = 1.5f;
     [SerializeField] float batteryRefillAmount = 3.5f;
     [SerializeField] float batteryRefillDelay = 3f;
-    //bool isBatteryRefill = true;
-    //bool canScan = true;
 
     [SerializeField] float scanRange = 10f;
     [Range(0, 180)]
@@ -85,10 +83,10 @@ public class ScannerEquipment : Equipment
         {
             if (scannerState == ScannerState.Scanning)
             {
+                OnUnscan();
                 StopCoroutine(DelayBeforeRefillBattery());
                 StartCoroutine(DelayBeforeRefillBattery());
             }
-            OnUnscan();
         }    
     }
 
@@ -162,7 +160,7 @@ public class ScannerEquipment : Equipment
         if (scannerState != ScannerState.Scanning)
             return;
 
-        //AudioManager.Instance.PlayAudio("scanner");
+        AudioManager.Instance.PlayAudio("scanner");
 
         if (objectInRange.Length == 0)
             return;
@@ -195,10 +193,12 @@ public class ScannerEquipment : Equipment
 
     public void OnUnscan()
     {
+        if (scannerState == ScannerState.CannotScan)
+            return;
 
-        //AudioManager.Instance.StopAudio("scanner");
+        AudioManager.Instance.StopAudio("scanner");
 
-        if(scanningObject != null)
+        if (scanningObject != null)
         {
             scanningObject.OnDeactiveScan();
             scanningObject = null;
