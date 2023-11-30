@@ -148,11 +148,11 @@ public class ScannerEquipment : Equipment
             if(objectInRange.Length > 0) 
                 scannerCanvas.UpdateText("Detect");
             else
-                scannerCanvas.UpdateText("Not Found");
+                scannerCanvas.UpdateText("Scanning");
         }
         else
         {
-            scannerCanvas.UpdateText("Scanning");
+            scannerCanvas.UpdateText("Not Found");
         }
     }
 
