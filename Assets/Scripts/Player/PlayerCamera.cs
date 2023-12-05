@@ -15,11 +15,17 @@ public class PlayerCamera : MonoBehaviour
     {
         Isdead = false;
         AddInputListener();
+        SetUpInputSensitivity();
     }
 
     void AddInputListener()
     {
         InputSystemManager.Instance.onMouseLook += OnMouseLook;
+    }
+
+    void SetUpInputSensitivity()
+    {
+        mouseSensitivity = MouseSettingController.Instance.MouseSenvalue;
     }
 
     void RemoveInputListener()
