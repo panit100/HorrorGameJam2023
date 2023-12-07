@@ -4,6 +4,7 @@ public enum PuzzleType
 {
     Code,
     Symbol,
+    Battery,
 }
 
 public class PuzzleObjective : Objective
