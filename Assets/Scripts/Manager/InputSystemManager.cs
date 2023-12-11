@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class InputSystemManager : Singleton<InputSystemManager>
+public class InputSystemManager : Singleton<InputSystemManager>,IAstronosisDebug
 {
     const string PLAYER_ACTIONMAP = "Player";
     const string UI_ACTIONMAP = "UI";
@@ -11,7 +11,7 @@ public class InputSystemManager : Singleton<InputSystemManager>
     const string CUTSCENE_ACTIONMAP = "Cutscene";
 
     [SerializeField] InputActionAsset playerInputAction;
-
+    public IAstronosisDebug.debugMode debugMode;
 #region UnityAction
     public UnityAction<Vector2> onMove;
     public UnityAction<Vector2> onMouseLook;
@@ -51,6 +51,23 @@ public class InputSystemManager : Singleton<InputSystemManager>
     void Start() 
     {
         ToggleGlobalInput(true);
+        DebugToggle(debugMode);
+    }
+
+    public void DebugToggle(IAstronosisDebug.debugMode mode)
+    {
+        switch (mode)
+        {
+            case IAstronosisDebug.debugMode.None:
+                break;
+            case IAstronosisDebug.debugMode.IgnoreDependencie:
+                break;
+            case IAstronosisDebug.debugMode.Playing:
+                TogglePlayerControl(true);
+                break;
+            default:
+                break;
+        }
     }
 
 #region ToggleInput
