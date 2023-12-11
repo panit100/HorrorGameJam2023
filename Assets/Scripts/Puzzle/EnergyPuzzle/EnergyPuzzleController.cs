@@ -7,10 +7,15 @@ public enum ENERGYTYPE
 {
     LIGHT,
     DOOR,
+    BRIDGE,
 }
 
-public class EnergyPuzzleController : MonoBehaviour
+public class EnergyPuzzleController : MonoBehaviour, InteractObject
 {
+    [Header("Canvas")]
+    [SerializeField] EnergyPuzzleCanvas energyPuzzleCanvas;
+
+    [Header("EnergyConfig")]
     //unuse battery
     [SerializeField] int maxEnergy;
     [SerializeField] int unUseEnergy;
@@ -23,60 +28,102 @@ public class EnergyPuzzleController : MonoBehaviour
     [Header("Door")]
     [SerializeField] EnergyConfig doorEnergyConfig;
     [SerializeField] Door door;
-    
 
-    void AddEnergy(ENERGYTYPE energyType)
+    [Header("Bridge")]
+    [SerializeField] EnergyConfig bridgeEnergyConfig;
+    // [SerializeField] Door door; //Bridge
+    
+    bool isActive = false;
+    
+    public bool AddEnergy(ENERGYTYPE energyType)
     {
         if(unUseEnergy == 0)
-            return;
+            return false;
 
         switch(energyType)
         {
             case ENERGYTYPE.DOOR:
-                doorEnergyConfig.AddEnergy();
+                if(!doorEnergyConfig.AddEnergy())
+                    return false;
+
                 if(doorEnergyConfig.IsEnergyReachTargetEnergy())
                 {
                     ToggleDoor(true);
                 }
                 break;
             case ENERGYTYPE.LIGHT:
-                lightEnergyConfig.AddEnergy();
+                if(!lightEnergyConfig.AddEnergy())
+                    return false;
+
                 if(lightEnergyConfig.IsEnergyReachTargetEnergy())
                 {
                     ToggleLight(true);
                 }
                 break;
+            case ENERGYTYPE.BRIDGE :
+                if(!bridgeEnergyConfig.AddEnergy())
+                    return false;
+
+                if(bridgeEnergyConfig.IsEnergyReachTargetEnergy())
+                {
+                    ToggleBridge(true);
+                }
+                break;
         }
         unUseEnergy--;
+        return true;
     }
 
-    void RemoveEnergy(ENERGYTYPE energyType)
+    public bool RemoveEnergy(ENERGYTYPE energyType)
     {
         if(unUseEnergy >= maxEnergy)
-            return;
+            return false;
 
         switch(energyType)
         {
             case ENERGYTYPE.DOOR:
-                doorEnergyConfig.RemoveEnergy();
+                if(!doorEnergyConfig.RemoveEnergy())
+                    return false;
+
                 if(!doorEnergyConfig.IsEnergyReachTargetEnergy())
                 {
                     ToggleDoor(false);
                 }
                 break;
             case ENERGYTYPE.LIGHT:
-                lightEnergyConfig.RemoveEnergy();
+                if(!lightEnergyConfig.RemoveEnergy())
+                    return false;
+
                 if(!lightEnergyConfig.IsEnergyReachTargetEnergy())
                 {
                     ToggleLight(false);
                 }
                 break;
+            case ENERGYTYPE.BRIDGE :
+                if(!bridgeEnergyConfig.RemoveEnergy())
+                    return false;
+
+                if(!bridgeEnergyConfig.IsEnergyReachTargetEnergy())
+                {
+                    ToggleBridge(false);
+                }
+                break;
         }
+        unUseEnergy++;
+        return true;
+    }
+
+    public void AddUnUseEnergy()
+    {
+        maxEnergy++;
         unUseEnergy++;
     }
 
     void ToggleDoor(bool toggle)
     {
+        if(door == null)
+            return;
+
         if(toggle)
             door.OpenDoorWithSound();
         else
@@ -90,6 +137,41 @@ public class EnergyPuzzleController : MonoBehaviour
             n.enabled = toggle;
         }
     }
+
+    void ToggleBridge(bool toggle)
+    {
+        //Active bridge
+    }
+
+    public void OnInteract()
+    {
+        if(isActive)
+            return;
+
+        
+        energyPuzzleCanvas.CreateEnergyAllSlot(maxEnergy,unUseEnergy,
+                                                lightEnergyConfig.maxEnergy,lightEnergyConfig.currentEnergy,
+                                                    doorEnergyConfig.maxEnergy,doorEnergyConfig.currentEnergy,
+                                                        bridgeEnergyConfig.maxEnergy,bridgeEnergyConfig.currentEnergy);
+
+        energyPuzzleCanvas.ShowCanvas(this);
+        isActive = true;
+        PlayerManager.Instance.OnChangePlayerState(PlayerState.puzzle);
+
+        energyPuzzleCanvas.onHideCanvas += OnExitPuzzle;
+    }
+
+    public void OnExitPuzzle()
+    {
+        if(!isActive)
+            return;
+        
+        if(PlayerManager.Instance.PlayerState != PlayerState.puzzle)
+            return;
+
+        isActive = false;
+        PlayerManager.Instance.OnChangePlayerState(PlayerState.Move);
+    }
 }
 
 [Serializable]
@@ -100,20 +182,26 @@ public class EnergyConfig
     public int currentEnergy;
     public int targetEnergy;
 
-    public void AddEnergy()
+    public bool AddEnergy()
     {
         if(currentEnergy < maxEnergy)
         {
             currentEnergy++;
+            return true;
         }
+        else
+            return false;
     }
 
-    public void RemoveEnergy()
+    public bool RemoveEnergy()
     {
         if(currentEnergy > 0)
         {
             currentEnergy--;
+            return true;
         }
+        else
+            return false;
     }
 
     public bool IsEnergyReachTargetEnergy()
