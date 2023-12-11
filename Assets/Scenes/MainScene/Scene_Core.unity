@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInputAction: {fileID: -944628639613478452, guid: ef250b27f730f5a43aaac3de78bc84cc, type: 3}
+  debugMode: 2
 --- !u!114 &97598368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eaf08031d6b73f47b515dac6b4fcdef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameStage: 0
+  gameStage: 1
   isPause: 0
 --- !u!1 &1076138987
 GameObject:
@@ -573,7 +574,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed77c61842b84c34f8abb6e67df6c761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSenSlider: {fileID: 0}
 --- !u!1 &1402211789
 GameObject:
   m_ObjectHideFlags: 0

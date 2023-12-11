@@ -7,24 +7,35 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: boxwireframe
-  m_Shader: {fileID: 4800000, guid: d6e6ba6b1ef6ac74388364704938d793, type: 3}
+  m_Name: Pillar
+  m_Shader: {fileID: 4800000, guid: 94cb0d6305cd4a743b1d2ec684e277de, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _REMOVEDIAG_ON
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  - DIFF_VERTEX
+  - OPAQUE
+  - SPEC_GOURAUD
+  - _EMISSION
+  m_InvalidKeywords:
+  - _DIFFMODEL_VERTEX
+  - _SPECMODEL_GOURAUD
+  - _UNLIT_ON
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cube:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -44,11 +55,23 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _LODTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -60,33 +83,43 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecularMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlendOp: 0
     - _BumpScale: 1
+    - _Cul: 0
     - _Cutoff: 0.5
+    - _CutoutThreshold: 0.5
     - _DetailNormalMapScale: 1
+    - _DiffModel: 0
+    - _DrawDist: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _LODAmt: 0
     - _Metallic: 0
     - _Mode: 0
+    - _NormalMapDepth: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RemoveDiag: 1
+    - _RenderMode: 0
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
+    - _SpecModel: 0
+    - _Specular: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WireframeSmoothing: 0
-    - _WireframeThickness: 1.48
-    - _WireframeVal: 0.002
+    - _Unlit: 0
+    - _VertexInaccuracy: -1
     - _ZWrite: 1
     m_Colors:
-    - _BackColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.20754719, g: 0.14978641, b: 0.14978641, a: 1}
+    - _Emission: {r: 0.064969726, g: 0.13416807, b: 0.18867922, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FrontColor: {r: 0.5943396, g: 0.45995387, b: 0.12615702, a: 1}
-    - _WireframeColor: {r: 0.59607846, g: 0.45882353, b: 0.1254902, a: 1}
   m_BuildTextureStacks: []
