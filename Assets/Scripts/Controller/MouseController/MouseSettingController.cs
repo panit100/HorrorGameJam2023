@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MouseSettingController : Singleton<MouseSettingController>
 {
-     float mouseSenvalue;
+     float mouseSenvalue = 25f;
      public float MouseSenvalue => mouseSenvalue;
      protected override void InitAfterAwake()
     {

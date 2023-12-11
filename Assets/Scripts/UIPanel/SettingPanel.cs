@@ -38,14 +38,18 @@ public class SettingPanel : MonoBehaviour
     {
         LoadMasterVolume();
         SetUpSettingButton();
-        
+        InintListener();
+        mouseSensitivitySlider.onValueChanged?.Invoke(mouseSensitivitySlider.value);
+    }
+
+    void InintListener()
+    {
         masterVolumeSlider.onValueChanged.AddListener(ChangeMasterVolume);
         musicVolumeSlider.onValueChanged.AddListener(ChangeMusicVolume);
         sfxVolumeSlider.onValueChanged.AddListener(ChangeSFXVolume);
         mouseSensitivitySlider.onValueChanged.AddListener(MouseSensitivtyUpdate);
         backButton.onClick.AddListener(() => OnBack?.Invoke());
     }
-
     void SetUpSettingButton()
     {
         foreach (var VARIABLE in settingButtons)
