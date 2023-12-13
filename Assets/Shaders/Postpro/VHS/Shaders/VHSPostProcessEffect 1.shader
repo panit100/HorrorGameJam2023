@@ -20,20 +20,22 @@
 			
 			float _yScanline;
 			float _xScanline;
+			float _Intensity;
 			float rand(float3 co){
 			     return frac(sin( dot(co.xyz ,float3(12.9898,78.233,45.5432) )) * 43758.5453);
 			}
  
 			fixed4 frag (v2f_img i) : COLOR{
+				half2 tempuv = i.uv;
 				fixed4 vhs = tex2D (_VHSTex, i.uv);
 			
-				float dx = 1-abs(distance(i.uv.y, _xScanline));
-				float dy = 1-abs(distance(i.uv.y, _yScanline));
+				float dx = 1-abs(distance(i.uv.y, _xScanline*2));
+				float dy = 1-abs(distance(i.uv.y, _yScanline*2));
 				
 				//float x = ((int)(i.uv.x*320))/320.0;
-				dy = ((int)(dy*15))/15.0;
+				dy = ((int)(dy*100))/100.0;
 				dy = dy;
-				i.uv.x += dy * 0.025 + rand(float3(dy,dy,dy)).r/500;//0.025;
+				i.uv.x += dy * 0.025 + rand(float3(dy,dy,dy)).r/2;
 				
 				float white = (vhs.r+vhs.g+vhs.b)/3;
 				
@@ -41,10 +43,12 @@
 					i.uv.y = _xScanline;
 				i.uv.y = step(0.99, dy) * (_yScanline) + step(dy, 0.99) * i.uv.y;
 				
-				i.uv.x = i.uv.x % 1;
-				i.uv.y = i.uv.y % 1;
+				i.uv.x = i.uv.x % 100;
+				i.uv.y = i.uv.y % 100;
 				
-				fixed4 c = tex2D (_MainTex, i.uv);
+				fixed4 c = tex2D (_MainTex, lerp(i.uv,tempuv,_Intensity));
+				
+				
 				
 				float bleed = tex2D(_MainTex, i.uv + float2(0.01, 0)).r;
 				bleed += tex2D(_MainTex, i.uv + float2(0.02, 0)).r;
@@ -60,8 +64,9 @@
 				float y = ((int)(i.uv.y*240))/240.0;
 				
 				c -= rand(float3(x, y, _xScanline)) * _xScanline / 5;
-				vhs = 0;
-				return c + vhs;
+				vhs.xyz /= 50;
+			
+				return c+vhs ;
 			}
 			ENDCG
 		}
