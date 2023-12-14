@@ -43,4 +43,9 @@ public class Button_MainMenu : MonoBehaviour,IAstronosisButtonInterface
         
         clickAction += action;
     }
+
+    public void RemoveListener(UnityAction action)
+    {
+        clickAction -= action;
+    }
 }

@@ -26,7 +26,7 @@ public class SettingPanel : MonoBehaviour
     [PropertySpace] [TabGroup("HeaderBar Button Manager")] 
     [field :SerializeField] List<SettingButtonEvent> settingButtons = new List<SettingButtonEvent>(); 
     
-    [SerializeField] Button backButton;
+    [SerializeField] Button_MainMenu backButton;
 
     public Action OnBack;
 
@@ -48,7 +48,7 @@ public class SettingPanel : MonoBehaviour
         musicVolumeSlider.onValueChanged.AddListener(ChangeMusicVolume);
         sfxVolumeSlider.onValueChanged.AddListener(ChangeSFXVolume);
         mouseSensitivitySlider.onValueChanged.AddListener(MouseSensitivtyUpdate);
-        backButton.onClick.AddListener(() => OnBack?.Invoke());
+        backButton.AddListener(() => OnBack?.Invoke());
     }
     void SetUpSettingButton()
     {
