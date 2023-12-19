@@ -49,7 +49,7 @@ public class MainMenuController : MonoBehaviour
         mainMenu_howToPlayButton.AddListener(() => {OnHowToPlay(); PlayButtonSound();mainMenuAnimationEvent.OnPanelLoadingAnim();}); 
         mainMenu_quitButton.AddListener(() => {mainMenuAnimationEvent.OnShutdownMainMenuTV(OnQuit); PlayButtonSound();});
         
-        settingPanel.OnBack += () => {OnBack(); PlayButtonSound();mainMenuAnimationEvent.OnPanelLoadingAnim();};
+        settingPanel.OnBack += () => {OnBack(); PlayButtonSound();mainMenuAnimationEvent.OnPanelLoadingAnim(); settingPanel.RefreshSetting();};
         
         howToPlay_backButton.onClick.AddListener(() => {OnBack(); PlayButtonSound();mainMenuAnimationEvent.OnPanelLoadingAnim();});
     }

@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Button_MainMenu : MonoBehaviour,IAstronosisButtonInterface
 {
+    public UnityEvent clickaction;
     Animator buttonAnimator;
     UnityAction clickAction;
     public CanvasGroup buttoncanvasgroup { get; set; }

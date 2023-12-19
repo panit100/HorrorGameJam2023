@@ -13,7 +13,7 @@ public class ScreenLineLoading : MonoBehaviour
     public UnityAction afterevemt { get; set; }
     [Range(0.0f, 1.0f)] public float width;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         thismat = GetComponent<Graphic>();
         thismat.material = Instantiate(thismat.materialForRendering);
@@ -24,7 +24,8 @@ public class ScreenLineLoading : MonoBehaviour
     {
         var clampwidth = Mathf.Clamp01(width);
         DOTween.To(() => thismat.material.GetFloat("_LineWidthY"), x => thismat.material.SetFloat("_LineWidthY", x), width, 0.15f).SetEase(Ease.Linear)
-            .OnComplete(afterevemt.Invoke);
+            .OnComplete( ()=> afterevemt?.Invoke());
+      
 
     }
 
