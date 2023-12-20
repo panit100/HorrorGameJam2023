@@ -77,7 +77,6 @@ public class SettingPanel : MonoBehaviour
 
     void InitScreenSetting()
     {
-        applyBlock.InstantFill(1);
         screenMode.ClearOptions();
         var oof = Enum.GetValues(typeof(FullScreenMode));
         fullscreenmodeList.AddRange(oof.OfType<FullScreenMode>().ToList() );
@@ -87,17 +86,21 @@ public class SettingPanel : MonoBehaviour
         
         
         resolutionsList.AddRange(Screen.resolutions);
-        resolutionListTxt = resolutionsList.Select(i => i.width.ToString() + "x" + i.height.ToString()).ToList();
+        resolutionsList = resolutionsList.Where(x => x.refreshRateRatio.ToString() == Screen.currentResolution.refreshRateRatio.ToString() ).ToList();
+        resolutionListTxt = resolutionsList.Select(i =>i.width.ToString() + "x" + i.height.ToString() ).ToList();
         displayResolution.ClearOptions();
         displayResolution.AddOptions(resolutionListTxt);
         displayResolution.value = resolutionsList.FindIndex(x =>
             (x.height == Screen.currentResolution.height && x.width == Screen.currentResolution.width));
       
         QualitySettings.vSyncCount =  0;
+        displayResolution.onValueChanged.AddListener((int temp)=>OnresChanged(displayResolution.value)); 
+        screenMode.onValueChanged.AddListener((int temp2)=>OnscreenModeChanged(screenMode.value)); 
     }
 
     public void RefreshSetting()
     {
+        applyBlock.InstantFill(1);
         displayResolution.value = resolutionsList.FindIndex(x =>
             (x.height == Screen.currentResolution.height && x.width == Screen.currentResolution.width));
         screenMode.value = fullscreenmodeList.FindIndex(x => x == Screen.fullScreenMode);
@@ -106,7 +109,7 @@ public class SettingPanel : MonoBehaviour
     
 
     private bool resChanged, screenModeChanged;
-    public void OnresChanged()
+    public void OnresChanged(int value)
     {
         resChanged = resolutionsList[displayResolution.value].ToString() != Screen.currentResolution.ToString();
         if (resChanged||screenModeChanged)
@@ -122,9 +125,9 @@ public class SettingPanel : MonoBehaviour
         
     }
 
-    public void OnscreenModeChanged()
+    public void OnscreenModeChanged(int value)
     {
-        resChanged = fullscreenmodeList[screenMode.value].ToString() != Screen.fullScreenMode.ToString();
+        screenModeChanged = fullscreenmodeList[screenMode.value].ToString() != Screen.fullScreenMode.ToString();
         if (resChanged || screenModeChanged)
         {
             applyBlock.FillLine(0);

@@ -13,7 +13,7 @@ public class ScreenLineLoading : MonoBehaviour
     public UnityAction afterevemt { get; set; }
     [Range(0.0f, 1.0f)] public float width;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         thismat = GetComponent<Graphic>();
         thismat.material = Instantiate(thismat.materialForRendering);

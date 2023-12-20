@@ -48,10 +48,10 @@ public class MainMenuAnimationEventController : MonoBehaviour
         crtpost.curvature = 1;
         bloom.bloomIntensity = 1.18f;
         _vhsPostProcessEffect.Intensity = 0.55f;
-        mainCanvas.matchWidthOrHeight = 0f;
+        mainCanvas.matchWidthOrHeight = 1f;
          DOTween.To(() => bloom.bloomIntensity, x => bloom.bloomIntensity = x ,0,1f).SetEase(Ease.OutQuint);
          DOTween.To(() => crtpost.curvature, x => crtpost.curvature = x, 5f, 1f).SetEase(Ease.OutElastic);
-         DOTween.To(() => mainCanvas.matchWidthOrHeight, x => mainCanvas.matchWidthOrHeight = x, 1, 1f).SetEase(Ease.OutElastic);
+         DOTween.To(() => mainCanvas.matchWidthOrHeight, x => mainCanvas.matchWidthOrHeight = x, 0, 1f).SetEase(Ease.OutElastic);
          DOTween.To(() => _vhsPostProcessEffect.Intensity, x => _vhsPostProcessEffect.Intensity = x, 1f, 1f).SetEase(Ease.OutElastic,0.01f)
              .OnComplete(() =>
                  DOTween.To(() => TVreactCamLayer1.rect.y,
@@ -71,7 +71,7 @@ public class MainMenuAnimationEventController : MonoBehaviour
         animatorLayer0.Play("Reverse");
         DOTween.To(() => bloom.bloomIntensity, x => bloom.bloomIntensity = x ,1.18f,0.5f).SetEase(Ease.InExpo);
         DOTween.To(() => crtpost.curvature, x => crtpost.curvature = x, 1f, 0.5f).SetEase(Ease.InExpo);
-        DOTween.To(() => mainCanvas.matchWidthOrHeight, x => mainCanvas.matchWidthOrHeight = x, 0, 0.5f).SetEase(Ease.InExpo);
+        DOTween.To(() => mainCanvas.matchWidthOrHeight, x => mainCanvas.matchWidthOrHeight = x, 1, 0.5f).SetEase(Ease.InExpo);
         DOTween.To(() => _vhsPostProcessEffect.Intensity, x => _vhsPostProcessEffect.Intensity = x, 0.4f, 0.5f).SetEase(Ease.InExpo)
             .OnComplete(() =>
                 DOTween.To(() => TVreactCamLayer1.rect.y,
