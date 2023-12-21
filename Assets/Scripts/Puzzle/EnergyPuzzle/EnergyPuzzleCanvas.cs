@@ -9,23 +9,10 @@ public class EnergyPuzzleCanvas : MonoBehaviour
 {
     public CanvasGroup canvasGroup {get; private set;}
 
-    [Header("Light")]
-    [SerializeField] Button addLightEnergy;
-    [SerializeField] Button removeLightEnergy;
-    
-    [Header("Door")]
-    [SerializeField] Button addDoorEnergy;
-    [SerializeField] Button removeDoorEnergy;
-    [Header("Bridge")]
-    [SerializeField] Button addBridgeEnergy;
-    [SerializeField] Button removeBridgeEnergy;
-
-    [Header("Energy")]
+    [Header("UnuseEnergy")]
     [SerializeField] CanvasEnergySlotConfig unuseEnergySlotConfig;
-    [SerializeField] CanvasEnergySlotConfig lightEnergySlotConfig;
-    [SerializeField] CanvasEnergySlotConfig doorEnergySlotConfig;
-    [SerializeField] CanvasEnergySlotConfig bridgeEnergySlotConfig;
-
+    [Header("EnergyConfig")]
+    [SerializeField] List<CanvasEnergySlotConfig> energySlotConfigs = new List<CanvasEnergySlotConfig>();
 
     [SerializeField] Button closeButton;
 
@@ -67,70 +54,45 @@ public class EnergyPuzzleCanvas : MonoBehaviour
 
     public void AddListenerToButton(EnergyPuzzleController energyPuzzleController)
     {
-        addLightEnergy.onClick.AddListener(() => {  
-            if(energyPuzzleController.AddEnergy(ENERGYTYPE.LIGHT))
-                {
-                    lightEnergySlotConfig.OnAddEnergy();
-                    unuseEnergySlotConfig.OnRemoveEnergy();
-                }
-            });
-        removeLightEnergy.onClick.AddListener(() => {  
-            if(energyPuzzleController.RemoveEnergy(ENERGYTYPE.LIGHT))
-                {
-                    lightEnergySlotConfig.OnRemoveEnergy();
-                    unuseEnergySlotConfig.OnAddEnergy();
-                }
-            });
-
-        addDoorEnergy.onClick.AddListener(() => {  
-            if(energyPuzzleController.AddEnergy(ENERGYTYPE.DOOR))
-                {
-                    doorEnergySlotConfig.OnAddEnergy();
-                    unuseEnergySlotConfig.OnRemoveEnergy();
-                }
-            });
-        removeDoorEnergy.onClick.AddListener(() => {  
-            if(energyPuzzleController.RemoveEnergy(ENERGYTYPE.DOOR))
-                {
-                    doorEnergySlotConfig.OnRemoveEnergy();
-                    unuseEnergySlotConfig.OnAddEnergy();
-                }
-            });
-
-        addBridgeEnergy.onClick.AddListener(() => {  
-            if(energyPuzzleController.AddEnergy(ENERGYTYPE.BRIDGE))
-                {
-                    bridgeEnergySlotConfig.OnAddEnergy();
-                    unuseEnergySlotConfig.OnRemoveEnergy();
-                }
-            });
-        removeBridgeEnergy.onClick.AddListener(() => {  
-            if(energyPuzzleController.RemoveEnergy(ENERGYTYPE.BRIDGE))
-                {
-                    bridgeEnergySlotConfig.OnRemoveEnergy();
-                    unuseEnergySlotConfig.OnAddEnergy();
-                }
-            });
+        for(int i = 0; i < energyPuzzleController.EnergyConfigs.Count; i++)
+        {
+            int configIndex = i;
+            energySlotConfigs[configIndex].addEnergyButton.onClick.AddListener(() => {  
+                if(energyPuzzleController.AddEnergy(configIndex))
+                    {
+                        energySlotConfigs[configIndex].OnAddEnergy();
+                        unuseEnergySlotConfig.OnRemoveEnergy();
+                    }
+                });
+            energySlotConfigs[configIndex].removeEnergyButton.onClick.AddListener(() => {  
+                if(energyPuzzleController.RemoveEnergy(configIndex))
+                    {
+                        energySlotConfigs[configIndex].OnRemoveEnergy();
+                        unuseEnergySlotConfig.OnAddEnergy();
+                    }
+                });
+        }
     }
 
     void RemoveListenerInButton()
     {
-        addLightEnergy.onClick.RemoveAllListeners();
-        removeLightEnergy.onClick.RemoveAllListeners();
-        addDoorEnergy.onClick.RemoveAllListeners();
-        removeDoorEnergy.onClick.RemoveAllListeners();
-        addBridgeEnergy.onClick.RemoveAllListeners();
-        removeBridgeEnergy.onClick.RemoveAllListeners();
+        foreach(var n in energySlotConfigs)
+        {
+            n.addEnergyButton.onClick.RemoveAllListeners();
+            n.removeEnergyButton.onClick.RemoveAllListeners();
+        }
     }
 
-    public void CreateEnergyAllSlot(int maxEnergy, int unuseEnergy, int maxLightEnergy, int currentLightEnergy, int maxDoorEnergy, int currentDoorEnergy, int maxBridgeEnergy, int currentBridgeEnergy)
+    public void CreateEnergyAllSlot(int maxEnergy, int unuseEnergy, List<EnergyConfig> energyConfigs)
     {
         ClearEnergySlot();
 
         CreateEnergySlot(unuseEnergySlotConfig,maxEnergy,unuseEnergy);
-        CreateEnergySlot(lightEnergySlotConfig,maxLightEnergy,currentLightEnergy);
-        CreateEnergySlot(doorEnergySlotConfig,maxDoorEnergy,currentDoorEnergy);
-        CreateEnergySlot(bridgeEnergySlotConfig,maxBridgeEnergy,currentBridgeEnergy);
+        
+        for(int i = 0; i < energyConfigs.Count; i++)
+        {
+            CreateEnergySlot(energySlotConfigs[i],energyConfigs[i].maxEnergy,energyConfigs[i].currentEnergy);
+        }
     }
 
     void CreateEnergySlot(CanvasEnergySlotConfig energySlotConfig,int maxEnergy,int currentEnergy)
@@ -164,35 +126,26 @@ public class EnergyPuzzleCanvas : MonoBehaviour
         unuseEnergySlotConfig.activeEnergyQueue.Clear();
         unuseEnergySlotConfig.deactiveEnergyQueue.Clear();
 
-        foreach(var n in lightEnergySlotConfig.energySlotList)
+        foreach(var n in energySlotConfigs)
         {
-            Destroy(n.gameObject);
+            foreach(var m in n.energySlotList)
+            {
+                Destroy(m.gameObject);
+            }
+            n.energySlotList.Clear();
+            n.activeEnergyQueue.Clear();
+            n.deactiveEnergyQueue.Clear();
         }
-        lightEnergySlotConfig.energySlotList.Clear();
-        lightEnergySlotConfig.activeEnergyQueue.Clear();
-        lightEnergySlotConfig.deactiveEnergyQueue.Clear();
-
-        foreach(var n in doorEnergySlotConfig.energySlotList)
-        {
-            Destroy(n.gameObject);
-        }
-        doorEnergySlotConfig.energySlotList.Clear();
-        lightEnergySlotConfig.activeEnergyQueue.Clear();
-        lightEnergySlotConfig.deactiveEnergyQueue.Clear();
-
-        foreach(var n in bridgeEnergySlotConfig.energySlotList)
-        {
-            Destroy(n.gameObject);
-        }
-        bridgeEnergySlotConfig.energySlotList.Clear();
-        lightEnergySlotConfig.activeEnergyQueue.Clear();
-        lightEnergySlotConfig.deactiveEnergyQueue.Clear();
     }
 }
 
 [Serializable]
 public class CanvasEnergySlotConfig
 {
+    [Header("Button")]
+    public Button addEnergyButton;
+    public Button removeEnergyButton;
+
     public Transform energyContainer;
     public Transform energyTemplate;
     public List<Transform> energySlotList = new List<Transform>();
