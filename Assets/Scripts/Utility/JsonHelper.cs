@@ -7,8 +7,8 @@ using System;
 
 public class JsonHelper
 {
-    const string PROJECTFOLDER = "HorrorGameJam"; //TODO: Remove this if want this script to another project or edit project folder name //TODO: Fix it later to not use this variable
-
+    const string PROJECTFOLDER = "Astronosis"; 
+    
 #region SaveJSON
     /// <summary>
     /// For save class data to json file. Can select to save it in StreamingAssets folder or not.

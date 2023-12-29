@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using DG.Tweening;
 using HorrorJam.Audio;
 using Sirenix.OdinInspector;
@@ -29,6 +31,7 @@ public class CameraEquipment : Equipment
     [SerializeField]private Vector3 initrot;
     [SerializeField]private Vector3 endrot;
     private Tween Onhold;
+
     void Start()
     {
         MeshGroup.SetActive(false);
@@ -60,7 +63,6 @@ public class CameraEquipment : Equipment
     {
         if(!Application.isPlaying)return;   
         MeshGroup.SetActive(false);
-        
     }
    
     void OnPressShutter()
@@ -111,6 +113,7 @@ public class CameraEquipment : Equipment
         RenderTexture.active = null;
         screenshotCamera.targetTexture = null;
         Destroy(rt);
+        ImageHelper.SaveImage(screenshot);
 
         // Re-enable UI
         foreach (Canvas canvas in canvases)
