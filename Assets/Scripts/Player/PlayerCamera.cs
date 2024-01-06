@@ -1,6 +1,9 @@
+using Cinemachine;
 using DG.Tweening;
 using HorrorJam.AI;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -11,6 +14,14 @@ public class PlayerCamera : MonoBehaviour
     float xRotation;
     float yRotation;
     bool Isdead;
+    CinemachineVirtualCamera vCam;
+    public NoiseSettings screenShake;
+
+    void Awake() 
+    {
+        vCam = GetComponent<CinemachineVirtualCamera>();    
+    }
+
     void Start()
     {
         Isdead = false;
@@ -73,5 +84,14 @@ public class PlayerCamera : MonoBehaviour
     void OnDestroy()
     {
         RemoveInputListener();
+    }
+
+    [Button]
+    void ToggleCameraShake(bool toggle)
+    {
+        if(toggle)
+            vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_NoiseProfile = screenShake;
+        else
+            vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_NoiseProfile = null;
     }
 }
