@@ -31,6 +31,7 @@ public class RandomEnvironmentEvent : MonoBehaviour
         if (!string.IsNullOrEmpty(eventInfo.soundId))
         {
             AudioManager.Instance.PlayAudioOneShot(eventInfo.soundId);
+            print("Play Sound : " + eventInfo.soundId);
         }
 
         if (eventInfo.moveObject != null)
@@ -46,6 +47,7 @@ public class RandomEnvironmentEvent : MonoBehaviour
         if (randomNumber <= randomEventList.Count)
         {
             randomEventList[randomNumber].Invoke();
+            print("PlayEvent");
         }
         else
             print("Notting Happen");
