@@ -30,8 +30,16 @@ public class RandomEnvironmentEvent : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(eventInfo.soundId))
         {
-            AudioManager.Instance.PlayAudioOneShot(eventInfo.soundId);
-            print("Play Sound : " + eventInfo.soundId);
+            if(eventInfo.soundPosition != null)
+            {
+                AudioManager.Instance.PlayAudioOneShot(eventInfo.soundId,eventInfo.soundPosition.transform.position);
+                print("Play Area Sound : " + eventInfo.soundId);
+            }
+            else
+            {
+                AudioManager.Instance.PlayAudioOneShot(eventInfo.soundId);
+                print("Play Sound : " + eventInfo.soundId);
+            }
         }
 
         if (eventInfo.moveObject != null)
@@ -64,7 +72,10 @@ public class RandomEnvironmentEvent : MonoBehaviour
 }
 [Serializable]
 public class EventInfo{
+    [Header("Sound Event")]
     public string soundId;
+    public Transform soundPosition;
+    [Header("Object Event")]
     public GameObject moveObject;
     public Transform moveToPosition;
     public Ease ease;
