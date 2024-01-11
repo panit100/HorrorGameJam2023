@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
 using HorrorJam.AI;
@@ -5,11 +6,11 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Cinemachine;
 
-public class PlayerCamera : MonoBehaviour
+public class PlayerCamera : MonoBehaviour ,IAstronosisDebug
 {
     [SerializeField] float mouseSensitivity = 100f;
     [SerializeField] Transform playerBody;
-
+    public IAstronosisDebug.debugMode debugMode;
     Vector2 deltaMouse;
     float xRotation;
     float yRotation;
@@ -24,13 +25,33 @@ public class PlayerCamera : MonoBehaviour
 
     void Start()
     {
+        DebugToggle(debugMode);
         Isdead = false;
         AddInputListener();
+    }
+
+    public void DebugToggle(IAstronosisDebug.debugMode mode)
+    {
+        switch (mode)
+        {
+            case IAstronosisDebug.debugMode.None:
+                SetUpInputSensitivity();
+                break;
+            case IAstronosisDebug.debugMode.IgnoreDependencie:
+                break;
+            default:
+                break;
+        }
     }
 
     void AddInputListener()
     {
         InputSystemManager.Instance.onMouseLook += OnMouseLook;
+    }
+
+    void SetUpInputSensitivity()
+    {
+        mouseSensitivity = MouseSettingController.Instance.MouseSenvalue;
     }
 
     void RemoveInputListener()

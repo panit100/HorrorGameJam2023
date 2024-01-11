@@ -15,7 +15,7 @@ public enum GameStage
     Tutorial
 }
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : Singleton<GameManager>,IAstronosisDebug
 {
     [SerializeField] GameStage gameStage = GameStage.MainMenu;
 

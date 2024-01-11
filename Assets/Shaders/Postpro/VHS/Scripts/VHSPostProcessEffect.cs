@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using Random = UnityEngine.Random;
 
-[ExecuteInEditMode]
+
 [AddComponentMenu("Image Effects/GlitchEffect")]
 [RequireComponent(typeof(Camera))]
 [RequireComponent(typeof(VideoPlayer))]
@@ -16,6 +16,8 @@ public class VHSPostProcessEffect : MonoBehaviour
 	private float _xScanline;
 	private Material _material = null;
 	private VideoPlayer _player;
+	[Range(0.0f, 1.0f)]
+	public float Intensity = 1;
 
 	void Start()
 	{
@@ -39,6 +41,7 @@ public class VHSPostProcessEffect : MonoBehaviour
 		}
 		_material.SetFloat("_yScanline", _yScanline);
 		_material.SetFloat("_xScanline", _xScanline);
+		_material.SetFloat("_Intensity", Intensity);
 		Graphics.Blit(source, destination, _material);
 	}
 

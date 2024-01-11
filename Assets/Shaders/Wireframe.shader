@@ -1,96 +1,27 @@
-Shader "Custom/Geometry/Wireframe"
+Shader "Custom/Geometry/Wireframe" //https://gist.github.com/baba-s/14ecab2df06188a083e66ab00b2c9499
 {
     Properties
     {
-          _MainTex ("Texture", 2D) = "white" {}
         [PowerSlider(3.0)]
         _WireframeVal ("Wireframe width", Range(0., 0.5)) = 0.05
-        _FrontColor ("Front color", color) = (1., 1., 1., 1.)
-        _BackColor ("Back color", color) = (1., 1., 1., 1.)
+        _WireframeColor ("Wireframe Color", Color) = (0, 0, 0)
+        _WireframeSmoothing ("Wireframe Smoothing", Range(0, 10)) = 1
+		_WireframeThickness ("Wireframe Thickness", Range(0, 10)) = 1
+        _BaseColor ("Base Color", Color) = (0,0,0,1)
         [Toggle] _RemoveDiag("Remove diagonals?", Float) = 0.
     }
     SubShader
     {
         Tags { "Queue"="Geometry" "RenderType"="Opaque" }
-
-//        Pass
-//        {
-//            Cull Front
-//            CGPROGRAM
-//            #pragma vertex vert
-//            #pragma fragment frag
-//            #pragma geometry geom
-//
-//            // Change "shader_feature" with "pragma_compile" if you want set this keyword from c# code
-//            #pragma shader_feature __ _REMOVEDIAG_ON
-//
-//            #include "UnityCG.cginc"
-//
-//            struct v2g {
-//                float4 worldPos : SV_POSITION;
-//            };
-//
-//            struct g2f {
-//                float4 pos : SV_POSITION;
-//                float3 bary : TEXCOORD0;
-//            };
-//
-//            v2g vert(appdata_base v) {
-//                v2g o;
-//                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
-//                return o;
-//            }
-//
-//            [maxvertexcount(3)]
-//            void geom(triangle v2g IN[3], inout TriangleStream<g2f> triStream) {
-//                float3 param = float3(0., 0., 0.);
-//
-//                #if _REMOVEDIAG_ON
-//                float EdgeA = length(IN[0].worldPos - IN[1].worldPos);
-//                float EdgeB = length(IN[1].worldPos - IN[2].worldPos);
-//                float EdgeC = length(IN[2].worldPos - IN[0].worldPos);
-//
-//                if(EdgeA > EdgeB && EdgeA > EdgeC)
-//                    param.y = 1.;
-//                else if (EdgeB > EdgeC && EdgeB > EdgeA)
-//                    param.x = 1.;
-//                else
-//                    param.z = 1.;
-//                #endif
-//
-//                g2f o;
-//                o.pos = mul(UNITY_MATRIX_VP, IN[0].worldPos);
-//                o.bary = float3(1., 0., 0.) + param;
-//                triStream.Append(o);
-//                o.pos = mul(UNITY_MATRIX_VP, IN[1].worldPos);
-//                o.bary = float3(0., 0., 1.) + param;
-//                triStream.Append(o);
-//                o.pos = mul(UNITY_MATRIX_VP, IN[2].worldPos);
-//                o.bary = float3(0., 1., 0.) + param;
-//                triStream.Append(o);
-//            }
-//
-//            float _WireframeVal;
-//            fixed4 _BackColor;
-//
-//            fixed4 frag(g2f i) : SV_Target {
-//            if(!any(bool3(i.bary.x < _WireframeVal, i.bary.y < _WireframeVal, i.bary.z < _WireframeVal)))
-//                 discard;
-//
-//                return _BackColor;
-//            }
-//
-//            ENDCG
-//        }
+        
 
         Pass
         {
             Cull Back
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma geometry geom
-            #pragma multi_compile_fog
 
             // Change "shader_feature" with "pragma_compile" if you want set this keyword from c# code
              #pragma shader_feature __ _REMOVEDIAG_ON
@@ -100,29 +31,26 @@ Shader "Custom/Geometry/Wireframe"
             struct v2g {
                 float4 worldPos : SV_POSITION;
                 float2 uv : TEXCOORD2;
-                UNITY_FOG_COORDS(1)
             };
 
             struct g2f {
                 float4 pos : SV_POSITION;
-                float3 bary : TEXCOORD0;
-             
-              
+                float4 bary : TEXCOORD0;
             };
-                sampler2D _MainTex;
-            float4 _MainTex_ST;
+            
             v2g vert(appdata_base v) {
                 v2g o;
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
-                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.worldPos);
+               o.worldPos = mul(unity_ObjectToWorld, v.vertex);
                 return o;
             }
              float _WireframeVal;
-            fixed4 _FrontColor;
+            float4 _WireframeColor,_BaseColor;
+            float _WireframeSmoothing;
+            float _WireframeThickness;
+            
             [maxvertexcount(3)]
             void geom(triangle v2g IN[3], inout TriangleStream<g2f> triStream) {
-                float3 param = float3(0., 0., 0.);
+                float4 param = float4(0.,0.,0.,0.);
 
                 #if _REMOVEDIAG_ON
                 float EdgeA = length(IN[0].worldPos - IN[1].worldPos);
@@ -139,29 +67,43 @@ Shader "Custom/Geometry/Wireframe"
 
                 g2f o;
                 o.pos = mul(UNITY_MATRIX_VP, IN[0].worldPos);
-                o.bary = float3(1., 0., 0.) + param;
+                o.bary = float4(1., 0., 0.,0.) + param;
                 triStream.Append(o);
                 o.pos = mul(UNITY_MATRIX_VP, IN[1].worldPos);
-                o.bary = float3(0., 0., 1.) + param;
+                o.bary = float4(0., 0., 1.,0.) + param;
                 triStream.Append(o);
                 o.pos = mul(UNITY_MATRIX_VP, IN[2].worldPos);
-                o.bary = float3(0., 1., 0.) + param;
+                o.bary = float4(0., 1., 0.,0.) + param;
                 triStream.Append(o);
             }
-
-           
-
-            fixed4 frag(g2f i , v2g o) : SV_Target
+            float filteredGrid( in float3 uv, in float2 dpdx, in float2 dpdy )
             {
-             
-            if(!any(bool3(i.bary.x <= _WireframeVal, i.bary.y <= _WireframeVal, i.bary.z <= _WireframeVal)))
-                 discard;
-                 fixed4 col = tex2D(_MainTex, o.uv);
-                col *= _FrontColor;
-                UNITY_APPLY_FOG(o.fogCoord,_FrontColor);
-                return _FrontColor;
+                const float N = 10.0;
+                float2 w = max(abs(dpdx), abs(dpdy));
+                float2 a = uv + 0.5*w;                        
+                float2 b = uv - 0.5*w;           
+                float2 i = (floor(a)+min(frac(a)*N,1.0)-
+                          floor(b)-min(frac(b)*N,1.0))/(N*w);
+                return (1.0-i.x)*(1.0-i.y);
             }
-            ENDCG
+            
+            half4 frag(g2f i ) : SV_Target
+            {
+           //i.bary.z = 1 - i.bary.x - i.bary.y;
+	        float4 deltas = fwidth( i.bary);
+                float4 smoothing = deltas * _WireframeSmoothing;
+	float4 thickness = deltas * _WireframeThickness;
+            i.bary = smoothstep(thickness, thickness + smoothing, i.bary);
+                float minBary = min(i.bary.x, min(i.bary.y, i.bary.z));
+            if(!any(bool3(i.bary.xyz <= _WireframeThickness)))
+            {
+               
+                _WireframeColor = 0;
+            }
+                
+                return lerp(_WireframeColor,_BaseColor,minBary);
+            }
+            ENDHLSL
         }
     }
 }
