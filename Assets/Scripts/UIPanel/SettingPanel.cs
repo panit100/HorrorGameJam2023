@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HorrorJam.Audio;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -61,8 +62,11 @@ public class SettingPanel : MonoBehaviour
         InitListener();
         SetUpSettingButton();
         
-        mouseSensitivitySlider.onValueChanged?.Invoke(mouseSensitivitySlider.value);
-        OnChangePanel(settingButtons[0].eventName);
+        if(mouseSensitivitySlider != null)
+            mouseSensitivitySlider.onValueChanged?.Invoke(mouseSensitivitySlider.value);
+
+        if(!settingButtons.IsNullOrEmpty())
+            OnChangePanel(settingButtons[0].eventName);
     }
 
     void InitListener()
@@ -70,32 +74,45 @@ public class SettingPanel : MonoBehaviour
         masterVolumeSlider.onValueChanged.AddListener(ChangeMasterVolume);
         musicVolumeSlider.onValueChanged.AddListener(ChangeMusicVolume);
         sfxVolumeSlider.onValueChanged.AddListener(ChangeSFXVolume);
-        mouseSensitivitySlider.onValueChanged.AddListener(MouseSensitivtyUpdate);
-        backButton.AddListener(() => OnBack?.Invoke());
+
+        if(mouseSensitivitySlider != null)
+            mouseSensitivitySlider.onValueChanged.AddListener(MouseSensitivtyUpdate);
+
+        if(backButton != null)
+            backButton.AddListener(() => OnBack?.Invoke());
+
+        if(applybutton != null)
         applybutton.AddListener(ApplyButton);
     }
 
     void InitScreenSetting()
     {
-        screenMode.ClearOptions();
-        var oof = Enum.GetValues(typeof(FullScreenMode));
-        fullscreenmodeList.AddRange(oof.OfType<FullScreenMode>().ToList() );
-        fullscreenmodeListTxt = fullscreenmodeList.Select(i => i.ToString()).ToList();
-        screenMode.AddOptions(fullscreenmodeListTxt);
-        screenMode.value = fullscreenmodeList.FindIndex(x => x == Screen.fullScreenMode);
+        if(screenMode != null)
+        {
+            screenMode.ClearOptions();
+            var oof = Enum.GetValues(typeof(FullScreenMode));
+            fullscreenmodeList.AddRange(oof.OfType<FullScreenMode>().ToList() );
+            fullscreenmodeListTxt = fullscreenmodeList.Select(i => i.ToString()).ToList();
+            screenMode.AddOptions(fullscreenmodeListTxt);
+            screenMode.value = fullscreenmodeList.FindIndex(x => x == Screen.fullScreenMode);
+            screenMode.onValueChanged.AddListener((int temp2)=>OnscreenModeChanged(screenMode.value)); 
+        }
         
         
         resolutionsList.AddRange(Screen.resolutions);
         resolutionsList = resolutionsList.Where(x => x.refreshRateRatio.ToString() == Screen.currentResolution.refreshRateRatio.ToString() ).ToList();
         resolutionListTxt = resolutionsList.Select(i =>i.width.ToString() + "x" + i.height.ToString() ).ToList();
-        displayResolution.ClearOptions();
-        displayResolution.AddOptions(resolutionListTxt);
-        displayResolution.value = resolutionsList.FindIndex(x =>
-            (x.height == Screen.currentResolution.height && x.width == Screen.currentResolution.width));
-      
-        QualitySettings.vSyncCount =  0;
-        displayResolution.onValueChanged.AddListener((int temp)=>OnresChanged(displayResolution.value)); 
-        screenMode.onValueChanged.AddListener((int temp2)=>OnscreenModeChanged(screenMode.value)); 
+
+        if(displayResolution != null)
+        {
+            displayResolution.ClearOptions();
+            displayResolution.AddOptions(resolutionListTxt);
+            displayResolution.value = resolutionsList.FindIndex(x =>
+                (x.height == Screen.currentResolution.height && x.width == Screen.currentResolution.width));
+        
+            QualitySettings.vSyncCount =  0;
+            displayResolution.onValueChanged.AddListener((int temp)=>OnresChanged(displayResolution.value)); 
+        }
     }
 
     public void RefreshSetting()
@@ -160,7 +177,9 @@ public class SettingPanel : MonoBehaviour
             VARIABLE.button.AddEvent(VARIABLE.buttonEvent);
             VARIABLE.button.SetButtonState(true);
         }
-        settingButtons[0].button.SetButtonState(false);
+
+        if(!settingButtons.IsNullOrEmpty())
+            settingButtons[0].button.SetButtonState(false);
     }
     
     
