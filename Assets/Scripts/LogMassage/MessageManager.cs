@@ -12,7 +12,9 @@ public class MessageManager : Singleton<MessageManager>
     [SerializeField] Transform massageTextContanier;
     
     [SerializeField] Dictionary<string,MassageData> massageDataDic = new Dictionary<string, MassageData>();
-    [Indent,SerializeField,ReadOnly] List<LogData> logDataDic = new List<LogData>();
+    [Indent,SerializeField,ReadOnly] List<LogData> logDataDic = new List<LogData>(); //Use it in save game
+
+    List<MassageText> massageTextList = new List<MassageText>();
 
     [SerializeField] UIMessageNotification uIMessageNotification;
 
@@ -48,36 +50,52 @@ public class MessageManager : Singleton<MessageManager>
     //FOR Objective
     public void AddLogData(MainObjectiveData objectiveData)
     {
-        LogData newLogData = new LogData(objectiveData.Sender,TimeManager.Instance.GetCurrentTime(),objectiveData.LogMessage,LogType.Objective,objectiveData.SenderColor,objectiveData.TimeColor,objectiveData.MassageColor);
+        LogData newLogData = new LogData(objectiveData.ObjectiveCode,objectiveData.Sender,TimeManager.Instance.GetCurrentTime(),objectiveData.LogMessage,LogType.Objective,objectiveData.SenderColor,objectiveData.TimeColor,objectiveData.MassageColor);
         logDataDic.Add(newLogData);
 
-        DisplayLogData(newLogData);
+        ShowNotificationText();
     }
 
     //FOR normal Log
     public void AddLogData(string massageCode)
     {
-        LogData newLogData = new LogData(massageDataDic[massageCode].sender,TimeManager.Instance.GetCurrentTime(),massageDataDic[massageCode].massage,LogType.Massage,massageDataDic[massageCode].senderColor,massageDataDic[massageCode].timeColor,massageDataDic[massageCode].massageColor);
+        LogData newLogData = new LogData(massageCode,massageDataDic[massageCode].sender,TimeManager.Instance.GetCurrentTime(),massageDataDic[massageCode].massage,LogType.Massage,massageDataDic[massageCode].senderColor,massageDataDic[massageCode].timeColor,massageDataDic[massageCode].massageColor);
         logDataDic.Add(newLogData);
 
-        DisplayLogData(newLogData);
+        ShowNotificationText();
     }
 
     [Button]
-    void DisplayLogData(LogData logData)
+    public void DisplayLogData()
     {
-        MassageText massageText = Instantiate(massageTextTemplate,massageTextContanier);
-        
-        massageText.SetMassageText(logData.GetLogString());
+        foreach(var n in massageTextList)
+        {
+            Destroy(n.gameObject);
+        }
+        massageTextList.Clear();
 
-        massageText.gameObject.SetActive(true);
+        foreach(var n in logDataDic)
+        {
+            MassageText massageText = Instantiate(massageTextTemplate,massageTextContanier);
+            
+            massageText.logData = n;
 
+            massageText.SetMassageText(n.GetLogString());
+
+            massageText.gameObject.SetActive(true);
+
+            massageTextList.Add(massageText);
+        }
+    }
+
+    void ShowNotificationText()
+    {
         AudioManager.Instance.PlayAudioOneShot("new_massage");
+
         if(!PipboyManager.Instance.IsUsingPipboy)
         {
             uIMessageNotification.PlayEnter();
         }
-        
     }
 
     public void HideNotificationText()
@@ -90,5 +108,25 @@ public class MessageManager : Singleton<MessageManager>
     {
         //TODO: Force player to use log console
     }
-    
+
+    [Button]
+    public void ClearLogData() // use to clear message in device when change act
+    {
+        logDataDic.Clear();
+
+        foreach(var n in massageTextList)
+        {
+            Destroy(n.gameObject);
+        }
+
+        massageTextList.Clear();
+    }
+
+    [Button]
+    public void RemoveMessage(string code)
+    {
+        MassageText massageText = massageTextList.Find(a => a.logData.code == code);
+        massageTextList.Remove(massageText);
+        Destroy(massageText.gameObject);
+    }
 }

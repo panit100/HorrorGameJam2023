@@ -9,6 +9,7 @@ public enum LogType
 [Serializable]
 public class LogData
 {
+    public string code;
     public string sender;
     public string sendTime; 
     public string massage;
@@ -17,8 +18,9 @@ public class LogData
     public string massageColor;
     public LogType logType;
 
-    public LogData(string _sender,string _sendTime,string _massage, LogType _logType,string _senderColor,string _timeColor,string _massageColor)
+    public LogData(string _code,string _sender,string _sendTime,string _massage, LogType _logType,string _senderColor,string _timeColor,string _massageColor)
     {
+        code = _code;
         sender = _sender;
         sendTime = _sendTime;
         massage = _massage;
