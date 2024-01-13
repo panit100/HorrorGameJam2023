@@ -900,7 +900,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 25
   playerBody: {fileID: 360549033318752936}
-  screenShake: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  debugMode: 0
+  weakScreenShake:
+    noiseSettings: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    amplitude: 1
+    frequency: 1
+  mediumScreenShake:
+    noiseSettings: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    amplitude: 5
+    frequency: 5
+  strongScreenShake:
+    noiseSettings: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    amplitude: 10
+    frequency: 10
 --- !u!1 &8230479356024998864
 GameObject:
   m_ObjectHideFlags: 0

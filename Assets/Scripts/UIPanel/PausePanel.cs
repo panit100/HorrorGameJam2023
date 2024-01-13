@@ -35,8 +35,13 @@ public class PausePanel : MonoBehaviour
         GameManager.Instance.onPause += OnPause;
         settingPanel.OnBack += OpenPausePanel;
 
+        if(resumeButton != null)
         resumeButton.AddListener(OnClickResumeButton);
+
+        if(settingButton != null)
         settingButton.AddListener(OnClickSettingButton);
+
+        if(quitButton != null)
         quitButton.AddListener(OnClickQuitButton);
     }
 
@@ -45,8 +50,13 @@ public class PausePanel : MonoBehaviour
         GameManager.Instance.onPause -= OnPause;
         settingPanel.OnBack -= OpenPausePanel;
 
+        if(resumeButton != null)
         resumeButton.RemoveListener(OnClickResumeButton);
+
+        if(settingButton != null)
         settingButton.RemoveListener(OnClickSettingButton);
+
+        if(quitButton != null)
         quitButton.RemoveListener(OnClickQuitButton);
     }
 
