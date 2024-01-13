@@ -19,7 +19,6 @@ Material:
   - _EMISSION
   m_InvalidKeywords:
   - _DIFFMODEL_VERTEX
-  - _DRAWDIST_ON
   - _SPECMODEL_GOURAUD
   - _UNLIT_ON
   m_LightmapFlags: 2
@@ -706,7 +705,7 @@ Material:
     - _DissolveNoiseOffset: 0
     - _DitherAlpha: 1
     - _DoubleSidedNormalMode: 1
-    - _DrawDist: 1
+    - _DrawDist: 0
     - _DstBlend: 0
     - _EmissionMultiplier: 1
     - _EnableEffectorSystem: 0
@@ -928,7 +927,7 @@ Material:
     - _UVSource: 0
     - _Unlit: 1
     - _Version: 0
-    - _VertexInaccuracy: -1
+    - _VertexInaccuracy: 0.01
     - _WetnessAmount: 0
     - _WetnessAngleMin: -1
     - _WetnessEffectorInvert: 0
