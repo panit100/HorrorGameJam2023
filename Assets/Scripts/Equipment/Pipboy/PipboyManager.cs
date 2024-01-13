@@ -82,6 +82,8 @@ public class PipboyManager: Singleton<PipboyManager>
         pipboyObject.transform.DOLocalRotate(
             new Vector3(0, -90, 0f), fadeinduration).SetEase(screenEase);
         AudioManager.Instance.PlayAudioOneShot("radio_static");
+
+        MessageManager.Instance.DisplayLogData();
     }
 
     [Button]
