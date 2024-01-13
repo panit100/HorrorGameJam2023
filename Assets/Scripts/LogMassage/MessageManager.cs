@@ -123,7 +123,7 @@ public class MessageManager : Singleton<MessageManager>
     }
 
     [Button]
-    public void RemoveMessage(string code)
+    public void RemoveMessage(string code) //remove message by code
     {
         MassageText massageText = massageTextList.Find(a => a.logData.code == code);
         massageTextList.Remove(massageText);
