@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,68 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &390798559
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -13.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4458911902986246775, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5970499434578728972, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-      propertyPath: m_Name
-      value: MainMenu Camera
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
---- !u!20 &390798560 stripped
-Camera:
-  m_CorrespondingSourceObject: {fileID: 6331831881529061699, guid: db38d9f1609b683438a5dbd2979741ce, type: 3}
-  m_PrefabInstance: {fileID: 390798559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &940281403
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +257,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 940281403}
   m_CullTransparentMesh: 1
+--- !u!1001 &1092761678
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3458673903249322139, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_Name
+      value: CameraForUI(No Transparent)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7201800087026457865, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+--- !u!20 &1092761679 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8652386446815673256, guid: 2eb081eb30603dc4bbb5f5afbcc84b45, type: 3}
+  m_PrefabInstance: {fileID: 1092761678}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1138498217
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,14 +679,14 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 390798560}
+  m_Camera: {fileID: 1092761679}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 31
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -734,5 +734,5 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 390798559}
+  - {fileID: 1092761678}
   - {fileID: 1778832340}

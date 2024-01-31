@@ -55,14 +55,15 @@ public class MainMenuAnimationEventController : MonoBehaviour
        animatorLayer0.enabled = true;
         animatorLayer0.Rebind();
         animatorLayer0.Update(0f);
-        //crtpost.curvature = 1;
+        DOTween.Sequence().AppendInterval(0.25f).AppendCallback((() => {  pixelLoad.Play("OnloadPixel",-1,0); }));
         volume_1st.profile.GetSetting<EffectCRT>().curvature.Override(1f); 
-        Volume_2nd.profile.GetSetting<UnityEngine.Rendering.PostProcessing.Bloom>().intensity.value = 1.18f;
+        Volume_2nd.profile.GetSetting<UnityEngine.Rendering.PostProcessing.Bloom>().intensity.value = 18f;
      
         mainCanvas.matchWidthOrHeight = 1f;
-        pixelLoad.Play("OnloadPixel",-1,0);
+      
          DOTween.To(() => Volume_2nd.profile.GetSetting<UnityEngine.Rendering.PostProcessing.Bloom>().intensity, x => Volume_2nd.profile.GetSetting<UnityEngine.Rendering.PostProcessing.Bloom>().intensity.value = x ,0.1f,1f).SetEase(Ease.OutQuint);
-         DOTween.To(() =>  volume_1st.profile.GetSetting<EffectCRT>().curvature  , x => volume_1st.profile.GetSetting<EffectCRT>().curvature.value  = x, 5f, 1f).SetEase(Ease.OutElastic);
+         DOTween.To(() => volume_1st.profile.GetSetting<EffectCRT>().curvature,
+             x => volume_1st.profile.GetSetting<EffectCRT>().curvature.value = x, 5f, 1f).SetEase(Ease.OutElastic);
          DOTween.To(() => mainCanvas.matchWidthOrHeight, x => mainCanvas.matchWidthOrHeight = x, 0, 1f).SetEase(Ease.OutElastic).OnComplete(() =>
                  DOTween.To(() => TVreactCamLayer1.rect.y,
                          x => TVreactCamLayer1.rect = new Rect(new Vector2(0, x), Vector2.one), -1, 0.5f)
@@ -79,7 +80,7 @@ public class MainMenuAnimationEventController : MonoBehaviour
     {
         animatorLayer0.enabled = true;
         animatorLayer0.Play("Reverse");
-        DOTween.To(() => Volume_2nd.profile.GetSetting<UnityEngine.Rendering.PostProcessing.Bloom>().intensity, x => Volume_2nd.profile.GetSetting<UnityEngine.Rendering.PostProcessing.Bloom>().intensity.value = x ,1.18f,0.5f).SetEase(Ease.InExpo);
+        DOTween.To(() => Volume_2nd.profile.GetSetting<UnityEngine.Rendering.PostProcessing.Bloom>().intensity, x => Volume_2nd.profile.GetSetting<UnityEngine.Rendering.PostProcessing.Bloom>().intensity.value = x , 18f,0.5f).SetEase(Ease.InOutElastic);
         DOTween.To(() => volume_1st.profile.GetSetting<EffectCRT>().curvature, x => volume_1st.profile.GetSetting<EffectCRT>().curvature.value = x, 1f, 0.5f).SetEase(Ease.InExpo);
         DOTween.To(() => mainCanvas.matchWidthOrHeight, x => mainCanvas.matchWidthOrHeight = x, 1, 0.5f).SetEase(Ease.InExpo).OnComplete(() =>
                 DOTween.To(() => TVreactCamLayer1.rect.y,
