@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Camera))]
 public class CRT : MonoBehaviour {
@@ -24,8 +25,13 @@ public class CRT : MonoBehaviour {
     void OnRenderImage(RenderTexture source, RenderTexture destination) {
         crtMat.SetFloat("_Curvature", curvature);
         crtMat.SetFloat("_VignetteWidth", vignetteWidth);
-        Graphics.Blit(useImage ? image : source, destination, crtMat);
+        // Graphics.Blit(useImage ? image : source, destination, crtMat);
+       
+        CommandBuffer cb = new CommandBuffer();
+        cb.Blit(source, destination, crtMat, -1);
+        Graphics.ExecuteCommandBuffer(cb);
     }
+    
 
     private void LateUpdate() {
         if (Input.GetKeyDown(KeyCode.Space)) {

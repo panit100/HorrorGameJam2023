@@ -7,12 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Pristine Grid
-  m_Shader: {fileID: 4800000, guid: a2992ba0c5255ce46acbcac8fc4ae879, type: 3}
+  m_Name: LocalPixelate
+  m_Shader: {fileID: 4800000, guid: 84141dc5d1dd53f4989f4fe5f0971b49, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _UVMODE_MESHUV
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -30,11 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _GridScale: 2
-    - _LineWidthX: 0
-    - _LineWidthY: 0
-    - _UVMode: 0
+    - _PixelSize: 25
     m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
-    - _LineColor: {r: 0, g: 0, b: 0, a: 1}
+    - _CellSize: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

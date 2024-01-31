@@ -26,7 +26,7 @@ public class VHSPostProcessEffect : MonoBehaviour
 
 	void OnRenderImage(RenderTexture source, RenderTexture destination)
 	{
-		_material.SetTexture("_VHSTex", _player.texture);
+	//	_material.SetTexture("_VHSTex", _player.texture);
 
 		_yScanline += Time.deltaTime * 0.01f;
 		_xScanline -= Time.deltaTime * 0.1f;
