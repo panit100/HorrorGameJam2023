@@ -4,6 +4,7 @@ using DG.Tweening;
 using HorrorJam.AI;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum GameStage
 {
@@ -150,13 +151,20 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
     public IEnumerator GoToSceneGame()
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
-        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAIN, null, () => {OnStartGame();});
+
+        UnityEvent afterLoadScene = new UnityEvent();
+        afterLoadScene.AddListener(OnStartGame);
+        
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAIN, null, afterLoadScene);
     }
     public IEnumerator ReTryGameScene()
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
-        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_FAKELOADER, null,
-            () => { StartCoroutine(GoToSceneGame());});
+
+        UnityEvent afterLoadScene = new UnityEvent();
+        afterLoadScene.AddListener(() => { StartCoroutine(GoToSceneGame());});
+
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_FAKELOADER, null,afterLoadScene);
     }
 
     [Button]
@@ -170,7 +178,11 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
         OnChangeGameStage(GameStage.Cutscene);
-        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_CUTSCENE, null, () => {OnStartCutscene(cutsceneID);});
+
+        UnityEvent afterLoadScene = new UnityEvent();
+        afterLoadScene.AddListener(() => {OnStartCutscene(cutsceneID);});
+
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_CUTSCENE, null, afterLoadScene);
     }
 
     public void OnStartCutscene(String CutsceneID)

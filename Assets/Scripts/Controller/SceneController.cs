@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class SceneController : Singleton<SceneController>
@@ -10,7 +11,7 @@ public class SceneController : Singleton<SceneController>
     public string SCENE_CUTSCENE {get { return "Scene_Cutscene"; } }
     public string SCENE_MAIN { get { return "Scene_Main"; } }
     public string SCENE_CORE { get { return "Scene_Core"; } }
-    public string SCENE_FAKELOADER { get { return "Scene_FakeLoader"; }
+    public string SCENE_FAKELOADER { get { return "Scene_FakeLoader"; } //wait 2-3 sec then start load scene async
     }
 
     public float loadingProgress { get; private set; }
@@ -32,12 +33,12 @@ public class SceneController : Singleton<SceneController>
 #endif
     }
 
-    public void OnLoadSceneAsync(string sceneName, Action beforeSwitchScene = null, Action afterSwitchScene = null)
+    public void OnLoadSceneAsync(string sceneName, UnityEvent beforeSwitchScene = null, UnityEvent afterSwitchScene = null)
     {
         StartCoroutine(LoadSceneAsync(sceneName, beforeSwitchScene, afterSwitchScene));
     }
 
-    IEnumerator LoadSceneAsync(string sceneName, Action beforeSwitchScene = null, Action afterSwitchScene = null)
+    IEnumerator LoadSceneAsync(string sceneName, UnityEvent beforeSwitchScene = null, UnityEvent afterSwitchScene = null)
     {
         beforeSwitchScene?.Invoke();
 
