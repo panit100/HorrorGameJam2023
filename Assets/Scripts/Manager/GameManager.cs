@@ -42,6 +42,7 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
         InputSystemManager.Instance.onPause -= OnPause;
     }
 
+    [Button]
     public void OnChangeGameStage(GameStage _gameStage)
     {
         gameStage = _gameStage;
@@ -72,8 +73,9 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
                 InputSystemManager.Instance.ToggleInGameControl(true);
                 InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
-
-                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
+                
+                if(PlayerManager.Instance.PlayerEquipment != null)
+                    PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
 
                 onPause?.Invoke();
                 break;
@@ -83,7 +85,9 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
-                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
+
+                if(PlayerManager.Instance.PlayerEquipment != null)
+                    PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
               //  StartCoroutine(GoToSceneMainMenu());
                 break;
             case GameStage.Cutscene:
@@ -96,7 +100,9 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
                 break;
             case GameStage.Tutorial:
                 LockCursor(false);
-                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
+
+                if(PlayerManager.Instance.PlayerEquipment != null)
+                    PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
                 break;
         }
     }
@@ -107,12 +113,14 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
         if(gameStage == GameStage.Playing)
         {
             OnChangeGameStage(GameStage.Pause);
-            AIManager.Instance.EnterStopEnemy();
+            if(AIManager.Instance != null)
+                AIManager.Instance.EnterStopEnemy();
         }
         else if(gameStage == GameStage.Pause)
         {
             OnChangeGameStage(GameStage.Playing);
-            AIManager.Instance.ExitStopEnemy();
+            if(AIManager.Instance != null)
+                AIManager.Instance.ExitStopEnemy();
         }
     }
 
