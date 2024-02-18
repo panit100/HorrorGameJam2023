@@ -35,6 +35,21 @@ public class BaseEnemy : MonoBehaviour
         SetDistination();
     }
 
+    void UpdateDistination()
+    {
+        // agent.CalculatePath();
+        // agent.radius;
+        // agent.ResetPath();
+        // agent.Resume();
+        // agent.Warp();
+    }
+
+    [Button]
+    void WarpToPosition(Vector3 position)
+    {
+        agent.Warp(position);
+    }
+
     [Button]
     void SetAIDistination(Vector3 distination)
     {
