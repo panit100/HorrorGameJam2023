@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityHFSM;
 
-namespace Eenemy_FSM
+namespace Eenemy_FSM.Shutter
 {
     public class IdleState : EnemyStateBase
     {

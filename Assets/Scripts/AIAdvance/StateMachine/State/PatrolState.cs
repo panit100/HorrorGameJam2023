@@ -6,20 +6,24 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityHFSM;
 
-namespace Eenemy_FSM
+namespace Eenemy_FSM.Shutter
 {
     public class PatrolState : EnemyStateBase
     {
+        Enemy_Shutter enemy_Shutter;
 
         public PatrolState(bool needsExitTime, Enemy enemy) : base(needsExitTime,enemy) 
-        { }
+        { 
+            enemy_Shutter = enemy.GetComponent<Enemy_Shutter>();
+        }
 
         public override void OnEnter()
         {
             base.OnEnter();
             agent.isStopped = false;
-            enemy.SetTargetPosition(PlayerTracker.Instance.GetRandomPositionInPatrolZone());
-            agent.SetDestination(enemy.TargetPosition);
+            enemy_Shutter.SetTargetPosition(PlayerTracker.Instance.GetRandomPositionInPatrolZone());
+            enemy_Shutter.SetAISpeed(enemy_Shutter.PatrolSpeed);
+            agent.SetDestination(enemy_Shutter.TargetPosition);
         }
 
         public override void OnLogic()
@@ -28,11 +32,11 @@ namespace Eenemy_FSM
             if(!RequestExit)
             {
                 //set distination
-                if(enemy.IsReached())
+                if(enemy_Shutter.IsReached())
                 {
-                    enemy.SetTargetPosition(PlayerTracker.Instance.GetRandomPositionInPatrolZone());
+                    enemy_Shutter.SetTargetPosition(PlayerTracker.Instance.GetRandomPositionInPatrolZone());
                 }
-                agent.SetDestination(enemy.TargetPosition);
+                agent.SetDestination(enemy_Shutter.TargetPosition);
             }
             else if(agent.remainingDistance <= agent.stoppingDistance)
             {
