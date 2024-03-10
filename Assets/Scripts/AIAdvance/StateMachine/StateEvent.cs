@@ -6,9 +6,7 @@ namespace Eenemy_FSM
 {
     public enum StateEvent
     {
-        DetectPlayer,
-        LostPlayer,
-        AttackPlayer,
+        Warp,
     }
 
 }

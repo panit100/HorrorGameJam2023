@@ -44,6 +44,7 @@ namespace Eenemy_FSM
         {
             base.OnEnter();
             RequestExit = false;
+            enemy.SetCurrentState();
             onEnter?.Invoke(this);
         }
 
@@ -52,6 +53,7 @@ namespace Eenemy_FSM
             base.OnLogic();
             if(RequestExit && timer.Elapsed >= ExitTime)
             {
+                enemy.SetBeforeState();
                 fsm.StateCanExit();
             }
         }
@@ -60,6 +62,7 @@ namespace Eenemy_FSM
         {
             if(!needsExitTime || canExit != null && canExit(this))
             {
+                enemy.SetBeforeState();
                 fsm.StateCanExit();
             }
             else

@@ -30,30 +30,33 @@ namespace Eenemy_FSM.Shutter
         [SerializeField,ReadOnly] bool isInChaseRange;
         public bool IsInChaseRange => isInChaseRange;
 
-        
-        StateMachine<EnemyState,StateEvent> enemyFSM;
-        Animator animator;
-        NavMeshAgent agent;
 
-        Transform player;
-        public Transform Player => player;
-        Vector3 targetPosition;
-        public Vector3 TargetPosition => targetPosition;
-
-        void Awake()
+        protected override void Update()
         {
-            animator = GetComponent<Animator>();
-            agent = GetComponent<NavMeshAgent>();
-            enemyFSM = new StateMachine<EnemyState, StateEvent>();
+            IsPlayerInChaseRange();
+            IsPlayerOutOfChaseRange();
+            IsPlayerInAttackRange();
 
+            base.Update();
+        }
+
+        protected override void AddState()
+        {
             enemyFSM.AddState(EnemyState.Idle,new IdleState(true,this,1f));
             enemyFSM.AddState(EnemyState.Chase,new ChaseState(true,this));
             enemyFSM.AddState(EnemyState.Patrol,new PatrolState(true,this));
             enemyFSM.AddState(EnemyState.Attack,new AttackState(true,this,OnAttack));
-            
-            // enemyFSM.AddTriggerTransition(StateEvent.DetectPlayer,new Transition<EnemyState>(EnemyState.Idle,EnemyState.Chase));
-            // enemyFSM.AddTriggerTransition(StateEvent.LostPlayer,new Transition<EnemyState>(EnemyState.Chase,EnemyState.Idle));
+        }
 
+        protected override void AddTriggerTransition()
+        {
+            enemyFSM.AddTriggerTransition(StateEvent.Warp,new Transition<EnemyState>(EnemyState.Patrol,EnemyState.Idle));
+            enemyFSM.AddTriggerTransition(StateEvent.Warp,new Transition<EnemyState>(EnemyState.Attack,EnemyState.Idle));
+            enemyFSM.AddTriggerTransition(StateEvent.Warp,new Transition<EnemyState>(EnemyState.Chase,EnemyState.Idle));
+        }
+
+        protected override void AddTransition()
+        {
             enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle,EnemyState.Chase,(transition) => isInChaseRange));
             enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle,EnemyState.Patrol,(transition) => !isInChaseRange && !isInAttackRange));
 
@@ -63,13 +66,19 @@ namespace Eenemy_FSM.Shutter
             enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Patrol,EnemyState.Idle,(transition) => isInChaseRange));
 
             enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Attack,EnemyState.Idle,(transition) => !isInAttackRange));
-
-            enemyFSM.Init();
         }
 
-        void Start()
+        [Button]
+        void Warp(Vector3 position)
         {
-            player = PlayerManager.Instance.transform;
+            transform.position = position;
+            enemyFSM.Trigger(StateEvent.Warp);
+        }   
+
+        [Button]
+        void WarpFarFromPlayer()
+        {
+            Warp(PlayerTracker.Instance.GetRandomPositionFarthestFromPlayer()); 
         }
         
         void OnAttack(State<EnemyState, StateEvent> state)
@@ -77,7 +86,7 @@ namespace Eenemy_FSM.Shutter
             //TODO Attack
             Debug.Log("Enemy Attack!!");
         }
-
+        
         public void SetTargetPosition(Vector3 position)
         {
             targetPosition = position;
@@ -86,15 +95,6 @@ namespace Eenemy_FSM.Shutter
         public void SetAISpeed(float speed)
         {
             agent.speed = speed;
-        }
-
-        void Update() 
-        {
-            IsPlayerInChaseRange();
-            IsPlayerOutOfChaseRange();
-            IsPlayerInAttackRange();
-            
-            enemyFSM.OnLogic();    
         }
 
         void IsPlayerInAttackRange()

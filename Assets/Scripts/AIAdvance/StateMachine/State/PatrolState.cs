@@ -21,7 +21,18 @@ namespace Eenemy_FSM.Shutter
         {
             base.OnEnter();
             agent.isStopped = false;
-            enemy_Shutter.SetTargetPosition(PlayerTracker.Instance.GetRandomPositionInPatrolZone());
+
+            Debug.Log("enemy.BeforeState " + enemy.BeforeState);
+
+            if(enemy.BeforeState == EnemyState.Chase || enemy.BeforeState == EnemyState.Attack)
+            {
+                enemy_Shutter.SetTargetPosition(PlayerTracker.Instance.GetRandomPositionFarthestFromPlayer());
+            }
+            else
+            {
+                enemy_Shutter.SetTargetPosition(PlayerTracker.Instance.GetRandomPositionInPatrolZone());
+            }
+            
             enemy_Shutter.SetAISpeed(enemy_Shutter.PatrolSpeed);
             agent.SetDestination(enemy_Shutter.TargetPosition);
         }
