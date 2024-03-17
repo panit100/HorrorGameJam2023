@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -72,12 +73,14 @@ public class InputSystemManager : Singleton<InputSystemManager>,IAstronosisDebug
 
 #region ToggleInput
 
+    [Button]
     public void ToggleGlobalInput(bool toggle)
     {
         globalInputEnable = toggle;
         UpdateInputState();
     }
 
+    [Button]
     public void TogglePlayerControl(bool toggle)
     {
         playerControlEnable = toggle;

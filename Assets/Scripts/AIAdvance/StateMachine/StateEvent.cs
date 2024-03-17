@@ -6,7 +6,7 @@ namespace Eenemy_FSM
 {
     public enum StateEvent
     {
-        Warp,
+        ScannedComplete,
     }
 
 }

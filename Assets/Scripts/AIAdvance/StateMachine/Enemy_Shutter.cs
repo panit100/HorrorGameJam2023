@@ -25,19 +25,45 @@ namespace Eenemy_FSM.Shutter
         public float PatrolSpeed => patrolSpeed;
         public float ChaseSpeed => chaseSpeed;
 
+        [Header("Scan Setting")]
+        [SerializeField] float waitingTimeAfterScan = 3f;
+        [SerializeField] float slowSpeed = 10;
+        public float SlowSpeed => slowSpeed;
+
         [SerializeField,ReadOnly] bool isInAttackRange;
         public bool IsInAttackRange => isInAttackRange;
         [SerializeField,ReadOnly] bool isInChaseRange;
         public bool IsInChaseRange => isInChaseRange;
 
+        Scanable scanable;
+        public Scanable Scanable => scanable;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            scanable = GetComponentInChildren<Scanable>();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            
+            scanable.onActiveScan += OnActiveScan;
+            scanable.onDeactiveScanComplete += OnDeactiveScan;
+            scanable.onScanComplete += OnScannedComplete; //On ScanComplete
+        }
+
 
         protected override void Update()
         {
+            base.Update();
+
             IsPlayerInChaseRange();
             IsPlayerOutOfChaseRange();
             IsPlayerInAttackRange();
 
-            base.Update();
+            MakeVisibleEnemy(scanable.scanProgress);
         }
 
         protected override void AddState()
@@ -46,19 +72,21 @@ namespace Eenemy_FSM.Shutter
             enemyFSM.AddState(EnemyState.Chase,new ChaseState(true,this));
             enemyFSM.AddState(EnemyState.Patrol,new PatrolState(true,this));
             enemyFSM.AddState(EnemyState.Attack,new AttackState(true,this,OnAttack));
+            enemyFSM.AddState(EnemyState.Warp,new WarpState(true,this,1f));
         }
 
         protected override void AddTriggerTransition()
         {
-            enemyFSM.AddTriggerTransition(StateEvent.Warp,new Transition<EnemyState>(EnemyState.Patrol,EnemyState.Idle));
-            enemyFSM.AddTriggerTransition(StateEvent.Warp,new Transition<EnemyState>(EnemyState.Attack,EnemyState.Idle));
-            enemyFSM.AddTriggerTransition(StateEvent.Warp,new Transition<EnemyState>(EnemyState.Chase,EnemyState.Idle));
+            enemyFSM.AddTriggerTransition(StateEvent.ScannedComplete,new Transition<EnemyState>(EnemyState.Patrol,EnemyState.Idle));
+            enemyFSM.AddTriggerTransition(StateEvent.ScannedComplete,new Transition<EnemyState>(EnemyState.Attack,EnemyState.Idle));
+            enemyFSM.AddTriggerTransition(StateEvent.ScannedComplete,new Transition<EnemyState>(EnemyState.Chase,EnemyState.Idle));
         }
 
         protected override void AddTransition()
         {
-            enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle,EnemyState.Chase,(transition) => isInChaseRange));
-            enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle,EnemyState.Patrol,(transition) => !isInChaseRange && !isInAttackRange));
+            enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle,EnemyState.Warp,(transition) => scanable.AlreadyScan && Time.time - scanable.ScanCompletedTime >= waitingTimeAfterScan));
+            enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle,EnemyState.Chase,(transition) => isInChaseRange && !scanable.AlreadyScan));
+            enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle,EnemyState.Patrol,(transition) => !isInChaseRange && !isInAttackRange && !scanable.AlreadyScan));
 
             enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase,EnemyState.Idle,(transition) => !isInChaseRange && !isInAttackRange && IsReached()));
             enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase,EnemyState.Attack,(transition) => isInAttackRange));
@@ -66,17 +94,23 @@ namespace Eenemy_FSM.Shutter
             enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Patrol,EnemyState.Idle,(transition) => isInChaseRange));
 
             enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Attack,EnemyState.Idle,(transition) => !isInAttackRange));
+
+            enemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Warp,EnemyState.Idle,(transition) => true));
         }
 
         [Button]
         void Warp(Vector3 position)
         {
             transform.position = position;
-            enemyFSM.Trigger(StateEvent.Warp);
         }   
 
+        public void ResetScanState()
+        {
+            scanable.ResetProgress();
+        }
+
         [Button]
-        void WarpFarFromPlayer()
+        public void WarpFarFromPlayer()
         {
             Warp(PlayerTracker.Instance.GetRandomPositionFarthestFromPlayer()); 
         }
@@ -177,6 +211,38 @@ namespace Eenemy_FSM.Shutter
             return Physics.BoxCast(transform.position, Vector3.one*2, direction, out hit, rotation, range,LayerMask.GetMask("Player","Wall"));
         }
 
+        void OnActiveScan()
+        {
+            SetAISpeed(slowSpeed);
+        }
+
+        void OnDeactiveScan()
+        {
+            SetAISpeed(chaseSpeed);
+        }
+
+        void OnScannedComplete()
+        {
+            //warp
+            enemyFSM.Trigger(StateEvent.ScannedComplete);
+        }
+
+        void MakeVisibleEnemy(float visibleValue)
+        {
+        //     float alpha = Mathf.Clamp(visibleValue / 100f,0f,1f); 
+
+        //     sprite.color = new Color(sprite.color.r,sprite.color.g,sprite.color.b,alpha);
+        }
+
+        void OnDestroy() 
+        {
+            scanable.onActiveScan -= OnActiveScan;
+            scanable.onDeactiveScan -= OnDeactiveScan;
+            scanable.onScanComplete -= OnScannedComplete;
+
+            // eventEmitter.Stop();
+        }
+
         void OnDrawGizmos() 
         {
             Handles.color = Color.red;
@@ -189,7 +255,10 @@ namespace Eenemy_FSM.Shutter
             Handles.DrawWireDisc(transform.position,transform.up,stopChaseRange);    
 
             if(enemyFSM != null)
+            {
                 Handles.Label(transform.position + Vector3.up*10,"Enemy State : " + enemyFSM.ActiveStateName.ToString(),new GUIStyle(){fontSize = 14});
+                Handles.Label(transform.position + Vector3.up*15,"Speed : " + agent.speed,new GUIStyle(){fontSize = 14});
+            }
         }
     }
 }

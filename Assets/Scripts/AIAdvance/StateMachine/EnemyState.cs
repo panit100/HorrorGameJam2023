@@ -10,5 +10,6 @@ namespace Eenemy_FSM
         Patrol,
         Chase,
         Attack,
+        Warp,
     }
 }

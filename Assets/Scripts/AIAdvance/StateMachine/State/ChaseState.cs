@@ -27,6 +27,7 @@ namespace Eenemy_FSM.Shutter
         public override void OnLogic()
         {
             base.OnLogic();
+
             if(!RequestExit)
             {
                 //set distination

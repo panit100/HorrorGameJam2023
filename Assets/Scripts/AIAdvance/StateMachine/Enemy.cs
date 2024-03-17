@@ -25,7 +25,7 @@ namespace Eenemy_FSM
         [SerializeField,ReadOnly] EnemyState currentState = EnemyState.Idle;
         public EnemyState CurrentState => currentState;
 
-        void Awake() 
+        protected virtual void Awake() 
         {
             animator = GetComponent<Animator>();
             agent = GetComponent<NavMeshAgent>();
@@ -38,7 +38,7 @@ namespace Eenemy_FSM
             enemyFSM.Init();
         }
         
-        void Start()
+        protected virtual void Start()
         {
             player = PlayerManager.Instance.transform;
         }
@@ -51,6 +51,9 @@ namespace Eenemy_FSM
 
         protected virtual void Update()
         {
+            if (GameManager.Instance.IsPause)
+                return;
+                
             enemyFSM.OnLogic();    
         }
 
