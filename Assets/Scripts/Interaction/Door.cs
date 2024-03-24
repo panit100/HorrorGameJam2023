@@ -10,12 +10,18 @@ public class Door : MonoBehaviour
     [SerializeField] float duration = 1f;
     [SerializeField] Ease ease;
     [SerializeField] bool isDoorOpen = false;
-    [SerializeField] DoorSwitch doorSwitch;
 
     Vector3 originPos;
-
-    
+    bool isOpening = false;
     string doorID => gameObject.name + "_ID";
+
+    Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     void Start()
     {
         originPos = transform.position;
@@ -24,9 +30,9 @@ public class Door : MonoBehaviour
     [Button]
     public void OpenDoor()
     {
-        if(isDoorOpen == true)
+        if (isDoorOpen == true)
             return;
-            
+
         isDoorOpen = true;
 
         DOTween.Kill(doorID);
@@ -39,7 +45,7 @@ public class Door : MonoBehaviour
     [Button]
     public void CloseDoor()
     {
-        if(isDoorOpen == false)
+        if (isDoorOpen == false)
             return;
 
         isDoorOpen = false;
@@ -49,6 +55,25 @@ public class Door : MonoBehaviour
             .DOMove(originPos, duration)
             .SetEase(ease)
             .SetId(doorID);
+    }
+
+    public void AnimationFinish()
+    {
+        isOpening = false;
+    }
+
+    [Button]
+    public void TriggerDoor()
+    {
+        if (!isOpening)
+        {
+            animator.SetTrigger("TriggerDoor");
+            isOpening = true;
+        }
+        // if (isDoorOpen)
+        //     CloseDoor();
+        // else
+        //     OpenDoor();
     }
 
     public void PlayAudioAtPosition(string audioID)
