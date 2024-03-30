@@ -1,5 +1,5 @@
 using DG.Tweening;
-using HorrorJam.AI;
+using Eenemy_FSM;
 using HorrorJam.Audio;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -22,6 +22,12 @@ public class Scanable : MonoBehaviour
     public UnityAction onScanComplete;
     public UnityAction onDeactiveScanComplete;
 
+    bool isScanning = false;
+    public bool IsScanning => isScanning;
+
+    float scanCompletedTime;
+    public float ScanCompletedTime => scanCompletedTime;
+
     public void OnActiveScan()
     {
         if(alreadyScan)
@@ -30,6 +36,9 @@ public class Scanable : MonoBehaviour
         if(!isObjective() && !isFakeEnemy() && !isEnemy())
             return;
         
+        print("Active Scan");
+
+        isScanning = true;
         scanTween.Kill();
         scanTween = DOTween.To(() => scanProgress, x => scanProgress = x,100f,scanDuration).SetEase(scanEase).OnComplete(OnScanComplete);
         onActiveScan?.Invoke();
@@ -40,8 +49,9 @@ public class Scanable : MonoBehaviour
         if(alreadyScan)
             return;
             
+        isScanning = false;
         scanTween.Kill();
-        scanTween = DOTween.To(() => scanProgress, x => scanProgress = x,0f,.5f).SetEase(scanEase);
+        scanTween = DOTween.To(() => scanProgress, x => scanProgress = x,0f,.5f).SetEase(scanEase).OnComplete(OnDeactiveScanComplete);
         onDeactiveScan?.Invoke();
     }
 
@@ -52,6 +62,11 @@ public class Scanable : MonoBehaviour
         onDeactiveScan?.Invoke();
     }
 
+    public void ForceDeactiveScane()
+    {
+        OnDeactiveScanWithDuration(.5f);
+    }
+
     void OnScanComplete()
     {
         alreadyScan = true;
@@ -59,12 +74,14 @@ public class Scanable : MonoBehaviour
         if(alreadyScan)
         {
             // AudioManager.Instance.PlayOneShot("scanComplete");
+            scanCompletedTime = Time.time;
             onScanComplete?.Invoke();
         }
     }
 
     void OnDeactiveScanComplete()
     {
+        isScanning = false;
         onDeactiveScanComplete?.Invoke();
     }
 
@@ -85,9 +102,9 @@ public class Scanable : MonoBehaviour
 
     public bool isFakeEnemy()
     {
-        if(GetComponentInParent<FakeEnemy>() != null)
-            return true;
-        else
+        // if(GetComponentInParent<FakeEnemy>() != null)
+        //     return true;
+        // else
             return false;
     }
 
