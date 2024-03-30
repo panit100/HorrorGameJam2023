@@ -5,12 +5,12 @@ using LogMassage;
 using Sirenix.OdinInspector;
 using UnityEngine.Video;
 
-public class CutsceneManager : Singleton<CutsceneManager>
+public class CutsceneManager : PersistentSingleton<CutsceneManager>
 {
     public List<VideoConfig> Cutscene = new List<VideoConfig>();
     public VideoPlayer VdoPlayer;
     private UIMessageNotification skipimage;
-    
+
     private string currentCutscene;
 
     string playingAudioID;
@@ -19,7 +19,7 @@ public class CutsceneManager : Singleton<CutsceneManager>
     {
         VdoPlayer.loopPointReached += EndOfvideo;
     }
-    
+
     public void initCutscene()
     {
         if (VdoPlayer == null)
@@ -31,7 +31,7 @@ public class CutsceneManager : Singleton<CutsceneManager>
         DOTween.Sequence().AppendCallback((() => skipimage.PlayEnter())).AppendInterval(2f)
             .AppendCallback(() => skipimage.PlayExit());
     }
-    
+
     [Button]
     public void Playcutscene(string EventID = "init")
     {
@@ -39,14 +39,14 @@ public class CutsceneManager : Singleton<CutsceneManager>
 
         VideoConfig _videoConfig;
 
-        if(Cutscene.Find(x=>x.ID== currentCutscene) != null)
-            _videoConfig = Cutscene.Find(x=>x.ID== currentCutscene);
+        if (Cutscene.Find(x => x.ID == currentCutscene) != null)
+            _videoConfig = Cutscene.Find(x => x.ID == currentCutscene);
         else
             _videoConfig = Cutscene[0];
-        
+
         VdoPlayer.clip = _videoConfig.video;
         VdoPlayer.Prepare();
-        VdoPlayer.prepareCompleted +=  (source =>  {VdoPlayer.Play(); PlayVideoAudio(_videoConfig.videoAudioID);});
+        VdoPlayer.prepareCompleted += (source => { VdoPlayer.Play(); PlayVideoAudio(_videoConfig.videoAudioID); });
     }
 
     public void EndOfvideo(VideoPlayer vp)
@@ -63,7 +63,7 @@ public class CutsceneManager : Singleton<CutsceneManager>
         StopVideoAudio();
         VdoPlayer.Stop();
         if (currentCutscene == "As_ending")
-            StartCoroutine(  GameManager.Instance.GoToSceneMainMenu());
+            StartCoroutine(GameManager.Instance.GoToSceneMainMenu());
 
         if (currentCutscene == "As_intro")
             StartCoroutine(GameManager.Instance.GoToSceneGame());

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class InputSystemManager : Singleton<InputSystemManager>,IAstronosisDebug
+public class InputSystemManager : PersistentSingleton<InputSystemManager>, IAstronosisDebug
 {
     const string PLAYER_ACTIONMAP = "Player";
     const string UI_ACTIONMAP = "UI";
@@ -13,7 +13,7 @@ public class InputSystemManager : Singleton<InputSystemManager>,IAstronosisDebug
 
     [SerializeField] InputActionAsset playerInputAction;
     public IAstronosisDebug.debugMode debugMode;
-#region UnityAction
+    #region UnityAction
     public UnityAction<Vector2> onMove;
     public UnityAction<Vector2> onMouseLook;
     public UnityAction onInteract;
@@ -24,17 +24,17 @@ public class InputSystemManager : Singleton<InputSystemManager>,IAstronosisDebug
     public UnityAction<int> onUseScanner;
     public UnityAction<int> onUseCamera;
 
-#endregion
+    #endregion
 
     InputActionMap playerControlMap;
     InputActionMap uiControlMap;
     InputActionMap inGameControlMap;
     InputActionMap inGameUIControlMap;
     InputActionMap cutsceneControlMap;
-    
+
 
     bool globalInputEnable = false;
-    bool playerControlEnable = false;   
+    bool playerControlEnable = false;
     bool uiControlMapEnable = true;
     bool inGameMapEnable = false;
     bool inGameUIMapEnable = false;
@@ -42,14 +42,14 @@ public class InputSystemManager : Singleton<InputSystemManager>,IAstronosisDebug
 
     protected override void InitAfterAwake()
     {
-        playerControlMap = playerInputAction.FindActionMap(PLAYER_ACTIONMAP);
-        uiControlMap = playerInputAction.FindActionMap(UI_ACTIONMAP);
-        inGameControlMap = playerInputAction.FindActionMap(INGAME_ACTIONMAP);
-        inGameUIControlMap = playerInputAction.FindActionMap(INGAMEUI_ACTIONMAP);
-        cutsceneControlMap = playerInputAction.FindActionMap(CUTSCENE_ACTIONMAP);
+        playerControlMap = playerInputAction.FindActionMap(PLAYER_ACTIONMAP, true);
+        uiControlMap = playerInputAction.FindActionMap(UI_ACTIONMAP, true);
+        inGameControlMap = playerInputAction.FindActionMap(INGAME_ACTIONMAP, true);
+        inGameUIControlMap = playerInputAction.FindActionMap(INGAMEUI_ACTIONMAP, true);
+        cutsceneControlMap = playerInputAction.FindActionMap(CUTSCENE_ACTIONMAP, true);
     }
 
-    void Start() 
+    void Start()
     {
         ToggleGlobalInput(true);
         DebugToggle(debugMode);
@@ -71,7 +71,7 @@ public class InputSystemManager : Singleton<InputSystemManager>,IAstronosisDebug
         }
     }
 
-#region ToggleInput
+    #region ToggleInput
 
     [Button]
     public void ToggleGlobalInput(bool toggle)
@@ -113,26 +113,26 @@ public class InputSystemManager : Singleton<InputSystemManager>,IAstronosisDebug
 
     void UpdateInputState()
     {
-        if(globalInputEnable && playerControlEnable) playerControlMap.Enable();
+        if (globalInputEnable && playerControlEnable) playerControlMap.Enable();
         else playerControlMap.Disable();
 
-        if(globalInputEnable && uiControlMapEnable) uiControlMap.Enable();
+        if (globalInputEnable && uiControlMapEnable) uiControlMap.Enable();
         else uiControlMap.Disable();
 
-        if(globalInputEnable && inGameMapEnable) inGameControlMap.Enable();
+        if (globalInputEnable && inGameMapEnable) inGameControlMap.Enable();
         else inGameControlMap.Disable();
 
-        if(globalInputEnable && inGameUIMapEnable) inGameUIControlMap.Enable();
+        if (globalInputEnable && inGameUIMapEnable) inGameUIControlMap.Enable();
         else inGameUIControlMap.Disable();
 
-        if(globalInputEnable && cutsceneMapEnable) cutsceneControlMap.Enable();
+        if (globalInputEnable && cutsceneMapEnable) cutsceneControlMap.Enable();
         else cutsceneControlMap.Disable();
     }
 
-#endregion
+    #endregion
 
-#region ControlFunction
-    
+    #region ControlFunction
+
     void OnMouseLook(InputValue value)
     {
         onMouseLook?.Invoke(value.Get<Vector2>());

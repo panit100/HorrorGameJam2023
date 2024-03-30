@@ -8,22 +8,22 @@ using FMOD.Studio;
 
 namespace HorrorJam.Audio
 {
-    public class AudioManager : Singleton<AudioManager>
+    public class AudioManager : PersistentSingleton<AudioManager>
     {
         [Header("Volume")]
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         public float masterVolume = 1;
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         public float musicVolume = 1;
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         public float SFXVolume = 1;
 
         Bus masterBus;
         Bus ambientBus;
         Bus SFXBus;
 
-        Dictionary<string,EventInstance> eventInstanceDic;
-        
+        Dictionary<string, EventInstance> eventInstanceDic;
+
         EventInstance backgroundMusic;
         EventInstance ambient;
         protected override void InitAfterAwake()
@@ -54,7 +54,7 @@ namespace HorrorJam.Audio
 
         public void PlayAudioOneShot(string soundID, Vector3 position)
         {
-            RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID],position);
+            RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID], position);
         }
 
         public void PlayAudioOneShot(EventReference sound)
@@ -77,29 +77,29 @@ namespace HorrorJam.Audio
         {
             var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
             _audioEvent.start();
-            eventInstanceDic.Add(soundID,_audioEvent);
+            eventInstanceDic.Add(soundID, _audioEvent);
         }
-        public void PlayAudio(string soundID,out EventInstance outInstance)
+        public void PlayAudio(string soundID, out EventInstance outInstance)
         {
             var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
             outInstance = _audioEvent;
             _audioEvent.start();
-            eventInstanceDic.Add(soundID,_audioEvent);
+            eventInstanceDic.Add(soundID, _audioEvent);
         }
 
-        public void PlayAudio(EventReference eventReference,string id)
+        public void PlayAudio(EventReference eventReference, string id)
         {
             var _audioEvent = CreateInstance(eventReference);
             _audioEvent.start();
-            eventInstanceDic.Add(id,_audioEvent);
+            eventInstanceDic.Add(id, _audioEvent);
         }
 
-        public void PlayAudio3D(string soundID,GameObject attachGameobject)
+        public void PlayAudio3D(string soundID, GameObject attachGameobject)
         {
             var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
-            RuntimeManager.AttachInstanceToGameObject(_audioEvent,attachGameobject.transform);
+            RuntimeManager.AttachInstanceToGameObject(_audioEvent, attachGameobject.transform);
             _audioEvent.start();
-            eventInstanceDic.Add(soundID,_audioEvent);
+            eventInstanceDic.Add(soundID, _audioEvent);
         }
 
         public void StopAudio(string id)
@@ -119,7 +119,7 @@ namespace HorrorJam.Audio
 
         public void StopBGM()
         {
-            if(backgroundMusic.isValid())
+            if (backgroundMusic.isValid())
                 backgroundMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
@@ -133,33 +133,33 @@ namespace HorrorJam.Audio
 
         public void StopAmbient()
         {
-            if(ambient.isValid())
+            if (ambient.isValid())
                 ambient.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
         public void CleanUp()
         {
-            foreach(var n in eventInstanceDic.ToList())
+            foreach (var n in eventInstanceDic.ToList())
             {
                 StopAudio(n.Key);
             }
 
-            if(backgroundMusic.isValid())
+            if (backgroundMusic.isValid())
             {
                 backgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 backgroundMusic.release();
             }
 
-            if(ambient.isValid())
+            if (ambient.isValid())
             {
                 ambient.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 ambient.release();
             }
         }
 
-        void OnDestroy() 
+        void OnDestroy()
         {
-            CleanUp();    
+            CleanUp();
         }
 
         public void ChangeMasterVolume(float Volume)
