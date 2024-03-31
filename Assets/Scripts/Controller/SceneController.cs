@@ -64,4 +64,9 @@ public class SceneController : PersistentSingleton<SceneController>
     {
         yield return null;
     }
+
+    IEnumerator UnLoadScene()
+    {
+        yield return null;
+    }
 }

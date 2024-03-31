@@ -22,6 +22,11 @@ namespace HorrorJam.Audio
         Bus ambientBus;
         Bus SFXBus;
 
+        AudioEventScriptableObject auidoEvent_SFX;
+        AudioEventScriptableObject auidoEvent_Cutscene;
+        AudioEventScriptableObject auidoEvent_BGM;
+        Dictionary<string, EventReference> auidoEvents;
+
         Dictionary<string, EventInstance> eventInstanceDic;
 
         EventInstance backgroundMusic;
@@ -33,6 +38,8 @@ namespace HorrorJam.Audio
 
         void Init()
         {
+            GetAudioEvent();
+
             eventInstanceDic = new Dictionary<string, EventInstance>();
 
             masterBus = RuntimeManager.GetBus("bus:/");
@@ -47,14 +54,36 @@ namespace HorrorJam.Audio
             SFXBus.setVolume(SFXVolume);
         }
 
+        void GetAudioEvent()
+        {
+            auidoEvent_SFX = Resources.Load<AudioEventScriptableObject>("AudioEvent/SFX");
+            auidoEvent_Cutscene = Resources.Load<AudioEventScriptableObject>("AudioEvent/Cutscene");
+            auidoEvent_BGM = Resources.Load<AudioEventScriptableObject>("AudioEvent/BGM");
+
+            foreach (var n in auidoEvent_SFX.eventList)
+            {
+                auidoEvents.Add(n.key, n.sound);
+            }
+
+            foreach (var n in auidoEvent_Cutscene.eventList)
+            {
+                auidoEvents.Add(n.key, n.sound);
+            }
+
+            foreach (var n in auidoEvent_BGM.eventList)
+            {
+                auidoEvents.Add(n.key, n.sound);
+            }
+        }
+
         public void PlayAudioOneShot(string soundID)
         {
-            RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID]);
+            RuntimeManager.PlayOneShot(auidoEvents[soundID]);
         }
 
         public void PlayAudioOneShot(string soundID, Vector3 position)
         {
-            RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID], position);
+            RuntimeManager.PlayOneShot(auidoEvents[soundID], position);
         }
 
         public void PlayAudioOneShot(EventReference sound)
@@ -75,13 +104,13 @@ namespace HorrorJam.Audio
 
         public void PlayAudio(string soundID)
         {
-            var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            var _audioEvent = CreateInstance(auidoEvents[soundID]);
             _audioEvent.start();
             eventInstanceDic.Add(soundID, _audioEvent);
         }
         public void PlayAudio(string soundID, out EventInstance outInstance)
         {
-            var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            var _audioEvent = CreateInstance(auidoEvents[soundID]);
             outInstance = _audioEvent;
             _audioEvent.start();
             eventInstanceDic.Add(soundID, _audioEvent);
@@ -96,7 +125,7 @@ namespace HorrorJam.Audio
 
         public void PlayAudio3D(string soundID, GameObject attachGameobject)
         {
-            var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            var _audioEvent = CreateInstance(auidoEvents[soundID]);
             RuntimeManager.AttachInstanceToGameObject(_audioEvent, attachGameobject.transform);
             _audioEvent.start();
             eventInstanceDic.Add(soundID, _audioEvent);
@@ -113,7 +142,7 @@ namespace HorrorJam.Audio
         {
             StopBGM();
 
-            backgroundMusic = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            backgroundMusic = CreateInstance(auidoEvents[soundID]);
             backgroundMusic.start();
         }
 
@@ -127,7 +156,7 @@ namespace HorrorJam.Audio
         {
             StopAmbient();
 
-            ambient = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            ambient = CreateInstance(auidoEvents[soundID]);
             ambient.start();
         }
 
