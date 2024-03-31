@@ -25,7 +25,7 @@ namespace HorrorJam.Audio
         AudioEventScriptableObject auidoEvent_SFX;
         AudioEventScriptableObject auidoEvent_Cutscene;
         AudioEventScriptableObject auidoEvent_BGM;
-        Dictionary<string, EventReference> auidoEvents;
+        Dictionary<string, EventReference> auidoEvents = new Dictionary<string, EventReference>();
 
         Dictionary<string, EventInstance> eventInstanceDic;
 
