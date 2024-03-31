@@ -30,6 +30,7 @@ public class SceneController : PersistentSingleton<SceneController>
 
     IEnumerator LoadSceneAsync(string sceneName, UnityEvent beforeSwitchScene = null, UnityEvent afterSwitchScene = null)
     {
+        LoadingPanel.Instance.Open();
         beforeSwitchScene?.Invoke();
 
         yield return new WaitForEndOfFrame();
@@ -53,6 +54,8 @@ public class SceneController : PersistentSingleton<SceneController>
         }
 
         yield return new WaitForEndOfFrame();
+
+        LoadingPanel.Instance.Close();
 
         afterSwitchScene?.Invoke();
     }
