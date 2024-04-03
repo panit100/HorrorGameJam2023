@@ -5,32 +5,22 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class SceneController : Singleton<SceneController>
+public class SceneController : PersistentSingleton<SceneController>
 {
     public string SCENE_MAINMENU { get { return "Scene_MainMenu"; } }
-    public string SCENE_CUTSCENE {get { return "Scene_Cutscene"; } }
+    public string SCENE_CUTSCENE { get { return "Scene_Cutscene"; } }
     public string SCENE_MAIN { get { return "Scene_Main"; } }
     public string SCENE_CORE { get { return "Scene_Core"; } }
-    public string SCENE_FAKELOADER { get { return "Scene_FakeLoader"; } //wait 2-3 sec then start load scene async
+    public string SCENE_FAKELOADER
+    {
+        get { return "Scene_FakeLoader"; } //wait 2-3 sec then start load scene async
     }
 
     public float loadingProgress { get; private set; }
-    public Scene loadedSceneBefore;
-    [ShowInInspector][ReadOnly] public string scenename
-    {
-        get { return loadedSceneBefore.name; }
-        set {return;}
-    } 
-
-    bool gameplaySceneLoaded = false;
-    public bool GameplaySceneLoaded { set { gameplaySceneLoaded = value; } get { return gameplaySceneLoaded; } }
 
     protected override void InitAfterAwake()
     {
-            
-#if !UNITY_EDITOR
-        LoadCoreScene();
-#endif
+
     }
 
     public void OnLoadSceneAsync(string sceneName, UnityEvent beforeSwitchScene = null, UnityEvent afterSwitchScene = null)
@@ -40,11 +30,12 @@ public class SceneController : Singleton<SceneController>
 
     IEnumerator LoadSceneAsync(string sceneName, UnityEvent beforeSwitchScene = null, UnityEvent afterSwitchScene = null)
     {
+        LoadingPanel.Instance.Open();
         beforeSwitchScene?.Invoke();
 
         yield return new WaitForEndOfFrame();
 
-        var asyncOparation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+        var asyncOparation = SceneManager.LoadSceneAsync(sceneName);
 
         asyncOparation.allowSceneActivation = false;
 
@@ -64,35 +55,18 @@ public class SceneController : Singleton<SceneController>
 
         yield return new WaitForEndOfFrame();
 
-         var loadedScene = SceneManager.GetSceneByName(sceneName);
-         for (int i =SceneManager.sceneCount-1 ; i >= 0; i--)
-         {
-             if (SceneManager.GetSceneByBuildIndex(i).name == sceneName)
-             {
-                 loadedScene = SceneManager.GetSceneByBuildIndex(i);
-                 break;
-             }
-         }
-         
-        if (loadedScene.isLoaded)
-        {
-            SceneManager.SetActiveScene(loadedScene);
-        }
-
-        if (loadedSceneBefore.IsValid())
-            SceneManager.UnloadSceneAsync(loadedSceneBefore);
-
-        loadedSceneBefore = loadedScene;
-
-        yield return new WaitForEndOfFrame();
+        LoadingPanel.Instance.Close();
 
         afterSwitchScene?.Invoke();
     }
 
-    void LoadCoreScene()
+    IEnumerator LoadSubSceneAsync(string sceneName, UnityEvent beforeSwitchScene = null, UnityEvent afterSwitchScene = null)
     {
-        StartCoroutine(GameManager.Instance.GoToSceneMainMenu());
+        yield return null;
     }
 
-    
+    IEnumerator UnLoadScene()
+    {
+        yield return null;
+    }
 }

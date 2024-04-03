@@ -19,55 +19,55 @@ namespace HorrorJam.AI
     {
         [TitleGroup("Movement")]
         [Header("Speed")]
-        [Indent,SerializeField] float reachSqrThreshold = 0.04f;
-        [Indent,SerializeField] SpeedSetting exploreSpeed;
-        [Indent,SerializeField] SpeedSetting chaseSpeed;
-        [Indent,SerializeField] SpeedSetting slowedDownSpeed;
-        [Indent,SerializeField] SpeedSetting superSlowedDownSpeed;
-        [Indent,SerializeField] SpeedSetting stopSpeed;
-        
-        
+        [Indent, SerializeField] float reachSqrThreshold = 0.04f;
+        [Indent, SerializeField] SpeedSetting exploreSpeed;
+        [Indent, SerializeField] SpeedSetting chaseSpeed;
+        [Indent, SerializeField] SpeedSetting slowedDownSpeed;
+        [Indent, SerializeField] SpeedSetting superSlowedDownSpeed;
+        [Indent, SerializeField] SpeedSetting stopSpeed;
+
+
         [Header("Destination")]
-        [Indent,SerializeField] WaypointContainer currentWaypointContainer;
-        [Indent,SerializeField] Waypoint currentWaypoint;
-        [Indent,SerializeField] NavMeshAgent agent;
-        
-        [Header("JumpScareWarp")] 
+        [Indent, SerializeField] WaypointContainer currentWaypointContainer;
+        [Indent, SerializeField] Waypoint currentWaypoint;
+        [Indent, SerializeField] NavMeshAgent agent;
+
+        [Header("JumpScareWarp")]
         [Indent, SerializeField] float jumpScareWarpDistance = 5f;
-        
+
         [TitleGroup("Detection")]
-        [Header("Range")] 
-        [Indent,SerializeField] SeenByCameraNotifier seenByCameraNotifier;
-        [Indent,SerializeField] float closeDetectionRange = 2f;
-        [Indent,SerializeField] float eyeDetectionRange = 5f;
-        [Indent,SerializeField] float loseDetectionRange = 8f;
-        
+        [Header("Range")]
+        [Indent, SerializeField] SeenByCameraNotifier seenByCameraNotifier;
+        [Indent, SerializeField] float closeDetectionRange = 2f;
+        [Indent, SerializeField] float eyeDetectionRange = 5f;
+        [Indent, SerializeField] float loseDetectionRange = 8f;
+
         [Header("Sight")]
-        [Indent,SerializeField] float raycastOriginHeightOffset = 0.5f;
-        [Indent,SerializeField] LayerMask raycastLayerMask;
-        [Indent,SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
-        
+        [Indent, SerializeField] float raycastOriginHeightOffset = 0.5f;
+        [Indent, SerializeField] LayerMask raycastLayerMask;
+        [Indent, SerializeField] Vector3 raycastSize = new Vector3(1, 1, 1);
+
         [Header("After Pursue")]
-        [Indent,SerializeField] float standStillDurationAfterPursue = 1f;
+        [Indent, SerializeField] float standStillDurationAfterPursue = 1f;
         [Indent, SerializeField] bool isRespawnAfterPursue;
-        [Indent,Indent,SerializeField] float respawnDelayAfterPursue = 1f;
-        [Indent,Indent,SerializeField] float minRespawnDistance = 5f;
-        
+        [Indent, Indent, SerializeField] float respawnDelayAfterPursue = 1f;
+        [Indent, Indent, SerializeField] float minRespawnDistance = 5f;
+
         [TitleGroup("Info")]
         [Header("Movement")]
-        [Indent,SerializeField,ReadOnly] float currentMoveSpeed = 1f;
-        [Indent,SerializeField,ReadOnly] float distanceToPlayer;
-        
+        [Indent, SerializeField, ReadOnly] float currentMoveSpeed = 1f;
+        [Indent, SerializeField, ReadOnly] float distanceToPlayer;
+
         [Header("Status")]
-        [Indent,SerializeField,ReadOnly] bool isDetectedPlayer;
-        [Indent,SerializeField,ReadOnly] bool isPursuingLostPlayer;
-        [Indent,SerializeField,ReadOnly] bool isShouldStandStill;
-        [Indent,SerializeField,ReadOnly] float currentDelayPassed;
-        [Indent,SerializeField,ReadOnly] bool isSlowedDown;
-        
+        [Indent, SerializeField, ReadOnly] bool isDetectedPlayer;
+        [Indent, SerializeField, ReadOnly] bool isPursuingLostPlayer;
+        [Indent, SerializeField, ReadOnly] bool isShouldStandStill;
+        [Indent, SerializeField, ReadOnly] float currentDelayPassed;
+        [Indent, SerializeField, ReadOnly] bool isSlowedDown;
+
         Vector3 lastKnownPlayerPosition;
         SpeedSetting currentSpeedSetting;
-        
+
         public event Action OnDetectPlayer;
         public event Action OnLosePlayer;
         public event Action<Waypoint> OnFinishWaypoint;
@@ -80,16 +80,16 @@ namespace HorrorJam.AI
         [SerializeField] SpriteRenderer sprite;
         Scanable scanable;
         SpeedSetting speedBeforeStop;
-        
-        [Header("FocusPoint Info")]  
+
+        [Header("FocusPoint Info")]
         [SerializeField] Transform point;
-        
+
         [Header("Audio")]
         [SerializeField] string audioID;
         StudioEventEmitter eventEmitter;
         EventInstance jumpScareEventInstance;
         public EventInstance JumpScareEventInstance => jumpScareEventInstance;
-        void Awake() 
+        void Awake()
         {
             scanable = GetComponentInChildren<Scanable>();
         }
@@ -134,7 +134,7 @@ namespace HorrorJam.AI
                 return;
 
             OnBeingScanned();
-            
+
             ProcessDetection();
             ProcessMovement();
         }
@@ -165,12 +165,12 @@ namespace HorrorJam.AI
 
         void ProcessMovement()
         {
-            if (TryMoveToPlayer()) 
+            if (TryMoveToPlayer())
                 return;
-            
+
             if (isShouldStandStill)
                 return;
-            
+
             MoveToCurrentWaypoint();
         }
 
@@ -220,7 +220,7 @@ namespace HorrorJam.AI
         void RespawnFarFromPlayer()
         {
             var playerPlanePos = AIManager.Instance.PlayerPlanePosition;
-            var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance,lastRespawnPoint);
+            var targetWaypoint = currentWaypointContainer.GetFarEnoughRandomWaypointOnPlane(playerPlanePos, minRespawnDistance, lastRespawnPoint);
             if (targetWaypoint)
                 ReplaceTo(targetWaypoint);
 
@@ -292,13 +292,13 @@ namespace HorrorJam.AI
             currentWaypoint = waypoint;
             currentDelayPassed = 0;
         }
-        
+
         void ProcessDetection()
         {
             var playerPos = AIManager.Instance.PlayerPosition;
             var myPos = transform.position;
             distanceToPlayer = Vector3.Distance(playerPos, myPos);
-            
+
             if (isDetectedPlayer)
             {
                 lastKnownPlayerPosition = AIManager.Instance.PlayerPosition;
@@ -308,7 +308,7 @@ namespace HorrorJam.AI
             else
                 TryDetectPlayer();
         }
-        
+
         void TryDetectPlayer()
         {
             var isSeenByPlayer = seenByCameraNotifier.IsSeenByPlayer;
@@ -319,16 +319,16 @@ namespace HorrorJam.AI
                     DetectPlayer();
                     return;
                 }
-                
+
                 Vector3 origin = transform.position;
                 origin.y += raycastOriginHeightOffset;
-                
+
                 if (IsSeeSomethingInDirectionOfPlayer(origin, out var hit))
                 {
                     var isPlayer = hit.collider.GetComponent<PlayerManager>();
                     var hitPosition = hit.collider.transform.position;
                     hitPosition.y = origin.y;
-                    Debug.DrawLine(origin, hitPosition, isPlayer ? Color.red: Color.blue);
+                    Debug.DrawLine(origin, hitPosition, isPlayer ? Color.red : Color.blue);
                     if (isPlayer)
                         DetectPlayer();
                 }
@@ -360,7 +360,7 @@ namespace HorrorJam.AI
             DOTween.To(() => CustomPostprocessingManager.Instance.fog.fogDensity, x => CustomPostprocessingManager.Instance.fog.fogDensity = x, 0.194f, 1.5f);
             isDetectedPlayer = true;
         }
-        
+
         [Button]
         void CancelRespawning()
         {
@@ -381,7 +381,7 @@ namespace HorrorJam.AI
         {
             if (!isDetectedPlayer)
                 return;
-            
+
             if (isSlowedDown)
                 return;
 
@@ -396,7 +396,7 @@ namespace HorrorJam.AI
             if (!isSlowedDown)
                 return;
 
-            if(isDetectedPlayer)
+            if (isDetectedPlayer)
             {
                 ChangeSpeedSetting(chaseSpeed);
                 speedBeforeStop = chaseSpeed;
@@ -451,12 +451,12 @@ namespace HorrorJam.AI
 
         void MakeVisibleEnemy(float visibleValue)
         {
-            float alpha = Mathf.Clamp(visibleValue / 100f,0f,1f); 
+            float alpha = Mathf.Clamp(visibleValue / 100f, 0f, 1f);
 
-            sprite.color = new Color(sprite.color.r,sprite.color.g,sprite.color.b,alpha);
+            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, alpha);
         }
 
-        void OnDestroy() 
+        void OnDestroy()
         {
             scanable.onActiveScan -= EnterSlowDown;
             scanable.onScanComplete -= EnterSuperSlowDown;
@@ -466,13 +466,13 @@ namespace HorrorJam.AI
             eventEmitter.Stop();
         }
 
-        void OnCollisionEnter(Collision other) 
+        void OnCollisionEnter(Collision other)
         {
             // if(other.gameObject.CompareTag("Player"))
             // {
             //     GameManager.Instance.OnDie();
             // }    
-           
+
         }
 
         private void OnTriggerEnter(Collider other)
@@ -484,7 +484,7 @@ namespace HorrorJam.AI
             PlayerManager.Instance.OnChangePlayerState(PlayerState.Dead);
             GameManager.Instance.OnChangeGameStage(GameStage.GameOver);
             PlayerManager.Instance.PlayerCamera.OnDead(point);
-          
+
             this.enabled = false;
         }
 
@@ -519,7 +519,7 @@ namespace HorrorJam.AI
 
         void PlaySound()
         {
-            AudioManager.Instance.PlayAudio3D(audioID,this.gameObject);
+            AudioManager.Instance.PlayAudio3D(audioID, this.gameObject);
         }
 
         void StopSound()
@@ -529,12 +529,12 @@ namespace HorrorJam.AI
 
         public void Stopsound()
         {
-            if(GetComponent<StudioEventEmitter>() != null)  eventEmitter.Stop();
+            if (GetComponent<StudioEventEmitter>() != null) eventEmitter.Stop();
         }
 
         public void PlayJumpScareSound()
         {
-           AudioManager.Instance.PlayAudio(AudioEvent.Instance.jumpscare ,out jumpScareEventInstance);
+            //    AudioManager.Instance.PlayAudio("jumpScare" ,out jumpScareEventInstance);
         }
 
 #if UNITY_EDITOR
@@ -543,14 +543,14 @@ namespace HorrorJam.AI
             var myPosition = transform.position;
             var color = Handles.color;
             Handles.color = Color.red;
-            Handles.DrawWireDisc(myPosition,Vector3.up, closeDetectionRange);
-            
+            Handles.DrawWireDisc(myPosition, Vector3.up, closeDetectionRange);
+
             Handles.color = Color.yellow;
-            Handles.DrawWireDisc(myPosition,Vector3.up,  eyeDetectionRange);
-            
+            Handles.DrawWireDisc(myPosition, Vector3.up, eyeDetectionRange);
+
             Handles.color = Color.green;
-            Handles.DrawWireDisc(myPosition,Vector3.up,  loseDetectionRange);
-            
+            Handles.DrawWireDisc(myPosition, Vector3.up, loseDetectionRange);
+
             Handles.color = color;
         }
 #endif

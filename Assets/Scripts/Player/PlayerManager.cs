@@ -1,4 +1,5 @@
 using HorrorJam.AI;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public enum PlayerState
@@ -34,6 +35,7 @@ public class PlayerManager : Singleton<PlayerManager>
         playerInventory = GetComponentInChildren<PlayerInventory>();
     }
 
+    [Button]
     public void OnChangePlayerState(PlayerState _playerState)
     {
         playerState = _playerState;

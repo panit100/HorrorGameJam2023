@@ -10,9 +10,9 @@ public class MessageManager : Singleton<MessageManager>
     [SerializeField] string fileName;
     [SerializeField] MassageText massageTextTemplate;
     [SerializeField] Transform massageTextContanier;
-    
-    [SerializeField] Dictionary<string,MassageData> massageDataDic = new Dictionary<string, MassageData>();
-    [Indent,SerializeField,ReadOnly] List<LogData> logDataDic = new List<LogData>(); //Use it in save game
+
+    [SerializeField] Dictionary<string, MassageData> massageDataDic = new Dictionary<string, MassageData>();
+    [Indent, SerializeField, ReadOnly] List<LogData> logDataDic = new List<LogData>(); //Use it in save game
 
     List<MassageText> massageTextList = new List<MassageText>();
 
@@ -23,14 +23,14 @@ public class MessageManager : Singleton<MessageManager>
 
     }
 
-    void Start() 
+    void Start()
     {
         Init();
         LoadMassageDataFromCSV();
     }
 
     public void Init()
-    {   
+    {
         logDataDic.Clear();
         massageTextTemplate.gameObject.SetActive(false);
     }
@@ -41,16 +41,16 @@ public class MessageManager : Singleton<MessageManager>
 
         MassageData[] massageDatas = CSVHelper.LoadCSVAsObject<MassageData>(fileName);
 
-        foreach(var n in massageDatas)
+        foreach (var n in massageDatas)
         {
-            massageDataDic.Add(n.massageCode,n);
+            massageDataDic.Add(n.massageCode, n);
         }
     }
 
     //FOR Objective
     public void AddLogData(MainObjectiveData objectiveData)
     {
-        LogData newLogData = new LogData(objectiveData.ObjectiveCode,objectiveData.Sender,TimeManager.Instance.GetCurrentTime(),objectiveData.LogMessage,LogType.Objective,objectiveData.SenderColor,objectiveData.TimeColor,objectiveData.MassageColor);
+        LogData newLogData = new LogData(objectiveData.ObjectiveCode, objectiveData.Sender, TimeManager.Instance.GetCurrentTime(), objectiveData.LogMessage, LogType.Objective, objectiveData.SenderColor, objectiveData.TimeColor, objectiveData.MassageColor);
         logDataDic.Add(newLogData);
 
         ShowNotificationText();
@@ -59,7 +59,7 @@ public class MessageManager : Singleton<MessageManager>
     //FOR normal Log
     public void AddLogData(string massageCode)
     {
-        LogData newLogData = new LogData(massageCode,massageDataDic[massageCode].sender,TimeManager.Instance.GetCurrentTime(),massageDataDic[massageCode].massage,LogType.Massage,massageDataDic[massageCode].senderColor,massageDataDic[massageCode].timeColor,massageDataDic[massageCode].massageColor);
+        LogData newLogData = new LogData(massageCode, massageDataDic[massageCode].sender, TimeManager.Instance.GetCurrentTime(), massageDataDic[massageCode].massage, LogType.Massage, massageDataDic[massageCode].senderColor, massageDataDic[massageCode].timeColor, massageDataDic[massageCode].massageColor);
         logDataDic.Add(newLogData);
 
         ShowNotificationText();
@@ -68,16 +68,16 @@ public class MessageManager : Singleton<MessageManager>
     [Button]
     public void DisplayLogData()
     {
-        foreach(var n in massageTextList)
+        foreach (var n in massageTextList)
         {
             Destroy(n.gameObject);
         }
         massageTextList.Clear();
 
-        foreach(var n in logDataDic)
+        foreach (var n in logDataDic)
         {
-            MassageText massageText = Instantiate(massageTextTemplate,massageTextContanier);
-            
+            MassageText massageText = Instantiate(massageTextTemplate, massageTextContanier);
+
             massageText.logData = n;
 
             massageText.SetMassageText(n.GetLogString());
@@ -90,9 +90,9 @@ public class MessageManager : Singleton<MessageManager>
 
     void ShowNotificationText()
     {
-        AudioManager.Instance.PlayAudioOneShot("new_massage");
+        AudioManager.Instance.PlayAudioOneShot("new_message");
 
-        if(!PipboyManager.Instance.IsUsingPipboy)
+        if (!PipboyManager.Instance.IsUsingPipboy)
         {
             uIMessageNotification.PlayEnter();
         }
@@ -114,7 +114,7 @@ public class MessageManager : Singleton<MessageManager>
     {
         logDataDic.Clear();
 
-        foreach(var n in massageTextList)
+        foreach (var n in massageTextList)
         {
             Destroy(n.gameObject);
         }

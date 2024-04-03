@@ -23,21 +23,21 @@ public class CustomPostprocessingManager : Singleton<CustomPostprocessingManager
       fog.fogColor = Color.white;
       PlayerManager.Instance.KilledByEnemy.Stopsound();
       PlayerManager.Instance.KilledByEnemy.PlayJumpScareSound();
-      DOTween.To(() => postProcessingStack.rect.height, x => postProcessingStack.rect = new Rect(Vector2.zero, new Vector2(1,x)), 1f, 0.314f)
-         .OnComplete((() => { TweenSequnce2();}));
+      DOTween.To(() => postProcessingStack.rect.height, x => postProcessingStack.rect = new Rect(Vector2.zero, new Vector2(1, x)), 1f, 0.314f)
+         .OnComplete((() => { TweenSequnce2(); }));
    }
 
    void TweenSequnce2()
    {
-      var afterTrigger  = DOTween.Sequence();
+      var afterTrigger = DOTween.Sequence();
       afterTrigger.AppendInterval(4.8f).AppendCallback(() =>
       {
          PlayerManager.Instance.KilledByEnemy.JumpScareEventInstance.setParameterByName("IsJumpscareloop1", 1);
-         vhsEffect.enabled = false ;
+         vhsEffect.enabled = false;
          Flare.enabled = true;
       }).AppendInterval(1.5f).AppendCallback(() =>
       {
-         AudioManager.Instance.StopAudio(AudioEvent.Instance.jumpscare);
+         AudioManager.Instance.StopAudio("jumpScare");
          Flare.enabled = false;
          GameOverPanel.Instance.ShowPanelUp();
       });

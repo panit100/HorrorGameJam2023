@@ -1,19 +1,31 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    private static T instance;        
+    private static T instance;
     public static T Instance
     {
         get
         {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<T>();
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject();
+                    obj.name = typeof(T).Name;
+                    instance = obj.AddComponent<T>();
+                }
+            }
+
             return instance;
         }
     }
 
-    protected virtual void Awake() 
+    protected virtual void Awake()
     {
         Init();
 
@@ -22,23 +34,25 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected abstract void InitAfterAwake();
 
-    protected Singleton()
+    protected virtual void Init()
     {
-        instance = this as T;
-
-        if(instance == null)
+        if (instance == null)
         {
-            Debug.LogError($"There are no Singleton {GetType().Name} in Scene.");
             instance = this as T;
+
+        }
+        else
+        {
+            if (instance != this)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
-    void Init()
+    public void Destroy()
     {
-        var objs = FindObjectsOfType(typeof(T)) as T[];
-        if (objs.Length > 1) 
-        {
-            throw new System.Exception($"There are 2 Singleton in Scene. Plase remove one of them.");
-        }
+        if (Instance != null)
+            Destroy(gameObject);
     }
 }

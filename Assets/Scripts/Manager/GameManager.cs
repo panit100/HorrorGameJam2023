@@ -16,17 +16,17 @@ public enum GameStage
     Tutorial
 }
 
-public class GameManager : Singleton<GameManager>,IAstronosisDebug
+public class GameManager : PersistentSingleton<GameManager>, IAstronosisDebug
 {
     [SerializeField] GameStage gameStage = GameStage.MainMenu;
 
-    [Indent,SerializeField,ReadOnly] bool isPause = false;
+    [Indent, SerializeField, ReadOnly] bool isPause = false;
 
     public GameStage GameStage => gameStage;
     public bool IsPause => isPause;
 
     public Action onPause;
-    
+
     protected override void InitAfterAwake()
     {
         AddInputListener();
@@ -42,11 +42,12 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
         InputSystemManager.Instance.onPause -= OnPause;
     }
 
+    [Button]
     public void OnChangeGameStage(GameStage _gameStage)
     {
         gameStage = _gameStage;
 
-        switch(gameStage)
+        switch (gameStage)
         {
             case GameStage.MainMenu:
                 LockCursor(false);
@@ -73,7 +74,8 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
                 InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
 
-                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
+                if (PlayerManager.Instance.PlayerEquipment != null)
+                    PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
 
                 onPause?.Invoke();
                 break;
@@ -83,8 +85,10 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
                 InputSystemManager.Instance.ToggleInGameControl(false);
                 InputSystemManager.Instance.ToggleInGameUIControl(false);
                 InputSystemManager.Instance.ToggleCutsceneControl(false);
-                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
-              //  StartCoroutine(GoToSceneMainMenu());
+
+                if (PlayerManager.Instance.PlayerEquipment != null)
+                    PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
+                //  StartCoroutine(GoToSceneMainMenu());
                 break;
             case GameStage.Cutscene:
                 LockCursor(true);
@@ -96,7 +100,9 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
                 break;
             case GameStage.Tutorial:
                 LockCursor(false);
-                PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
+
+                if (PlayerManager.Instance.PlayerEquipment != null)
+                    PlayerManager.Instance.PlayerEquipment.GetScanner().ForceSetIsPress(false);
                 break;
         }
     }
@@ -104,15 +110,17 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
     [Button]
     public void OnPause()
     {
-        if(gameStage == GameStage.Playing)
+        if (gameStage == GameStage.Playing)
         {
             OnChangeGameStage(GameStage.Pause);
-            AIManager.Instance.EnterStopEnemy();
+            if (AIManager.Instance != null)
+                AIManager.Instance.EnterStopEnemy();
         }
-        else if(gameStage == GameStage.Pause)
+        else if (gameStage == GameStage.Pause)
         {
             OnChangeGameStage(GameStage.Playing);
-            AIManager.Instance.ExitStopEnemy();
+            if (AIManager.Instance != null)
+                AIManager.Instance.ExitStopEnemy();
         }
     }
 
@@ -124,7 +132,7 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
 
     public void LockCursor(bool toggle)
     {
-        if(toggle)
+        if (toggle)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -136,7 +144,7 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
         }
     }
 
-    void OnDestroy() 
+    void OnDestroy()
     {
         RemoveInputListener();
     }
@@ -144,8 +152,11 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
     public IEnumerator GoToSceneMainMenu()
     {
         yield return new WaitUntil(() => SceneController.Instance != null);
-        GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
-        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, null);
+        UnityEvent afterLoadScene = new UnityEvent();
+        afterLoadScene.AddListener(() => { OnChangeGameStage(GameStage.MainMenu); });
+
+
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAINMENU, null, afterLoadScene);
     }
 
     public IEnumerator GoToSceneGame()
@@ -154,7 +165,7 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
 
         UnityEvent afterLoadScene = new UnityEvent();
         afterLoadScene.AddListener(OnStartGame);
-        
+
         SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_MAIN, null, afterLoadScene);
     }
     public IEnumerator ReTryGameScene()
@@ -162,9 +173,9 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
         yield return new WaitUntil(() => SceneController.Instance != null);
 
         UnityEvent afterLoadScene = new UnityEvent();
-        afterLoadScene.AddListener(() => { StartCoroutine(GoToSceneGame());});
+        afterLoadScene.AddListener(() => { StartCoroutine(GoToSceneGame()); });
 
-        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_FAKELOADER, null,afterLoadScene);
+        SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_FAKELOADER, null, afterLoadScene);
     }
 
     [Button]
@@ -180,7 +191,7 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
         OnChangeGameStage(GameStage.Cutscene);
 
         UnityEvent afterLoadScene = new UnityEvent();
-        afterLoadScene.AddListener(() => {OnStartCutscene(cutsceneID);});
+        afterLoadScene.AddListener(() => { OnStartCutscene(cutsceneID); });
 
         SceneController.Instance.OnLoadSceneAsync(SceneController.Instance.SCENE_CUTSCENE, null, afterLoadScene);
     }
@@ -190,5 +201,5 @@ public class GameManager : Singleton<GameManager>,IAstronosisDebug
         CutsceneManager.Instance.initCutscene();
         CutsceneManager.Instance.Playcutscene(CutsceneID);
     }
-    
+
 }

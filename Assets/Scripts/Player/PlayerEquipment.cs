@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,7 +20,8 @@ public class PlayerEquipment : MonoBehaviour
     void Start()
     {
         AddInputListener();
-        SwitchEquipment(0); //TODO: Move to OnStartGame
+        if(!equipment.IsNullOrEmpty())
+            SwitchEquipment(0); //TODO: Move to OnStartGame
     }
 
     void AddInputListener()
