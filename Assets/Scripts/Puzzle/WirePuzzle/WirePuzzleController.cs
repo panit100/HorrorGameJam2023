@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class WirePuzzleController : MonoBehaviour
 {
-    [SerializeField] List<GameObject> nodes;
+    [SerializeField] WireNode startNode;
+    [SerializeField] List<WireNode> allNodes;
+    [Header("UI")]
+    [SerializeField] GameObject winPanel;
+
     private void Start()
     {
-        CheckConnectionNodes();
+        winPanel.SetActive(false);
     }
 
-    public void CheckConnectionNodes()
+    public void StartCheckNode()
     {
-        foreach (GameObject n in nodes)
+        foreach (WireNode n in allNodes)
         {
-            n.GetComponent<WireNode>().DisplayEnergy();
+            n.haveEnergy = false;
+            n.DisplayEnergy();
         }
+        startNode.CheckNode();
+    }
+
+    public void WinGame()
+    {
+        winPanel.SetActive(true);
     }
 }
