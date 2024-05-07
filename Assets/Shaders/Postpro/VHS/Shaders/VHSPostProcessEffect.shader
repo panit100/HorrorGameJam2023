@@ -39,7 +39,7 @@
 				
 				if(dx > 0.99)
 					i.uv.y = _xScanline;
-				//i.uv.y = step(0.99, dy) * (_yScanline) + step(dy, 0.99) * i.uv.y;
+				i.uv.y = step(0.99, dy) * (_yScanline) + step(dy, 0.99) * i.uv.y;
 				
 				i.uv.x = i.uv.x % 1;
 				i.uv.y = i.uv.y % 1;
@@ -50,7 +50,7 @@
 				bleed += tex2D(_MainTex, i.uv + float2(0.02, 0)).r;
 				bleed += tex2D(_MainTex, i.uv + float2(0.01, 0.01)).r;
 				bleed += tex2D(_MainTex, i.uv + float2(0.02, 0.02)).r;
-				bleed /= 6;
+				bleed /= 2;
 				
 				if(bleed > 0.1){
 					vhs += fixed4(bleed * _xScanline, 0, 0, 0);
@@ -60,6 +60,7 @@
 				float y = ((int)(i.uv.y*240))/240.0;
 				
 				c -= rand(float3(x, y, _xScanline)) * _xScanline / 5;
+				vhs = 0;
 				return c + vhs;
 			}
 			ENDCG

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class TimeManager : Singleton<TimeManager>
+public class TimeManager : PersistentSingleton<TimeManager>
 {
     [SerializeField] int StartHour;
     [SerializeField] int StartMin;
@@ -16,17 +16,17 @@ public class TimeManager : Singleton<TimeManager>
 
     public void SetCurrentTime()
     {
-        currentTime = new TimeSpan(StartHour,StartMin,StartSec);
+        currentTime = new TimeSpan(StartHour, StartMin, StartSec);
     }
 
     void Update()
     {
-        if(!GameManager.Instance.IsPause)
+        if (!GameManager.Instance.IsPause)
             currentTime += TimeSpan.FromSeconds(Time.deltaTime);
     }
 
     public string GetCurrentTime()
-    {   
+    {
         return $"{currentTime.Hours}:{currentTime.Minutes}:{currentTime.Seconds} ";
     }
 }

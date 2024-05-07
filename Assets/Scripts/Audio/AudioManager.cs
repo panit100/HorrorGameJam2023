@@ -8,22 +8,27 @@ using FMOD.Studio;
 
 namespace HorrorJam.Audio
 {
-    public class AudioManager : Singleton<AudioManager>
+    public class AudioManager : PersistentSingleton<AudioManager>
     {
         [Header("Volume")]
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         public float masterVolume = 1;
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         public float musicVolume = 1;
-        [Range(0f,1f)]
+        [Range(0f, 1f)]
         public float SFXVolume = 1;
 
         Bus masterBus;
         Bus ambientBus;
         Bus SFXBus;
 
-        Dictionary<string,EventInstance> eventInstanceDic;
-        
+        AudioEventScriptableObject auidoEvent_SFX;
+        AudioEventScriptableObject auidoEvent_Cutscene;
+        AudioEventScriptableObject auidoEvent_BGM;
+        Dictionary<string, EventReference> auidoEvents = new Dictionary<string, EventReference>();
+
+        Dictionary<string, EventInstance> eventInstanceDic;
+
         EventInstance backgroundMusic;
         EventInstance ambient;
         protected override void InitAfterAwake()
@@ -33,6 +38,8 @@ namespace HorrorJam.Audio
 
         void Init()
         {
+            GetAudioEvent();
+
             eventInstanceDic = new Dictionary<string, EventInstance>();
 
             masterBus = RuntimeManager.GetBus("bus:/");
@@ -47,14 +54,36 @@ namespace HorrorJam.Audio
             SFXBus.setVolume(SFXVolume);
         }
 
+        void GetAudioEvent()
+        {
+            auidoEvent_SFX = Resources.Load<AudioEventScriptableObject>("AudioEvent/SFX");
+            auidoEvent_Cutscene = Resources.Load<AudioEventScriptableObject>("AudioEvent/Cutscene");
+            auidoEvent_BGM = Resources.Load<AudioEventScriptableObject>("AudioEvent/BGM");
+
+            foreach (var n in auidoEvent_SFX.eventList)
+            {
+                auidoEvents.Add(n.key, n.sound);
+            }
+
+            foreach (var n in auidoEvent_Cutscene.eventList)
+            {
+                auidoEvents.Add(n.key, n.sound);
+            }
+
+            foreach (var n in auidoEvent_BGM.eventList)
+            {
+                auidoEvents.Add(n.key, n.sound);
+            }
+        }
+
         public void PlayAudioOneShot(string soundID)
         {
-            RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID]);
+            RuntimeManager.PlayOneShot(auidoEvents[soundID]);
         }
 
         public void PlayAudioOneShot(string soundID, Vector3 position)
         {
-            RuntimeManager.PlayOneShot(AudioEvent.Instance.audioEventDictionary[soundID],position);
+            RuntimeManager.PlayOneShot(auidoEvents[soundID], position);
         }
 
         public void PlayAudioOneShot(EventReference sound)
@@ -75,31 +104,31 @@ namespace HorrorJam.Audio
 
         public void PlayAudio(string soundID)
         {
-            var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            var _audioEvent = CreateInstance(auidoEvents[soundID]);
             _audioEvent.start();
-            eventInstanceDic.Add(soundID,_audioEvent);
+            eventInstanceDic.Add(soundID, _audioEvent);
         }
-        public void PlayAudio(string soundID,out EventInstance outInstance)
+        public void PlayAudio(string soundID, out EventInstance outInstance)
         {
-            var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            var _audioEvent = CreateInstance(auidoEvents[soundID]);
             outInstance = _audioEvent;
             _audioEvent.start();
-            eventInstanceDic.Add(soundID,_audioEvent);
+            eventInstanceDic.Add(soundID, _audioEvent);
         }
 
-        public void PlayAudio(EventReference eventReference,string id)
+        public void PlayAudio(EventReference eventReference, string id)
         {
             var _audioEvent = CreateInstance(eventReference);
             _audioEvent.start();
-            eventInstanceDic.Add(id,_audioEvent);
+            eventInstanceDic.Add(id, _audioEvent);
         }
 
-        public void PlayAudio3D(string soundID,GameObject attachGameobject)
+        public void PlayAudio3D(string soundID, GameObject attachGameobject)
         {
-            var _audioEvent = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
-            RuntimeManager.AttachInstanceToGameObject(_audioEvent,attachGameobject.transform);
+            var _audioEvent = CreateInstance(auidoEvents[soundID]);
+            RuntimeManager.AttachInstanceToGameObject(_audioEvent, attachGameobject.transform);
             _audioEvent.start();
-            eventInstanceDic.Add(soundID,_audioEvent);
+            eventInstanceDic.Add(soundID, _audioEvent);
         }
 
         public void StopAudio(string id)
@@ -113,13 +142,13 @@ namespace HorrorJam.Audio
         {
             StopBGM();
 
-            backgroundMusic = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            backgroundMusic = CreateInstance(auidoEvents[soundID]);
             backgroundMusic.start();
         }
 
         public void StopBGM()
         {
-            if(backgroundMusic.isValid())
+            if (backgroundMusic.isValid())
                 backgroundMusic.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
@@ -127,39 +156,39 @@ namespace HorrorJam.Audio
         {
             StopAmbient();
 
-            ambient = CreateInstance(AudioEvent.Instance.audioEventDictionary[soundID]);
+            ambient = CreateInstance(auidoEvents[soundID]);
             ambient.start();
         }
 
         public void StopAmbient()
         {
-            if(ambient.isValid())
+            if (ambient.isValid())
                 ambient.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
 
         public void CleanUp()
         {
-            foreach(var n in eventInstanceDic.ToList())
+            foreach (var n in eventInstanceDic.ToList())
             {
                 StopAudio(n.Key);
             }
 
-            if(backgroundMusic.isValid())
+            if (backgroundMusic.isValid())
             {
                 backgroundMusic.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 backgroundMusic.release();
             }
 
-            if(ambient.isValid())
+            if (ambient.isValid())
             {
                 ambient.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
                 ambient.release();
             }
         }
 
-        void OnDestroy() 
+        void OnDestroy()
         {
-            CleanUp();    
+            CleanUp();
         }
 
         public void ChangeMasterVolume(float Volume)

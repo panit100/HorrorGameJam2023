@@ -10,46 +10,29 @@ public class Door : MonoBehaviour
     [SerializeField] float duration = 1f;
     [SerializeField] Ease ease;
     [SerializeField] bool isDoorOpen = false;
-    [SerializeField] DoorSwitch doorSwitch;
-    // [SerializeField] bool scanBeforeInteract = false;
 
     Vector3 originPos;
-    // SpriteRenderer buttonSprite;
-    // Scanable scanable;
-
-    
+    bool isOpening = false;
     string doorID => gameObject.name + "_ID";
+
+    Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     void Start()
     {
-        // buttonSprite = GetComponent<SpriteRenderer>();
-
-        // if(TryGetComponent<Scanable>(out Scanable _scanable))
-        //     scanable = _scanable;
         originPos = transform.position;
-        // OnBeingScanned();
     }
-
-    // void Update()
-    // {
-    //     OnBeingScanned();
-    // }
 
     [Button]
-    public void OpenDoorAndBakeNavMesh()
-    {
-        OpenDoor();
-        // AIManager.Instance.BakeNavMeshAfterDelay(duration);
-    }
-
     public void OpenDoor()
     {
-        // if(scanable != null)
-        //     if(!scanable.AlreadyScan)
-        //         return;
-
-        if(isDoorOpen == true)
+        if (isDoorOpen == true)
             return;
-            
+
         isDoorOpen = true;
 
         DOTween.Kill(doorID);
@@ -60,15 +43,9 @@ public class Door : MonoBehaviour
     }
 
     [Button]
-    public void CloseDoorAndBakeNavMesh()
-    {
-        CloseDoor();
-        // AIManager.Instance.BakeNavMeshAfterDelay(duration);
-    }
-
     public void CloseDoor()
     {
-        if(isDoorOpen == false)
+        if (isDoorOpen == false)
             return;
 
         isDoorOpen = false;
@@ -80,10 +57,25 @@ public class Door : MonoBehaviour
             .SetId(doorID);
     }
 
-    //public void OnInteract()
-    //{
-    //    OpenDoor();
-    //}
+    public void AnimationFinish()
+    {
+        isOpening = false;
+    }
+
+    [Button]
+    public void TriggerDoor()
+    {
+        if (!isOpening)
+        {
+            animator.SetTrigger("TriggerDoor");
+            isOpening = true;
+        }
+        // if (isDoorOpen)
+        //     CloseDoor();
+        // else
+        //     OpenDoor();
+    }
+
     public void PlayAudioAtPosition(string audioID)
     {
         AudioManager.Instance.PlayAudioOneShot(audioID);
@@ -100,22 +92,4 @@ public class Door : MonoBehaviour
         CloseDoor();
         PlayAudioAtPosition("template");
     }
-
-    // public void OnInteract()
-    // {
-    //     OpenDoor();
-    // }
-
-    // public void OnBeingScanned()
-    // {
-    //     if(scanable != null)
-    //         MakeVisibleEnemy(scanable.scanProgress);
-    // }
-
-    // void MakeVisibleEnemy(float visibleValue)
-    // {
-    //     float alpha = Mathf.Clamp(visibleValue / 100f,0f,1f); 
-
-    //     buttonSprite.color = new Color(buttonSprite.color.r,buttonSprite.color.g,buttonSprite.color.b,alpha);
-    // }
 }

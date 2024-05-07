@@ -4,7 +4,7 @@ Shader "Pristine Grid"
     {
         [KeywordEnum(MeshUV, WorldX, WorldY, WorldZ)] _UVMode ("UV Mode", Float) = 2.0
         _GridScale ("Grid Scale", Float) = 1.0
-        
+        _MainTex ("Texture", 2D) = "white" {}
         _LineWidthX ("Line Width X", Range(0,1.0)) = 0.01
         _LineWidthY ("Line Width Y", Range(0,1.0)) = 0.01
 
@@ -13,9 +13,32 @@ Shader "Pristine Grid"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+       Tags
+        {
+            "Queue"="Transparent"
+            "IgnoreProjector"="True"
+            "RenderType"="Transparent"
+            "PreviewType"="Plane"
+            "CanUseSpriteAtlas"="True"
+        }
 
+        Stencil
+        {
+            Ref [_Stencil]
+            Comp [_StencilComp]
+            Pass [_StencilOp]
+            ReadMask [_StencilReadMask]
+            WriteMask [_StencilWriteMask]
+        }
+
+        Cull Off
+        Lighting Off
+        ZWrite Off
+        ZTest [unity_GUIZTestMode]
+        Blend SrcAlpha OneMinusSrcAlpha
+       
+       
+    
         Pass
         {
             CGPROGRAM
@@ -86,7 +109,7 @@ Shader "Pristine Grid"
             }
 
             float _LineWidthX, _LineWidthY;
-            half4 _LineColor, _BaseColor;
+            half4 _LineColor, _BaseColor, _MainTex;
 
             fixed4 frag (v2f i) : SV_Target
             {

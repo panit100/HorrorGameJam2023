@@ -9,10 +9,11 @@ public class PausePanel : MonoBehaviour
     [SerializeField] CanvasGroup settingPanelCanvas;
     
     [Header("Button")]
-    [SerializeField] Button resumeButton;
-    [SerializeField] Button settingButton;
-    [SerializeField] Button quitButton;
+    [SerializeField] Button_MainMenu resumeButton;
+    [SerializeField] Button_MainMenu settingButton;
+    [SerializeField] Button_MainMenu quitButton;
 
+    [SerializeField] private GameObject camUIGroup;
     CanvasGroup canvasGroup;
     SettingPanel settingPanel;
 
@@ -34,9 +35,14 @@ public class PausePanel : MonoBehaviour
         GameManager.Instance.onPause += OnPause;
         settingPanel.OnBack += OpenPausePanel;
 
-        resumeButton.onClick.AddListener(OnClickResumeButton);
-        settingButton.onClick.AddListener(OnClickSettingButton);
-        quitButton.onClick.AddListener(OnClickQuitButton);
+        if(resumeButton != null)
+        resumeButton.AddListener(OnClickResumeButton);
+
+        if(settingButton != null)
+        settingButton.AddListener(OnClickSettingButton);
+
+        if(quitButton != null)
+        quitButton.AddListener(OnClickQuitButton);
     }
 
     void RemoveListener()
@@ -44,15 +50,21 @@ public class PausePanel : MonoBehaviour
         GameManager.Instance.onPause -= OnPause;
         settingPanel.OnBack -= OpenPausePanel;
 
-        resumeButton.onClick.RemoveListener(OnClickResumeButton);
-        settingButton.onClick.RemoveListener(OnClickSettingButton);
-        quitButton.onClick.RemoveListener(OnClickQuitButton);
+        if(resumeButton != null)
+        resumeButton.RemoveListener(OnClickResumeButton);
+
+        if(settingButton != null)
+        settingButton.RemoveListener(OnClickSettingButton);
+
+        if(quitButton != null)
+        quitButton.RemoveListener(OnClickQuitButton);
     }
 
     void OnClickResumeButton()
     {
         // AudioManager.Instance.PlayOneShot("clickUI");
         EnablePauseCanvas(false);
+        camUIGroup.SetActive(false);
         GameManager.Instance.OnPause();
     }
 
@@ -150,6 +162,7 @@ public class PausePanel : MonoBehaviour
     
     void OnPause()
     {
+        camUIGroup.SetActive(true);
         EnablePauseCanvas(true);
     }
 

@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 6310845257965362597}
   - component: {fileID: 5868712431669316441}
   - component: {fileID: 3859426222091191995}
+  - component: {fileID: 3063320056256256251}
   m_Layer: 5
   m_Name: Button_Bar
   m_TagString: Untagged
@@ -291,3 +292,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3148021dec5bc694cab078b2df2919e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &3063320056256256251
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7429491086557862510}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

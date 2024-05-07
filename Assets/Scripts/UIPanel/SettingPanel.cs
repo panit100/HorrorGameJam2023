@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HorrorJam.Audio;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -10,40 +13,160 @@ using Debug = FMOD.Debug;
 
 public class SettingPanel : MonoBehaviour
 {
-    
+
     AudioSetttingData audioSetttingData;
-    [Header("Audio Setting")]
-    [TabGroup("Audio Setting")]
-    [SerializeField] Slider masterVolumeSlider;
-    [TabGroup("Audio Setting")]
-    [SerializeField] Slider musicVolumeSlider;
-    [TabGroup("Audio Setting")]
-    [SerializeField] Slider sfxVolumeSlider;
-    
-    [TabGroup("Mouse Setting")]
-    [SerializeField] Slider mouseSensitivitySlider;
-    
-    [PropertySpace] [TabGroup("HeaderBar Button Manager")] 
-    [field :SerializeField] List<SettingButtonEvent> settingButtons = new List<SettingButtonEvent>(); 
-    
-    [SerializeField] Button backButton;
+
+    [Header("Audio Setting")] [TabGroup("Audio Setting")] [SerializeField]
+    Slider masterVolumeSlider;
+
+    [TabGroup("Audio Setting")] [SerializeField]
+    Slider musicVolumeSlider;
+
+    [TabGroup("Audio Setting")] [SerializeField]
+    Slider sfxVolumeSlider;
+
+    [TabGroup("Mouse Setting")] [SerializeField]
+    Slider mouseSensitivitySlider;
+
+    [TabGroup("Display Setting")] [SerializeField]
+    TMP_Dropdown displayResolution;
+    [SerializeField] TMP_Dropdown screenMode;
+    [SerializeField] ScreenLineLoading applyBlock;
+    [SerializeField] Button_MainMenu applybutton;
+    [SerializeField] private Toggle vsyncboolean;
+    private List<Resolution> resolutionsList = new List<Resolution>();
+    private List<FullScreenMode> fullscreenmodeList = new List<FullScreenMode>();
+    private List<String> fullscreenmodeListTxt = new List<string>();
+    private List<String> resolutionListTxt = new List<string>();
+
+
+    [PropertySpace] [TabGroup("HeaderBar Button Manager")] [field: SerializeField]
+    List<SettingButtonEvent> settingButtons = new List<SettingButtonEvent>();
+
+    [SerializeField] Button_MainMenu backButton;
 
     public Action OnBack;
 
     private Dictionary<SettingButtonEvent, UnityEvent<string>> buttonDict =
-        new Dictionary<SettingButtonEvent,UnityEvent<string>>();
-    
+        new Dictionary<SettingButtonEvent, UnityEvent<string>>();
+
+
+    private void Awake()
+    {
+        InitScreenSetting();
+    }
 
     void Start()
     {
         LoadMasterVolume();
+        InitListener();
         SetUpSettingButton();
         
+        if(mouseSensitivitySlider != null)
+            mouseSensitivitySlider.onValueChanged?.Invoke(mouseSensitivitySlider.value);
+
+        if(!settingButtons.IsNullOrEmpty())
+            OnChangePanel(settingButtons[0].eventName);
+    }
+
+    void InitListener()
+    {
         masterVolumeSlider.onValueChanged.AddListener(ChangeMasterVolume);
         musicVolumeSlider.onValueChanged.AddListener(ChangeMusicVolume);
         sfxVolumeSlider.onValueChanged.AddListener(ChangeSFXVolume);
-        mouseSensitivitySlider.onValueChanged.AddListener(MouseSensitivtyUpdate);
-        backButton.onClick.AddListener(() => OnBack?.Invoke());
+
+        if(mouseSensitivitySlider != null)
+            mouseSensitivitySlider.onValueChanged.AddListener(MouseSensitivtyUpdate);
+
+        if(backButton != null)
+            backButton.AddListener(() => OnBack?.Invoke());
+
+        if(applybutton != null)
+        applybutton.AddListener(ApplyButton);
+    }
+
+    void InitScreenSetting()
+    {
+        if(screenMode != null)
+        {
+            screenMode.ClearOptions();
+            var oof = Enum.GetValues(typeof(FullScreenMode));
+            fullscreenmodeList.AddRange(oof.OfType<FullScreenMode>().ToList() );
+            fullscreenmodeListTxt = fullscreenmodeList.Select(i => i.ToString()).ToList();
+            screenMode.AddOptions(fullscreenmodeListTxt);
+            screenMode.value = fullscreenmodeList.FindIndex(x => x == Screen.fullScreenMode);
+            screenMode.onValueChanged.AddListener((int temp2)=>OnscreenModeChanged(screenMode.value)); 
+        }
+        
+        
+        resolutionsList.AddRange(Screen.resolutions);
+        resolutionsList = resolutionsList.Where(x => x.refreshRateRatio.ToString() == Screen.currentResolution.refreshRateRatio.ToString() ).ToList();
+        resolutionListTxt = resolutionsList.Select(i =>i.width.ToString() + "x" + i.height.ToString() ).ToList();
+
+        if(displayResolution != null)
+        {
+            displayResolution.ClearOptions();
+            displayResolution.AddOptions(resolutionListTxt);
+            displayResolution.value = resolutionsList.FindIndex(x =>
+                (x.height == Screen.currentResolution.height && x.width == Screen.currentResolution.width));
+        
+            QualitySettings.vSyncCount =  0;
+            displayResolution.onValueChanged.AddListener((int temp)=>OnresChanged(displayResolution.value)); 
+        }
+    }
+
+    public void RefreshSetting()
+    {
+        applyBlock.InstantFill(1);
+        displayResolution.value = resolutionsList.FindIndex(x =>
+            (x.height == Screen.currentResolution.height && x.width == Screen.currentResolution.width));
+        screenMode.value = fullscreenmodeList.FindIndex(x => x == Screen.fullScreenMode);
+        QualitySettings.vSyncCount =  QualitySettings.vSyncCount;
+    }
+    
+
+    private bool resChanged, screenModeChanged;
+    public void OnresChanged(int value)
+    {
+        resChanged = resolutionsList[displayResolution.value].ToString() != Screen.currentResolution.ToString();
+        if (resChanged||screenModeChanged)
+        {
+         applyBlock.FillLine(0);
+         applyBlock.GetComponent<Image>().raycastTarget = false;
+        }
+        else
+        {
+            applyBlock.GetComponent<Image>().raycastTarget = true;
+            applyBlock.InstantFill(1);
+        }
+        
+    }
+
+    public void OnscreenModeChanged(int value)
+    {
+        screenModeChanged = fullscreenmodeList[screenMode.value].ToString() != Screen.fullScreenMode.ToString();
+        if (resChanged || screenModeChanged)
+        {
+            applyBlock.FillLine(0);
+            applyBlock.GetComponent<Image>().raycastTarget = false;
+        }
+        else
+        {
+            applyBlock.GetComponent<Image>().raycastTarget = true;
+            applyBlock.InstantFill(1);
+        }
+    }
+
+    public void ApplyButton()
+    {
+        Screen.SetResolution(resolutionsList[displayResolution.value].width,resolutionsList[displayResolution.value].height,fullscreenmodeList[screenMode.value]);
+       
+    }
+
+    public void VsyncToggle()
+    {
+        int vsyncCount = vsyncboolean.isOn ? 1 : 0;
+        QualitySettings.vSyncCount = vsyncCount;
     }
 
     void SetUpSettingButton()
@@ -54,7 +177,9 @@ public class SettingPanel : MonoBehaviour
             VARIABLE.button.AddEvent(VARIABLE.buttonEvent);
             VARIABLE.button.SetButtonState(true);
         }
-        settingButtons[0].button.SetButtonState(false);
+
+        if(!settingButtons.IsNullOrEmpty())
+            settingButtons[0].button.SetButtonState(false);
     }
     
     

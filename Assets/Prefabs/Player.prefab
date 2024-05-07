@@ -128,6 +128,7 @@ MonoBehaviour:
   MeshGroup: {fileID: 0}
   animationRoot: {fileID: 0}
   Brightness: {fileID: 0}
+  scannerState: 0
 --- !u!82 &2055979014260226114
 AudioSource:
   m_ObjectHideFlags: 0
@@ -272,6 +273,7 @@ GameObject:
   - component: {fileID: 6617957755450481922}
   - component: {fileID: -8522600833219599454}
   - component: {fileID: 7581714085467213838}
+  - component: {fileID: 991107824238452232}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -412,6 +414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerState: 0
+  KilledByEnemy: {fileID: 0}
 --- !u!114 &6617957755450481922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,6 +457,19 @@ MonoBehaviour:
   equipment:
   - {fileID: 5331518341570259307}
   - {fileID: 33056205006150260}
+--- !u!114 &991107824238452232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022363770924572886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ee3401e45d8a8a41964d43886a84913, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectableObjects: []
 --- !u!1 &4820260723565310337
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,6 +900,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 25
   playerBody: {fileID: 360549033318752936}
+  debugMode: 0
+  weakScreenShake:
+    noiseSettings: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    amplitude: 1
+    frequency: 1
+  mediumScreenShake:
+    noiseSettings: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    amplitude: 5
+    frequency: 5
+  strongScreenShake:
+    noiseSettings: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    amplitude: 10
+    frequency: 10
 --- !u!1 &8230479356024998864
 GameObject:
   m_ObjectHideFlags: 0

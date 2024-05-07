@@ -19,10 +19,10 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] CanvasGroup howToPlayGroup;
 
     [Header("MainmenuPanel")]
-    [SerializeField] Button mainMenu_startButton;
-    [SerializeField] Button mainMenu_settingButton;
-    [SerializeField] Button mainMenu_howToPlayButton;
-    [SerializeField] Button mainMenu_quitButton;
+    [SerializeField] Button_MainMenu mainMenu_startButton;
+    [SerializeField] Button_MainMenu mainMenu_settingButton;
+    [SerializeField] Button_MainMenu mainMenu_howToPlayButton;
+    [SerializeField] Button_MainMenu mainMenu_quitButton;
 
     [Header("SettingPanel")]
     [SerializeField] SettingPanel settingPanel;
@@ -30,10 +30,12 @@ public class MainMenuController : MonoBehaviour
     [Header("HowToPlayPanel")]
     [SerializeField] Button howToPlay_backButton;
 
+     MainMenuAnimationEventController mainMenuAnimationEvent;
+
     void Start()
     {
         AddListener();
-
+        mainMenuAnimationEvent = GetComponent<MainMenuAnimationEventController>();
         GameManager.Instance.OnChangeGameStage(GameStage.MainMenu);
         EnableMainMenu(true);
         EnableSetting(false);
@@ -42,14 +44,14 @@ public class MainMenuController : MonoBehaviour
 
     void AddListener()
     {
-        mainMenu_startButton.onClick.AddListener(() => {OnStartCutscene(); PlayButtonSound();});
-        mainMenu_settingButton.onClick.AddListener(() => {OnSetting(); PlayButtonSound();});
-        mainMenu_howToPlayButton.onClick.AddListener(() => {OnHowToPlay(); PlayButtonSound();});
-        mainMenu_quitButton.onClick.AddListener(() => {OnQuit(); PlayButtonSound();});
-
-        settingPanel.OnBack += () => {OnBack(); PlayButtonSound();};
+        mainMenu_startButton.AddListener(() => {OnStartCutscene(); PlayButtonSound();});
+        mainMenu_settingButton.AddListener(() => {OnSetting(); PlayButtonSound(); mainMenuAnimationEvent.OnPanelLoadingAnim();});
+        mainMenu_howToPlayButton.AddListener(() => {OnHowToPlay(); PlayButtonSound();mainMenuAnimationEvent.OnPanelLoadingAnim();}); 
+        mainMenu_quitButton.AddListener(() => {mainMenuAnimationEvent.OnShutdownMainMenuTV(OnQuit); PlayButtonSound();});
         
-        howToPlay_backButton.onClick.AddListener(() => {OnBack(); PlayButtonSound();});
+        settingPanel.OnBack += () => {OnBack(); PlayButtonSound();mainMenuAnimationEvent.OnPanelLoadingAnim(); settingPanel.RefreshSetting();};
+        
+        howToPlay_backButton.onClick.AddListener(() => {OnBack(); PlayButtonSound();mainMenuAnimationEvent.OnPanelLoadingAnim();});
     }
 
     [Button]

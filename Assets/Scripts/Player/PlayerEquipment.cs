@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEngine;
 using UnityEngine.Events;
 
 public enum EquipmentType
 {
+    NONE,
     Scanner,
     Camera,
 }
@@ -12,11 +15,13 @@ public class PlayerEquipment : MonoBehaviour
 {
     [SerializeField] EquipmentType currentEquipment;
     [SerializeField] List<Equipment> equipment = new List<Equipment>();
+    bool canUseEquipment = true;
 
     void Start()
     {
         AddInputListener();
-        SwitchEquipment(0); //TODO: Move to OnStartGame
+        if(!equipment.IsNullOrEmpty())
+            SwitchEquipment(0); //TODO: Move to OnStartGame
     }
 
     void AddInputListener()
@@ -44,6 +49,9 @@ public class PlayerEquipment : MonoBehaviour
 
     void OnUseEquipment()
     {
+        if(currentEquipment == EquipmentType.NONE)
+            return;
+
         equipment.Find(n => n.equipmentType == currentEquipment).OnUse();
     }
 
@@ -59,7 +67,10 @@ public class PlayerEquipment : MonoBehaviour
     }
 
     void SwitchEquipment(int index)
-    {
+    {   
+        if(!canUseEquipment)
+            return;
+
         if(currentEquipment == equipment[index].equipmentType)
             return;
 
@@ -67,13 +78,17 @@ public class PlayerEquipment : MonoBehaviour
 
         currentEquipment = equipment[index].equipmentType;
         
-        tempHoldedEquipment.PutAnim();
+        if(tempHoldedEquipment != null)
+            tempHoldedEquipment.PutAnim();  
         
         equipment[index].HoldAnim();
     }
 
     public void SwitchPipboyToEquipment()
     {
+        if(currentEquipment == EquipmentType.NONE)
+            return;
+
         equipment.Find(x => x.equipmentType == currentEquipment).HoldAnim();
     }
 
@@ -85,5 +100,22 @@ public class PlayerEquipment : MonoBehaviour
     public CameraEquipment GetCamera()
     {
         return equipment.Find(x => x.equipmentType == EquipmentType.Camera).GetComponent<CameraEquipment>();
+    }
+
+    [Button]
+    public void ToggleUseEquipment(bool toggle)
+    {
+        canUseEquipment = toggle;
+
+        if(toggle)
+        {
+            SwitchEquipment(0);
+        }
+        else
+        {
+            Equipment tempHoldedEquipment = equipment.Find(n => n.equipmentType == currentEquipment);
+            tempHoldedEquipment.PutAnim();
+            currentEquipment = EquipmentType.NONE;
+        }
     }
 }

@@ -4,10 +4,12 @@ using UnityEngine;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine.UI;
-using HorrorJam.AI;
+using Eenemy_FSM;
 using System;
 using System.Linq;
 using HorrorJam.Audio;
+using Sirenix.Utilities;
+
 
 
 
@@ -130,6 +132,7 @@ public class ScannerEquipment : Equipment
                 return;
             }
 
+            EnemyGetOutSideRange();
             ConsumeBattery();
         }
         else if(scannerState == ScannerState.CanScan || scannerState == ScannerState.OutOfBattery)
@@ -165,6 +168,8 @@ public class ScannerEquipment : Equipment
 
         if (objectInRange.Length == 0)
             return;
+        
+        print("Obj in range = 0");
 
         var closestObject = GetClosestObject();
 
@@ -215,6 +220,21 @@ public class ScannerEquipment : Equipment
         
         scannerCanvas.SetScanner(null);
         
+    }
+
+    void EnemyGetOutSideRange()
+    {
+        if(scanningEnemies.IsNullOrEmpty())
+            return;
+
+        foreach(var n in scanningEnemies)
+        {
+            if(!CylindricalSectorContains(n.transform.position))
+            {
+                n.OnDeactiveScan();
+                scanningEnemies.Remove(n);
+            }
+        }
     }
 
     Scanable GetClosestObject()

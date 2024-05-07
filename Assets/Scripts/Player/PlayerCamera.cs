@@ -1,7 +1,19 @@
 using System.Collections.Generic;
+using Cinemachine;
 using DG.Tweening;
 using HorrorJam.AI;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using Cinemachine;
+using System;
+
+public enum ScreenShakeLevel
+{
+    NONE,
+    WEAK,
+    MEDIUM,
+    STRONG,
+}
 
 public class PlayerCamera : MonoBehaviour ,IAstronosisDebug
 {
@@ -12,6 +24,19 @@ public class PlayerCamera : MonoBehaviour ,IAstronosisDebug
     float xRotation;
     float yRotation;
     bool Isdead;
+    CinemachineVirtualCamera vCam;
+    
+    [SerializeField] ScreenShakeSetting weakScreenShake;
+    [SerializeField] ScreenShakeSetting mediumScreenShake;
+    [SerializeField] ScreenShakeSetting strongScreenShake;
+    
+
+
+    void Awake() 
+    {
+        vCam = GetComponent<CinemachineVirtualCamera>();    
+    }
+
     void Start()
     {
         DebugToggle(debugMode);
@@ -95,4 +120,38 @@ public class PlayerCamera : MonoBehaviour ,IAstronosisDebug
     {
         RemoveInputListener();
     }
+
+    [Button]
+    void ToggleCameraShake(ScreenShakeLevel level)
+    {
+        switch(level)
+        {
+            case ScreenShakeLevel.NONE:
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_NoiseProfile = null;
+                break;
+            case ScreenShakeLevel.WEAK:
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_NoiseProfile = weakScreenShake.noiseSettings;
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = weakScreenShake.amplitude;
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = weakScreenShake.frequency;
+                break;
+            case ScreenShakeLevel.MEDIUM:
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_NoiseProfile = mediumScreenShake.noiseSettings;
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = mediumScreenShake.amplitude;
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = mediumScreenShake.frequency;
+                break;
+            case ScreenShakeLevel.STRONG:
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_NoiseProfile = strongScreenShake.noiseSettings;
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = strongScreenShake.amplitude;
+                vCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = strongScreenShake.frequency;
+                break;
+        }
+    }
+}
+
+[Serializable]
+public class ScreenShakeSetting
+{
+    public NoiseSettings noiseSettings;
+    public float amplitude;
+    public float frequency;
 }

@@ -25,8 +25,11 @@ public class PlayerInteract : MonoBehaviour
     {
         if(IsInteractObjectInRange())
         {
-            InteractObject interactObject = hit.transform.GetComponent<InteractObject>();
-            interactObject.OnInteract();
+            InteractObject interactObject;
+            if(hit.transform.TryGetComponent<InteractObject>(out interactObject))
+            {
+                interactObject.OnInteract();
+            }
         }
     }
     

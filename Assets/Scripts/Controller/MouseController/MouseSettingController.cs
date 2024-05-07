@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MouseSettingController : Singleton<MouseSettingController>
+public class MouseSettingController : PersistentSingleton<MouseSettingController>
 {
-     float mouseSenvalue;
-     public float MouseSenvalue => mouseSenvalue;
-     protected override void InitAfterAwake()
+    float mouseSenvalue = 25f;
+    public float MouseSenvalue => mouseSenvalue;
+    protected override void InitAfterAwake()
     {
-       
+
     }
 
-     public void SetMouseSen(float mouseSenSlider)
-     {
-         mouseSenvalue = mouseSenSlider *100f;
-     }
+    public void SetMouseSen(float mouseSenSlider)
+    {
+        mouseSenvalue = mouseSenSlider * 100f;
+    }
 
-    
-  
+
+
 }
