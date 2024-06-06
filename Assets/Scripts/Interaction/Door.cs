@@ -15,6 +15,8 @@ public class Door : MonoBehaviour
     bool isOpening = false;
     string doorID => gameObject.name + "_ID";
 
+    public bool IsDoorOpen => isDoorOpen;
+
     Animator animator;
 
     private void Awake()
@@ -68,6 +70,7 @@ public class Door : MonoBehaviour
         if (!isOpening)
         {
             animator.SetTrigger("TriggerDoor");
+            isDoorOpen = !isDoorOpen;
             isOpening = true;
         }
         // if (isDoorOpen)
