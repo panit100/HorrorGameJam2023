@@ -3,8 +3,8 @@ using UnityEngine.Events;
 
 public abstract class Objective : MonoBehaviour
 {
-    [SerializeField]protected string objectiveCode;
-    [SerializeField]protected UnityEvent unityEvent;
+    [SerializeField] protected string objectiveCode;
+    [SerializeField] protected UnityEvent unityEvent;
 
     public bool CheckObjective()
     {

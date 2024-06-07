@@ -7,19 +7,21 @@ using UnityEngine.UI;
 public class CodePuzzleController : MonoBehaviour
 {
     [SerializeField] string code;
-    
+
     [SerializeField] TMP_InputField codeInput;
     [SerializeField] Button confirmButton;
-    public CanvasGroup canvasGroup {get; private set;}
+    [SerializeField] Button closeButton;
+    public CanvasGroup canvasGroup { get; private set; }
 
-    void Awake() 
+    void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    void Start() 
+    void Start()
     {
         confirmButton.onClick.AddListener(OnConfirm);
+        closeButton.onClick.AddListener(OnClose);
     }
 
     public void SetCode(string _code)
@@ -34,10 +36,15 @@ public class CodePuzzleController : MonoBehaviour
     }
 
     void OnConfirm()
-    {   
-        if(!codeInput.text.Trim().Equals(code.Trim()))
+    {
+        if (!codeInput.text.Trim().Equals(code.Trim()))
             return;
 
         PuzzleManager.Instance.OnPuzzleComplete();
+    }
+
+    void OnClose()
+    {
+        PuzzleManager.Instance.OnClose();
     }
 }
