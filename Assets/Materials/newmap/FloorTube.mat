@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: boxwireframe
+  m_Name: FloorTube
   m_Shader: {fileID: 4800000, guid: d6e6ba6b1ef6ac74388364704938d793, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -78,15 +78,15 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WireframeSmoothing: 0
-    - _WireframeThickness: 1.48
-    - _WireframeVal: 0.002
+    - _WireframeSmoothing: 10
+    - _WireframeThickness: 0.05
+    - _WireframeVal: 0.029
     - _ZWrite: 1
     m_Colors:
     - _BackColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FrontColor: {r: 0.5943396, g: 0.45995387, b: 0.12615702, a: 1}
-    - _WireframeColor: {r: 0.59607846, g: 0.45882353, b: 0.1254902, a: 1}
+    - _FrontColor: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 1}
+    - _WireframeColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
   m_BuildTextureStacks: []

@@ -7,12 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: boxwireframe
-  m_Shader: {fileID: 4800000, guid: d6e6ba6b1ef6ac74388364704938d793, type: 3}
+  m_Name: Fogplane
+  m_Shader: {fileID: 203, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _REMOVEDIAG_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -69,24 +68,18 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _InvFade: 0.64
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RemoveDiag: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WireframeSmoothing: 0
-    - _WireframeThickness: 1.48
-    - _WireframeVal: 0.002
     - _ZWrite: 1
     m_Colors:
-    - _BackColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FrontColor: {r: 0.5943396, g: 0.45995387, b: 0.12615702, a: 1}
-    - _WireframeColor: {r: 0.59607846, g: 0.45882353, b: 0.1254902, a: 1}
+    - _TintColor: {r: 1, g: 1, b: 1, a: 0.08627451}
   m_BuildTextureStacks: []
