@@ -5,28 +5,35 @@ using UnityEngine.UI;
 
 public class SymbolPuzzleController : MonoBehaviour
 {
-    public CanvasGroup canvasGroup {get; private set;}
+    public CanvasGroup canvasGroup { get; private set; }
 
     [SerializeField] string code;
     [SerializeField] Button confirmButton;
+    [SerializeField] Button closeButton;
 
     [SerializeField] List<PuzzleSymbolImage> puzzleSymbolImages = new List<PuzzleSymbolImage>();
 
-    void Start() 
+    void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         confirmButton.onClick.AddListener(OnConfirm);
+        closeButton.onClick.AddListener(OnClose);
     }
 
     public void SetCode(string _code)
     {
         code = _code;
+
+        foreach (var item in puzzleSymbolImages)
+        {
+            item.setCurrentType(0);
+        }
     }
 
     string GetSymbolCode()
     {
         string _code = "";
-        foreach(var n in puzzleSymbolImages)
+        foreach (var n in puzzleSymbolImages)
         {
             _code += n.GetSymbolType();
         }
@@ -35,10 +42,15 @@ public class SymbolPuzzleController : MonoBehaviour
     }
 
     void OnConfirm()
-    {   
-        if(!GetSymbolCode().Equals(code.Trim()))
+    {
+        if (!GetSymbolCode().Equals(code.Trim()))
             return;
 
         PuzzleManager.Instance.OnPuzzleComplete();
+    }
+
+    void OnClose()
+    {
+        PuzzleManager.Instance.OnClose();
     }
 }

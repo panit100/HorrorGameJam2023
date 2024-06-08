@@ -5,32 +5,50 @@ using UnityEngine.UI;
 
 public class PuzzleSymbolImage : MonoBehaviour
 {
-    int maxSymbolType = 5;
+    int maxSymbolType = 4;
 
     [SerializeField] int currentSymbolType = 0;
     [SerializeField] Button nextSymbolButton;
     [SerializeField] Button previousSymbolButton;
 
-    void Start() 
+    [SerializeField] Image symbolImage;
+
+    [SerializeField] Sprite[] symbolSprite;
+    void Start()
     {
         nextSymbolButton.onClick.AddListener(NextSymbol);
         previousSymbolButton.onClick.AddListener(PreviousSymbol);
     }
 
+    public void setSymbolImage()
+    {
+        symbolImage.sprite = symbolSprite[currentSymbolType];
+    }
+
+    public void setCurrentType(int index)
+    {
+        this.currentSymbolType = index;
+        setSymbolImage();
+    }
+
     public void NextSymbol()
     {
         currentSymbolType++;
-        
-        if(currentSymbolType > maxSymbolType)
+
+        if (currentSymbolType >= maxSymbolType)
             currentSymbolType = 0;
+
+        setSymbolImage();
     }
 
     public void PreviousSymbol()
     {
         currentSymbolType--;
-        
-        if(currentSymbolType < 0)
+
+        if (currentSymbolType < 0)
             currentSymbolType = maxSymbolType;
+
+        setSymbolImage();
     }
 
     public int GetSymbolType()
