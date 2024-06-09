@@ -46,7 +46,7 @@ public class PuzzleSymbolImage : MonoBehaviour
         currentSymbolType--;
 
         if (currentSymbolType < 0)
-            currentSymbolType = maxSymbolType;
+            currentSymbolType = maxSymbolType - 1;
 
         setSymbolImage();
     }
