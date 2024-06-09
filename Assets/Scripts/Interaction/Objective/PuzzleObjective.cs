@@ -7,7 +7,7 @@ public enum PuzzleType
     Battery,
 }
 
-public class PuzzleObjective : Objective
+public class PuzzleObjective : Objective, InteractObject
 {
     [SerializeField] private PuzzleType puzzleType;
 
@@ -17,11 +17,14 @@ public class PuzzleObjective : Objective
     [SerializeField] string testCode;
 
 
-    void OnTriggerEnter(Collider other)
+    public void TestEvent()
     {
-        if (!other.CompareTag("Player"))
-            return;
+        print($"{this.name} Puzzle Complete");
+        gameObject.SetActive(false);
+    }
 
+    public void OnInteract()
+    {
         if (testObject)
         {
             PuzzleManager.Instance.SolvePuzzle(puzzleType, testCode, unityEvent, true);
@@ -33,12 +36,4 @@ public class PuzzleObjective : Objective
             PuzzleManager.Instance.SolvePuzzle(puzzleType, objectiveCode, unityEvent);
         }
     }
-
-    public void TestEvent()
-    {
-        print($"{this.name} Puzzle Complete");
-        gameObject.SetActive(false);
-    }
-
-
 }

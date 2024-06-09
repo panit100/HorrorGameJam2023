@@ -59,4 +59,9 @@ public class PlayerManager : Singleton<PlayerManager>
                 break;
         }
     }
+
+    public void ChangeStateToMove()
+    {
+        OnChangePlayerState(PlayerState.Move);
+    }
 }

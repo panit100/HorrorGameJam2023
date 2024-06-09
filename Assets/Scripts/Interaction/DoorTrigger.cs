@@ -8,6 +8,8 @@ public class DoorTrigger : MonoBehaviour
 
     [SerializeField] Door door;
 
+    Coroutine closeDoor;
+
     public void OnInteract()
     {
         door.TriggerDoor();
@@ -15,6 +17,8 @@ public class DoorTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        CancelCloseDoor();
+
         if (!door.IsDoorOpen)
         {
             if (entitys.Count == 0)
@@ -32,8 +36,32 @@ public class DoorTrigger : MonoBehaviour
         if (door.IsDoorOpen)
         {
             if (entitys.Count == 0)
-                OnInteract();
+            {
+                DelayCloseDoor();
+            }
         }
+    }
+
+    void DelayCloseDoor()
+    {
+        closeDoor = StartCoroutine(CloseDoor());
+    }
+
+    void CancelCloseDoor()
+    {
+        if (closeDoor != null)
+        {
+            StopCoroutine(closeDoor);
+            closeDoor = null;
+        }
+    }
+
+    IEnumerator CloseDoor()
+    {
+        print("Start Coroutine");
+        yield return new WaitForSeconds(2f);
+
+        OnInteract();
     }
 
 }
