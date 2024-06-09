@@ -127,7 +127,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2.25
   m_BaseOffset: 1
@@ -174,7 +174,8 @@ MonoBehaviour:
   attackRange: 10
   patrolSpeed: 5
   chaseSpeed: 10
-  scannedSpeed: 10
+  waitingTimeAfterScan: 3
+  slowSpeed: 7
   isInAttackRange: 0
   isInChaseRange: 0
 --- !u!1 &4938400237299696343
