@@ -73,7 +73,7 @@ public class Door : MonoBehaviour
     }
 
     [Button]
-    public void TriggerDoor()
+    public virtual void TriggerDoor()
     {
         if (isActive == false)
             return;

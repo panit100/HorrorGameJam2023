@@ -400,6 +400,14 @@ PrefabInstance:
       propertyPath: connectNode.Array.data[0].correctRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3281890530880082385, guid: 4248d37b7007f92458e2c2e612948580, type: 3}
+      propertyPath: connectNode.Array.data[1].spacialThisNodeCondition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281890530880082385, guid: 4248d37b7007f92458e2c2e612948580, type: 3}
+      propertyPath: connectNode.Array.data[1].correctThisNodeRotation.z
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 7673340137901273959, guid: 4248d37b7007f92458e2c2e612948580, type: 3}
       propertyPath: m_Name
       value: WireNode_3Side (1)
@@ -2098,8 +2106,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4302159660615166269, guid: 41c2a68cab6048c4cadad6a1d22b7c45, type: 3}
-      propertyPath: connectNode.Array.data[1].correctRotation.z
+      propertyPath: connectNode.Array.data[0].correctRotation.z
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 4302159660615166269, guid: 41c2a68cab6048c4cadad6a1d22b7c45, type: 3}
+      propertyPath: connectNode.Array.data[1].correctRotation.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4958889518031342807, guid: 41c2a68cab6048c4cadad6a1d22b7c45, type: 3}
       propertyPath: m_Name

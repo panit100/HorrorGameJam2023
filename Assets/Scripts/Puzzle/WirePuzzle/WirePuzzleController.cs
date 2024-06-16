@@ -6,6 +6,7 @@ public class WirePuzzleController : MonoBehaviour
 {
     [SerializeField] WireNode startNode;
     [SerializeField] List<WireNode> allNodes;
+    [SerializeField] DoorPuzzleSwitch doorPuzzleSwitch;
     [Header("UI")]
     [SerializeField] GameObject winPanel;
 
@@ -26,6 +27,12 @@ public class WirePuzzleController : MonoBehaviour
 
     public void WinGame()
     {
-        winPanel.SetActive(true);
+        //winPanel.SetActive(true);
+        if (doorPuzzleSwitch != null)
+        {
+            this.gameObject.SetActive(false);
+            doorPuzzleSwitch.SetIsPuzzleComplete(true);
+            PlayerManager.Instance.OnChangePlayerState(PlayerState.Move);
+        }
     }
 }

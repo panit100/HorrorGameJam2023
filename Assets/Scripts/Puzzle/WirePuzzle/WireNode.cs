@@ -60,6 +60,7 @@ public class WireNode : MonoBehaviour
             if(haveEnergy == true)
             {
                 //Win
+                print("Win");
                 wirePuzzleController.WinGame();
             }
         }
@@ -82,6 +83,18 @@ public class WireNode : MonoBehaviour
         foreach (ConnectNode n in connectNode)
         {
             if (n.spacialCondition == true)
+            {
+                if (n.wireNode.haveEnergy == true)
+                {
+                    haveEnergy = true;
+                    break;
+                }
+                else
+                {
+                    haveEnergy = false;
+                }
+            }
+            else if (n.spacialCondition == true && n.spacialCondition == false)
             {
                 if (n.wireNode.haveEnergy == true && n.correctRotation == n.wireNode.GetComponent<RectTransform>().rotation.eulerAngles)
                 {
