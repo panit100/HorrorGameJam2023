@@ -318,7 +318,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6943972530278867909}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4746127028326226964}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &560624859457886624
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,8 +483,12 @@ MonoBehaviour:
   currentSymbolType: 0
   nextSymbolButton: {fileID: 6131857798407369664}
   previousSymbolButton: {fileID: 1377469296102560704}
-  symbolImage: {fileID: 0}
-  symbolSprite: []
+  symbolImage: {fileID: 6108886693038763128}
+  symbolSprite:
+  - {fileID: 21300000, guid: 5b23f676fcf7f084498667d4301a0d20, type: 3}
+  - {fileID: 21300000, guid: d51d5ff97c9108641915e251059c5689, type: 3}
+  - {fileID: 21300000, guid: 1fee5a9b22db398409bd36dd49599003, type: 3}
+  - {fileID: 21300000, guid: 29e60682e40107f4d8a3cec8d03a664e, type: 3}
 --- !u!1 &762545532648451775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,8 +1395,12 @@ MonoBehaviour:
   currentSymbolType: 0
   nextSymbolButton: {fileID: 4969284063754050398}
   previousSymbolButton: {fileID: 5385030620800148951}
-  symbolImage: {fileID: 0}
-  symbolSprite: []
+  symbolImage: {fileID: 2897271180973447376}
+  symbolSprite:
+  - {fileID: 21300000, guid: 5b23f676fcf7f084498667d4301a0d20, type: 3}
+  - {fileID: 21300000, guid: d51d5ff97c9108641915e251059c5689, type: 3}
+  - {fileID: 21300000, guid: 1fee5a9b22db398409bd36dd49599003, type: 3}
+  - {fileID: 21300000, guid: 29e60682e40107f4d8a3cec8d03a664e, type: 3}
 --- !u!1 &4102767487792680333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1568,7 +1588,7 @@ MonoBehaviour:
   code: 
   codeInput: {fileID: 2898889750068515209}
   confirmButton: {fileID: 6814438101307858768}
-  closeButton: {fileID: 0}
+  closeButton: {fileID: 5455939183471810100}
 --- !u!1 &5095223756994963947
 GameObject:
   m_ObjectHideFlags: 0
@@ -2498,8 +2518,12 @@ MonoBehaviour:
   currentSymbolType: 0
   nextSymbolButton: {fileID: 4865443363506312389}
   previousSymbolButton: {fileID: 5247849969370846255}
-  symbolImage: {fileID: 0}
-  symbolSprite: []
+  symbolImage: {fileID: 890164330623937708}
+  symbolSprite:
+  - {fileID: 21300000, guid: 5b23f676fcf7f084498667d4301a0d20, type: 3}
+  - {fileID: 21300000, guid: d51d5ff97c9108641915e251059c5689, type: 3}
+  - {fileID: 21300000, guid: 1fee5a9b22db398409bd36dd49599003, type: 3}
+  - {fileID: 21300000, guid: 29e60682e40107f4d8a3cec8d03a664e, type: 3}
 --- !u!1 &5697168651699643402
 GameObject:
   m_ObjectHideFlags: 0
@@ -3280,8 +3304,12 @@ MonoBehaviour:
   currentSymbolType: 0
   nextSymbolButton: {fileID: 8908396288677287637}
   previousSymbolButton: {fileID: 7018880392974772034}
-  symbolImage: {fileID: 0}
-  symbolSprite: []
+  symbolImage: {fileID: 2708035508576287672}
+  symbolSprite:
+  - {fileID: 21300000, guid: 5b23f676fcf7f084498667d4301a0d20, type: 3}
+  - {fileID: 21300000, guid: d51d5ff97c9108641915e251059c5689, type: 3}
+  - {fileID: 21300000, guid: 1fee5a9b22db398409bd36dd49599003, type: 3}
+  - {fileID: 21300000, guid: 29e60682e40107f4d8a3cec8d03a664e, type: 3}
 --- !u!1 &7401384809928673681
 GameObject:
   m_ObjectHideFlags: 0
@@ -3349,7 +3377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   code: 
   confirmButton: {fileID: 8203963500093027086}
-  closeButton: {fileID: 0}
+  closeButton: {fileID: 1991747695619250692}
   puzzleSymbolImages:
   - {fileID: 1860854498918833086}
   - {fileID: 6633527278962511334}

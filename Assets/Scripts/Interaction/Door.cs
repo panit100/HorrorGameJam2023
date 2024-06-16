@@ -3,6 +3,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using HorrorJam.Audio;
+using System.Collections;
 
 public class Door : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Door : MonoBehaviour
     [SerializeField] float duration = 1f;
     [SerializeField] Ease ease;
     [SerializeField] bool isDoorOpen = false;
+    [SerializeField] bool isActive = false;
 
     Vector3 originPos;
     bool isOpening = false;
@@ -32,6 +34,9 @@ public class Door : MonoBehaviour
     [Button]
     public void OpenDoor()
     {
+        if (isActive == false)
+            return;
+
         if (isDoorOpen == true)
             return;
 
@@ -47,6 +52,9 @@ public class Door : MonoBehaviour
     [Button]
     public void CloseDoor()
     {
+        if (isActive == false)
+            return;
+
         if (isDoorOpen == false)
             return;
 
@@ -67,6 +75,9 @@ public class Door : MonoBehaviour
     [Button]
     public void TriggerDoor()
     {
+        if (isActive == false)
+            return;
+
         if (!isOpening)
         {
             animator.SetTrigger("TriggerDoor");
@@ -94,5 +105,32 @@ public class Door : MonoBehaviour
     {
         CloseDoor();
         PlayAudioAtPosition("template");
+    }
+
+    [Button]
+    public void OnActiveDoor()
+    {
+        isActive = true;
+    }
+
+    [Button]
+    public void OnDeactiveDoor()
+    {
+        isActive = false;
+        if (isDoorOpen)
+            StartCoroutine(DelayCloseDoor());
+    }
+
+    IEnumerator DelayCloseDoor()
+    {
+        print("Start Coroutine");
+        yield return new WaitForSeconds(1f);
+
+        if (!isOpening)
+        {
+            animator.SetTrigger("TriggerDoor");
+            isDoorOpen = !isDoorOpen;
+            isOpening = true;
+        }
     }
 }
