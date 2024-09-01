@@ -10,6 +10,9 @@ public class ConnectNode
     public WireNode wireNode;
     public bool spacialCondition;
     public Vector3 correctRotation;
+
+    public bool spacialThisNodeCondition;
+    public Vector3 correctThisWireNodeRotation;
 }
 public class WireNode : MonoBehaviour
 {
@@ -82,9 +85,10 @@ public class WireNode : MonoBehaviour
     {
         foreach (ConnectNode n in connectNode)
         {
-            if (n.spacialCondition == true)
+            if (n.spacialCondition == true && n.spacialThisNodeCondition == true)
             {
-                if (n.wireNode.haveEnergy == true)
+                if (n.wireNode.haveEnergy == true && n.correctRotation == n.wireNode.GetComponent<RectTransform>().rotation.eulerAngles
+                    && n.correctThisWireNodeRotation == GetComponent<RectTransform>().rotation.eulerAngles)
                 {
                     haveEnergy = true;
                     break;
@@ -94,7 +98,7 @@ public class WireNode : MonoBehaviour
                     haveEnergy = false;
                 }
             }
-            else if (n.spacialCondition == true && n.spacialCondition == false)
+            else if (n.spacialCondition == true && n.spacialThisNodeCondition == false)
             {
                 if (n.wireNode.haveEnergy == true && n.correctRotation == n.wireNode.GetComponent<RectTransform>().rotation.eulerAngles)
                 {
